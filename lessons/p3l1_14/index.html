@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Deploy a Remix Contract</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <h1>Ethereum Secret Messenger</h1>
+        <hr>
+
+        <label for="message">This site writes a secret message to the Ethereum
+            blockchain!</label>
+        <input id="userInput" type="text">
+
+		<button id="setMessageButton">Set secret message</button>
+		<br><br>
+		<button id="getMessageButton">Get secret message</button>
+		<label id="msg"></label>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+
+        // Connect a the web3 provider
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+        }
+
+        // Set a default account
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+
+        // Get the contract address
+        var RemixContract = new web3.eth.Contract([
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "x",
+				"type": "string"
+			}
+		],
+		"name": "setMessage",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMessage",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+], '0x66ce61e894eeD8358a9EAcA0D21F9DEdCc4C89f7');
+
+		// https://bitsofco.de/calling-smart-contract-functions-using-web3-js-call-vs-send/
+
+        // Get the contract abi
+        var myMessage = RemixContract.methods.getMessage().call().then(
+			receipt => {
+				console.log("Message: ", receipt)
+			}
+		).catch(err => console.error(err));
+
+var sender = "0x9160B7DA5aB2aD4dA63614606241bBda09d44eC0"
+ethereum.enable()
+
+$("#setMessageButton").click(function () {
+	RemixContract.methods.setMessage($("#userInput").val()).send({from: sender});
+	console.log($("#userInput").val());
+	var myMessage = RemixContract.methods.getMessage().call().then(
+		receipt => {
+			console.log("Message: ", receipt)
+		}
+	).catch(err => console.error(err));
+
+});
+
+$("#getMessageButton").click(function () {
+    // Get the contract abi
+       var myMessage = RemixContract.methods.getMessage().call().then(
+		receipt => {
+			console.log("Message: ", receipt)
+			$("#msg").text(receipt)
+		}
+	).catch(err => console.error(err));
+});
+
+
+
+</script>
+</body>
+
+</html>
