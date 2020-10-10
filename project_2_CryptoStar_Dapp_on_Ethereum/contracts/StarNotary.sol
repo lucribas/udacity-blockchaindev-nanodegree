@@ -11,14 +11,30 @@ contract StarNotary is ERC721 {
     }
 
     address public owner;
+	// tokenId -> Star
     mapping(uint256 => Star) public tokenIdToStarInfo;
+	// tokenId -> price
     mapping(uint256 => uint256) public starsForSale;
 
+	// subtask 1.1 - Add a name and a symbol for your starNotary tokens.
     // check doc https://docs.openzeppelin.com/contracts/3.x/erc721
     constructor (string memory name, string memory symbol)
         public
         ERC721("MyStarNotary", "MSN")
     {}
+
+	// subtask 1.2 - Looks up the stars using the Token ID, and then returns the name of the star.
+	function lookUptokenIdToStarInfo(uint256 _tokenId) public view returns (string memory) {
+		return tokenIdToStarInfo[_tokenId].name;
+	}
+
+	// subtask 1.3 - Add a function called exchangeStars, so 2 users can exchange their star tokens...Do not worry about the price, just write code to exchange stars between users.
+	function exchangeStars(uint256 _tokenId1, uint256 _tokenId2) public {
+        address sender1 = ownerOf(_tokenId1);
+        address sender2 = ownerOf(_tokenId2);
+		transferFrom(sender1, sender2, _tokenId1);
+		transferFrom(sender2, sender1, _tokenId2);
+	}
 
     // Create Star using the Struct
     function createStar(string memory _name, uint256 _tokenId) public {
