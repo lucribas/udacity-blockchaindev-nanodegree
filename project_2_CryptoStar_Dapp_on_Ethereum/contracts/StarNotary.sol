@@ -1,9 +1,7 @@
-
 // SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.00;
 import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
-
 
 contract StarNotary is ERC721 {
     struct Star {
@@ -11,29 +9,39 @@ contract StarNotary is ERC721 {
     }
 
     address public owner;
-	// tokenId -> Star
+    // tokenId -> Star
     mapping(uint256 => Star) public tokenIdToStarInfo;
-	// tokenId -> price
+    // tokenId -> price
     mapping(uint256 => uint256) public starsForSale;
 
-	// subtask 1.1 - Add a name and a symbol for your starNotary tokens.
+    // subtask 1.1 - Add a name and a symbol for your starNotary tokens.
     // check doc https://docs.openzeppelin.com/contracts/3.x/erc721
-    constructor (string memory name, string memory symbol)
+    constructor() public ERC721("Shiny Star Token", "SST") {}
+
+    // subtask 1.2 - Looks up the stars using the Token ID, and then returns the name of the star.
+    function lookUptokenIdToStarInfo(uint256 _tokenId)
         public
-        ERC721("MyStarNotary", "MSN")
-    {}
+        view
+        returns (string memory)
+    {
+        return tokenIdToStarInfo[_tokenId].name;
+    }
 
-	// subtask 1.2 - Looks up the stars using the Token ID, and then returns the name of the star.
-	function lookUptokenIdToStarInfo(uint256 _tokenId) public view returns (string memory) {
-		return tokenIdToStarInfo[_tokenId].name;
-	}
-
-	// subtask 1.3 - Add a function called exchangeStars, so 2 users can exchange their star tokens...Do not worry about the price, just write code to exchange stars between users.
-	function exchangeStars(uint256 _tokenId1, uint256 _tokenId2) public {
+    // subtask 1.3 - Add a function called exchangeStars, so 2 users can exchange their star tokens...Do not worry about the price, just write code to exchange stars between users.
+    function exchangeStars(uint256 _tokenId1, uint256 _tokenId2) public {
         address sender1 = ownerOf(_tokenId1);
         address sender2 = ownerOf(_tokenId2);
-		transferFrom(sender1, sender2, _tokenId1);
-		transferFrom(sender2, sender1, _tokenId2);
+       	transferFrom(sender1, sender2, _tokenId1);
+       	transferFrom(sender2, sender1, _tokenId2);
+    }
+
+	// substask 1.4 - Write a function to Transfer a Star. The function should transfer a star from the address of the caller. The function should accept 2 arguments, the address to transfer the star to, and the token ID of the star.
+	function transferStar(address _toAddress, uint256 _tokenId) public {
+		address fromAddress = ownerOf(_tokenId);
+		// Check if the sender is owner of star and do the transfer
+		if(msg.sender == fromAddress){
+			transferFrom(fromAddress, _toAddress, _tokenId);
+		}
 	}
 
     // Create Star using the Struct

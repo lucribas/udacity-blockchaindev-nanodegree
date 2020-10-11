@@ -12,17 +12,17 @@ Your Project is to Modify the StarNotary version 2 contract code to achieve the 
 |:-------:|:--------|:--------:|
 | 1.1 | Add a name and a symbol for your starNotary tokens. | :ok_hand: |
 | 1.2 | Add a function lookUptokenIdToStarInfo, that looks up the stars using the Token ID, and then returns the name of the star.   | :ok_hand: |
-| 1.3 | Add a function called exchangeStars, so 2 users can exchange their star tokens...Do not worry about the price, just write code to exchange stars  between users.  |  |
-| 1.4 | Write a function to Transfer a Star. The function should transfer a star from the address of the caller. The function should accept 2 arguments, the address to transfer the star to, and the token ID of the star.  |  |
+| 1.3 | Add a function called exchangeStars, so 2 users can exchange their star tokens...Do not worry about the price, just write code to exchange stars  between users.  | :ok_hand: |
+| 1.4 | Write a function to Transfer a Star. The function should transfer a star from the address of the caller. The function should accept 2 arguments, the address to transfer the star to, and the token ID of the star.  | :ok_hand: |
 
 
 ### Task 2 - Add supporting Unit Tests
 Add supporting unit tests, to test the following:
 | SubTasks   | Details |  Status |
-|:-------:|:--------|:--------|
-| 2.1 | The token name and token symbol are added properly.  |  |
-| 2.2 | 2 users can exchange their stars.  |  |
-| 2.3 | Stars Tokens can be transferred from one address to another.  |  |
+|:-------:|:--------|:--------:|
+| 2.1 | The token name and token symbol are added properly.  | :ok_hand: |
+| 2.2 | 2 users can exchange their stars.  | :ok_hand: |
+| 2.3 | Stars Tokens can be transferred from one address to another.  | :ok_hand: |
 
 ### Task 3 - Deploy your Contract to Rinkeby
 Deploy your Contract to Rinkeby.
@@ -53,15 +53,68 @@ The ``Readme.md`` file should include the following:
 
 ## Steps to Install the Environment
 
+### Node.js
+
 Install a clean version of nodejs. I´m using the nvm (Node Version Manager) tool to allow install and switch between versions. Currently only version 10 of node.js works:
 ```
 nvm install 10.22.1
 nvm use 10.22.1
 ```
+
+### OpenZeppelin
+
 install openzeppelin-solidity:
 ```
 npm i openzeppelin-solidity
 ```
+
+### Truffle
+
+install truffle:
+```
+npm install -g truffle
+```
+
+## To compile and run tests
+
+For starting the development console, run:
+```
+truffle develop
+```
+
+For compiling the contract, inside the development console, run:
+```
+compile
+```
+
+For migrating the contract to the locally running Ethereum network, inside the development console, run:
+```
+migrate --reset
+```
+
+For running unit tests the contract, inside the development console, run:
+```
+test
+```
+
+For running the Front End of the DAPP, open another terminal window and go inside the project directory, and run:
+```
+cd app
+npm run dev
+```
+
+## Versions
+
+
+| Package   | Version |
+|:-------:|:-------------|
+|Truffle| v5.1.48 (core: 5.1.48) |
+|Solidity| 0.6.12 (solc-js) |
+|Node| v10.22.1 |
+|Web3.js| v1.2.1 |
+
+As configured in truffle-config.js the smart contracts was compiled successfully using:
+   - solc: 0.6.12+commit.27d51765.Emscripten.clang
 
 # Results
 
