@@ -48,7 +48,7 @@ The ``Readme.md`` file should include the following:
 
 
 ### Helpful Links
-- [Fixed parser error in Solidity extension of VSCode: ParserError: Expected identifier, got 'LParen'](https://ethereum.stackexchange.com/questions/51353/parsererror-expected-identifier-got-lparen/87686#87686)
+- answered the question [Fixed parser error in Solidity extension of VSCode: ParserError: Expected identifier, got 'LParen'](https://ethereum.stackexchange.com/questions/51353/parsererror-expected-identifier-got-lparen/87686#87686)
 
 
 ## Steps to Install the Environment
