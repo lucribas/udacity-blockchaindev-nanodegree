@@ -27,23 +27,23 @@ Add supporting unit tests, to test the following:
 ### Task 3 - Deploy your Contract to Rinkeby
 Deploy your Contract to Rinkeby.
 | SubTasks   | Details |  Status |
-|:-------:|:--------|:--------|
-| 3.1 | Edit the truffle.config file to add settings to deploy your contract to the Rinkeby Public Network.  |  |
+|:-------:|:--------|:--------:|
+| 3.1 | Edit the truffle.config file to add settings to deploy your contract to the Rinkeby Public Network.  | :ok_hand: |
 
 ### Task 4 - Modify the front end of the DAPP
 Modify the front end of the DAPP to achieve the following:
 
 | SubTasks   | Details |  Status |
-|:-------:|:--------|:--------|
-| 4.1 | Lookup a star by ID using tokenIdToStarInfo() (you will have to add code for this in your index.html and index.js files)  |  |
+|:-------:|:--------|:--------:|
+| 4.1 | Lookup a star by ID using tokenIdToStarInfo() (you will have to add code for this in your index.html and index.js files)  | :ok_hand: |
 
 ### Task 5 - Add a ``Readme.md`` file
 The ``Readme.md`` file should include the following:
 | SubTasks   | Details |  Status |
-|:-------:|:--------|:--------|
-| 5.1 | Your ERC-721 Token Name  |  |
-| 5.2 | Your ERC-721 Token Symbol  |  |
-| 5.3 | Version of the Truffle and OpenZeppelin used  |  |
+|:-------:|:--------|:--------:|
+| 5.1 | Your ERC-721 Token Name  | :ok_hand: |
+| 5.2 | Your ERC-721 Token Symbol  | :ok_hand: |
+| 5.3 | Version of the Truffle and OpenZeppelin used  | :ok_hand: |
 
 
 
@@ -61,18 +61,16 @@ nvm install 10.22.1
 nvm use 10.22.1
 ```
 
-### OpenZeppelin
 
-install openzeppelin-solidity:
-```
-npm i openzeppelin-solidity
-```
+### Truffle and other packets
 
-### Truffle
-
-install truffle:
+install truffle, openzelepin, webpack and dependences:
 ```
-npm install -g truffle
+npm i -g truffle
+npm i --save openzeppelin-solidity
+npm i --save truffle-hdwallet-provider
+npm i -g webpack
+npm i -g webpack-dev-server webpack-cli webpack-dev-middleware webpack-hot-middleware copy-webpack-plugin
 ```
 
 ## To compile and run tests
@@ -103,6 +101,7 @@ cd app
 npm run dev
 ```
 
+
 ## Versions
 
 
@@ -119,20 +118,175 @@ As configured in truffle-config.js the smart contracts was compiled successfully
 # Results
 
 
+
+
+
+
 ### Unit Tests Terminal Output
+
+```
+truffle develop
+
+Compiling your contracts...
+===========================
+> Everything is up to date, there is nothing to compile.
+
+
+
+  √ can Create a Star (140ms)
+  √ lets user1 put up their star for sale (175ms)
+  √ lets user1 get the funds after the sale (281ms)
+  √ lets user2 buy a star, if it is put up for sale (305ms)
+  √ lets user2 buy a star and decreases its balance in ether (273ms)
+  √ 1.1 - can create a star with a name and star symbol properly, 1.2 lookup a star (157ms)
+  √ 1.3 - can 2 users exchange their stars (436ms)
+  √ 1.4 can a user transfer a star to other (162ms)
+
+  8 passing (2s)
+
+truffle(develop)>       
+```
+
+
+## To deploy in Brinkeby
+
+Execute the command
+```
+truffle migrate --network rinkeby --reset
+```
 
 
 ### Deployment Terminal Output
 
+```
+PS C:\RIBAS\GITHUB\udacity-blockchaindev-nanodegree\project_2_CryptoStar_Dapp_on_Ethereum> truffle migrate --network rinkeby --reset
+
+Compiling your contracts...
+===========================
+> Everything is up to date, there is nothing to compile.
+
+
+
+Migrations dry-run (simulation)
+===============================
+> Network name:    'rinkeby-fork'
+> Network id:      4
+> Block gas limit: 10000000 (0x989680)
+
+
+1_initial_migration.js
+======================
+
+   Deploying 'Migrations'
+   ----------------------
+   > block number:        7353368
+   > block timestamp:     1602457237
+   > account:             0xa2944D405106c8251a69D6d22cfDB425055ec8EE
+   > balance:             2.99855805
+   > gas used:            144195 (0x23343)
+   > gas price:           10 gwei
+   > value sent:          0 ETH
+   > total cost:          0.00144195 ETH
+
+   -------------------------------------
+   > Total cost:          0.00144195 ETH
+
+
+2_deploy_contracts.js
+=====================
+
+   Deploying 'StarNotary'
+   ----------------------
+   > block number:        7353370
+   > block timestamp:     1602457264
+   > account:             0xa2944D405106c8251a69D6d22cfDB425055ec8EE
+   > balance:             2.96876974
+   > gas used:            2951493 (0x2d0945)
+   > gas price:           10 gwei
+   > value sent:          0 ETH
+   > total cost:          0.02951493 ETH
+
+   -------------------------------------
+   > Total cost:          0.02951493 ETH
+
+Summary
+=======
+> Total deployments:   2
+> Final cost:          0.03095688 ETH
+
+Starting migrations...
+======================
+> Network name:    'rinkeby'
+> Network id:      4
+> Block gas limit: 10000000 (0x989680)
+
+1_initial_migration.js
+======================
+
+   Deploying 'Migrations'
+   ----------------------
+   > transaction hash:    0xed1f231bdc5a34d605f9aee87f58190d3edfe394506e295579ff08464cda970d
+   > Blocks: 1            Seconds: 13
+   > contract address:    0xee17d101Fb5446351D8f92D7EFABb1d982fE0899
+   > block number:        7353371
+   > block timestamp:     1602457310
+   > account:             0xa2944D405106c8251a69D6d22cfDB425055ec8EE
+   > balance:             2.99840805
+   > gas used:            159195 (0x26ddb)
+   > gas price:           10 gwei
+   > value sent:          0 ETH
+   > total cost:          0.00159195 ETH
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.00159195 ETH
+
+
+2_deploy_contracts.js
+=====================
+
+   Deploying 'StarNotary'
+   ----------------------
+   > transaction hash:    0x125ec7b3e85dd301b9013048c90f08904e57a5b6c2ce0ff6a71335966e7fa4e8
+   > Blocks: 0            Seconds: 13
+   > contract address:    0x267adBfc8D365ebFFC4EC6617807EEc33e3533F5
+   > block number:        7353373
+   > block timestamp:     1602457340
+   > account:             0xa2944D405106c8251a69D6d22cfDB425055ec8EE
+   > balance:             2.96756974
+   > gas used:            3041493 (0x2e68d5)
+   > gas price:           10 gwei
+   > value sent:          0 ETH
+   > total cost:          0.03041493 ETH
+
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.03041493 ETH
+
+
+Summary
+=======
+> Total deployments:   2
+> Final cost:          0.03200688 ETH
+
+```
 
 ### Contract Address
+contract address:    0x267adBfc8D365ebFFC4EC6617807EEc33e3533F5
 
-
-### Contract Hash
-
+### Token Address
+https://rinkeby.etherscan.io/token/0x267adbfc8d365ebffc4ec6617807eec33e3533f5
 
 ### Transaction Hashes
-
+transaction hash:    0x125ec7b3e85dd301b9013048c90f08904e57a5b6c2ce0ff6a71335966e7fa4e8
 
 ### Frontend screenshots
+![alt text](docs/scr_01.png "Token")
+
+### Etherscan screenshots
+https://rinkeby.etherscan.io/token/0x267adbfc8d365ebffc4ec6617807eec33e3533f5
+![alt text](docs/scr_02.png "Token")
 
