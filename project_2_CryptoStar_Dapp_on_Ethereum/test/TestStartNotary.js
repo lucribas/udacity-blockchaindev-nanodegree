@@ -81,7 +81,7 @@ it('lets user2 buy a star and decreases its balance in ether', async () => {
 
 // subtask 1.1 - Add a name and a symbol for your starNotary tokens.
 // subtask 1.2 - Looks up the stars using the Token ID, and then returns the name of the star.
-it('1.1 - can create a star with a name and star symbol properly, 1.2 lookup a star', async () => {
+it('can add the star name and star symbol properly', async () => {
 	//1. Create a star
 	let instance = await StarNotary.deployed();
 	let user1 = accounts[1];
@@ -100,7 +100,7 @@ it('1.1 - can create a star with a name and star symbol properly, 1.2 lookup a s
 });
 
 // subtask 1.3 - Add a function called exchangeStars, so 2 users can exchange their star tokens...Do not worry about the price, just write code to exchange stars between users.
-it('1.3 - can 2 users exchange their stars', async () => {
+it('lets 2 users exchange stars', async () => {
 	let instance = await StarNotary.deployed();
 	let user1 = accounts[0];
 	let user2 = accounts[1];
@@ -123,7 +123,7 @@ it('1.3 - can 2 users exchange their stars', async () => {
 });
 
 // substask 1.4 - Write a function to Transfer a Star. The function should transfer a star from the address of the caller. The function should accept 2 arguments, the address to transfer the star to, and the token ID of the star.
-it('1.4 can a user transfer a star to other', async () => {
+it('lets a user transfer a star', async () => {
 	let instance = await StarNotary.deployed();
 	let user1 = accounts[0];
 	let user2 = accounts[1];

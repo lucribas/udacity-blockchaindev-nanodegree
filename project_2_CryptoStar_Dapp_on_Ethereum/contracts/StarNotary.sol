@@ -20,7 +20,7 @@ contract StarNotary is ERC721 {
 
     // subtask 1.2 - Looks up the stars using the Token ID, and then returns the name of the star.
     function lookUptokenIdToStarInfo(uint256 _tokenId)
-        public
+        external
         view
         returns (string memory)
     {
@@ -28,15 +28,17 @@ contract StarNotary is ERC721 {
     }
 
     // subtask 1.3 - Add a function called exchangeStars, so 2 users can exchange their star tokens...Do not worry about the price, just write code to exchange stars between users.
-    function exchangeStars(uint256 _tokenId1, uint256 _tokenId2) public {
+    function exchangeStars(uint256 _tokenId1, uint256 _tokenId2) external {
         address sender1 = ownerOf(_tokenId1);
         address sender2 = ownerOf(_tokenId2);
-       	transferFrom(sender1, sender2, _tokenId1);
-       	transferFrom(sender2, sender1, _tokenId2);
+		if (msg.sender == sender1 || msg.sender == sender2) {
+	       	transferFrom(sender1, sender2, _tokenId1);
+	       	transferFrom(sender2, sender1, _tokenId2);
+		}
     }
 
 	// substask 1.4 - Write a function to Transfer a Star. The function should transfer a star from the address of the caller. The function should accept 2 arguments, the address to transfer the star to, and the token ID of the star.
-	function transferStar(address _toAddress, uint256 _tokenId) public {
+	function transferStar(address _toAddress, uint256 _tokenId) external {
 		address fromAddress = ownerOf(_tokenId);
 		// Check if the sender is owner of star and do the transfer
 		if(msg.sender == fromAddress){
@@ -45,7 +47,7 @@ contract StarNotary is ERC721 {
 	}
 
     // Create Star using the Struct
-    function createStar(string memory _name, uint256 _tokenId) public {
+    function createStar(string memory _name, uint256 _tokenId) external {
         // Passing the name and tokenId as a parameters
         Star memory newStar = Star(_name); // Star is an struct so we are creating a new Star
         tokenIdToStarInfo[_tokenId] = newStar; // Creating in memory the Star -> tokenId mapping
@@ -53,7 +55,7 @@ contract StarNotary is ERC721 {
     }
 
     // Putting an Star for sale (Adding the star tokenid into the mapping starsForSale, first verify that the sender is the owner)
-    function putStarUpForSale(uint256 _tokenId, uint256 _price) public {
+    function putStarUpForSale(uint256 _tokenId, uint256 _price) external {
         require(
             ownerOf(_tokenId) == msg.sender,
             "You can't sale the Star you don't owned"
@@ -66,7 +68,7 @@ contract StarNotary is ERC721 {
         return address(uint160(x));
     }
 
-    function buyStar(uint256 _tokenId) public payable {
+    function buyStar(uint256 _tokenId) external payable {
         require(starsForSale[_tokenId] > 0, "The Star should be up for sale");
         uint256 starCost = starsForSale[_tokenId];
         address ownerAddress = ownerOf(_tokenId);
