@@ -21,13 +21,35 @@ Create a DApp supply chain solution backed by the Ethereum platform. Architect s
 
 ### 1.1 Project write-up - UML
 
+Definitions:
+
+Choosen supply chain: Brazilian Grape Juice
+
+| UML entity  | Details |
+|:-------:|:--------|
+| Asset | Grape,<br>Juice |
+| Attributes | Grape:<br>- Current location<br>- Ownership<br>- Quantity available (kg)<br>- Geographical origin<br>- Date of harvest<br>- Juicy grape Variety: Niagara, Isabel, Bordo, Concord<br>- Farming system: Organic/Conventional<br>- Authenticity Third-party certifying body: IBD, EcoCert, Tecpar, Embrapa, etc<br><br>Juice:<br>- SKU<br>- Pack: units<br>- Location<br>- Ownership<br>- Stock: In stock/Sold<br>- Date of production<br>- Grape or blend of grapes and percentages<br>- Date of validity<br>- Suggar content<br>- Authenticity Third-party certifying body: IBD, EcoCert, Tecpar, Embrapa, etc<br> |
+| Business Actions | Harvesting<br>Authenticity Certifying<br>Production<br>Distribution<br> |
+| Role Permissions | Farm<br>Inspector<br>Productor<br>Distributor<br>Buyer |
+
+
+
+
+References:
+[1] "Effects of geographical origin, variety and farming system on the chemical markers and in vitro antioxidant capacity of Brazilian purple grape juices", Tiago Margraf, Érica Neulyana Taborda Santos, Eriel Forville de Andrade, Saskia M. van Ruth, Daniel Granato,
+Food Research International,Volume 82,2016,Pages 145-155, ISSN 0963-9969, http://www.sciencedirect.com/science/article/pii/S0963996916300485
+
+
+
+
+
 Project write-up include the following UML diagrams:
 
-| SubTasks   | Details |  Status |
+| Diagram   | Details |  Status |
 |:-------:|:--------|:--------:|
-| Activity |  |  |
-| Sequence |  |  |
-| State |  |  |
+| Activity |  ![](docs/uml_activity.png) |  |
+| Sequence |  ![](docs/uml_sequence.png) |  |
+| State    |  ![](docs/uml_state.png) | |
 | Classes<br>(Data Model) |  |  |
 
 ### 1.2 Project write-up - Libraries
