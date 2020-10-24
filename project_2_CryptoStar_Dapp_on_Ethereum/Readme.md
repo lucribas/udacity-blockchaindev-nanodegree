@@ -1,12 +1,35 @@
 # Decentralized Star Notary Project
 
+- [Decentralized Star Notary Project](#decentralized-star-notary-project)
+	- [Project Instructions](#project-instructions)
+		- [Task 1 - Add Smart Contract Functions](#task-1---add-smart-contract-functions)
+		- [Task 2 - Add supporting Unit Tests](#task-2---add-supporting-unit-tests)
+		- [Task 3 - Deploy your Contract to Rinkeby](#task-3---deploy-your-contract-to-rinkeby)
+		- [Task 4 - Modify the front end of the DAPP](#task-4---modify-the-front-end-of-the-dapp)
+		- [Task 5 - Add a ``Readme.md`` file](#task-5---add-a-readmemd-file)
+		- [Helpful Links](#helpful-links)
+	- [Steps to Install the Environment](#steps-to-install-the-environment)
+		- [Node.js](#nodejs)
+		- [Truffle and other packets](#truffle-and-other-packets)
+	- [To compile and run tests](#to-compile-and-run-tests)
+	- [Versions](#versions)
+	- [Results](#results)
+		- [Unit Tests Terminal Output](#unit-tests-terminal-output)
+	- [To deploy in Brinkeby](#to-deploy-in-brinkeby)
+		- [Deployment Terminal Output](#deployment-terminal-output)
+		- [Contract Address](#contract-address)
+		- [Token Address](#token-address)
+		- [Transaction Hashes](#transaction-hashes)
+		- [Frontend screenshots](#frontend-screenshots)
+		- [Etherscan screenshots](#etherscan-screenshots)
+
+
 For this project, you will create DApp notary service leveraging the Ethereum platform. You write smart contract that offer securely prove the existence for any digital asset - in this case unique stars and their metadata!
-
-
 
 ## Project Instructions
 
 ### Task 1 - Add Smart Contract Functions
+
 Your Project is to Modify the StarNotary version 2 contract code to achieve the following:
 | SubTasks   | Details |  Status |
 |:-------:|:--------|:--------:|
@@ -15,8 +38,8 @@ Your Project is to Modify the StarNotary version 2 contract code to achieve the 
 | 1.3 | Add a function called exchangeStars, so 2 users can exchange their star tokens...Do not worry about the price, just write code to exchange stars  between users.  | :ok_hand: |
 | 1.4 | Write a function to Transfer a Star. The function should transfer a star from the address of the caller. The function should accept 2 arguments, the address to transfer the star to, and the token ID of the star.  | :ok_hand: |
 
-
 ### Task 2 - Add supporting Unit Tests
+
 Add supporting unit tests, to test the following:
 | SubTasks   | Details |  Status |
 |:-------:|:--------|:--------:|
@@ -25,12 +48,14 @@ Add supporting unit tests, to test the following:
 | 2.3 | Stars Tokens can be transferred from one address to another.  | :ok_hand: |
 
 ### Task 3 - Deploy your Contract to Rinkeby
+
 Deploy your Contract to Rinkeby.
 | SubTasks   | Details |  Status |
 |:-------:|:--------|:--------:|
 | 3.1 | Edit the truffle.config file to add settings to deploy your contract to the Rinkeby Public Network.  | :ok_hand: |
 
 ### Task 4 - Modify the front end of the DAPP
+
 Modify the front end of the DAPP to achieve the following:
 
 | SubTasks   | Details |  Status |
@@ -38,6 +63,7 @@ Modify the front end of the DAPP to achieve the following:
 | 4.1 | Lookup a star by ID using tokenIdToStarInfo() (you will have to add code for this in your index.html and index.js files)  | :ok_hand: |
 
 ### Task 5 - Add a ``Readme.md`` file
+
 The ``Readme.md`` file should include the following:
 | SubTasks   | Details |  Status |
 |:-------:|:--------|:--------:|
@@ -45,27 +71,26 @@ The ``Readme.md`` file should include the following:
 | 5.2 | Your ERC-721 Token Symbol  | :ok_hand: |
 | 5.3 | Version of the Truffle and OpenZeppelin used  | :ok_hand: |
 
-
-
 ### Helpful Links
-- answered the question [Fixed parser error in Solidity extension of VSCode: ParserError: Expected identifier, got 'LParen'](https://ethereum.stackexchange.com/questions/51353/parsererror-expected-identifier-got-lparen/87686#87686)
 
+- answered the question [Fixed parser error in Solidity extension of VSCode: ParserError: Expected identifier, got 'LParen'](https://ethereum.stackexchange.com/questions/51353/parsererror-expected-identifier-got-lparen/87686#87686)
 
 ## Steps to Install the Environment
 
 ### Node.js
 
 Install a clean version of nodejs. I´m using the nvm (Node Version Manager) tool to allow install and switch between versions. Currently only version 10 of node.js works:
-```
+
+```bash
 nvm install 10.22.1
 nvm use 10.22.1
 ```
 
-
 ### Truffle and other packets
 
 install truffle, openzelepin, webpack and dependences:
-```
+
+```bash
 npm i -g truffle
 npm i --save openzeppelin-solidity
 npm i --save truffle-hdwallet-provider
@@ -76,34 +101,37 @@ npm i -g webpack-dev-server webpack-cli webpack-dev-middleware webpack-hot-middl
 ## To compile and run tests
 
 For starting the development console, run:
-```
+
+```bash
 truffle develop
 ```
 
 For compiling the contract, inside the development console, run:
-```
+
+```bash
 compile
 ```
 
 For migrating the contract to the locally running Ethereum network, inside the development console, run:
-```
+
+```bash
 migrate --reset
 ```
 
 For running unit tests the contract, inside the development console, run:
-```
+
+```bash
 test
 ```
 
 For running the Front End of the DAPP, open another terminal window and go inside the project directory, and run:
-```
+
+```bash
 cd app
 npm run dev
 ```
 
-
 ## Versions
-
 
 | Package   | Version |
 |:-------:|:-------------|
@@ -113,18 +141,14 @@ npm run dev
 |Web3.js| v1.2.1 |
 
 As configured in truffle-config.js the smart contracts was compiled successfully using:
-   - solc: 0.6.12+commit.27d51765.Emscripten.clang
 
-# Results
+- solc: 0.6.12+commit.27d51765.Emscripten.clang
 
-
-
-
-
+## Results
 
 ### Unit Tests Terminal Output
 
-```
+```bash
 truffle develop
 
 Compiling your contracts...
@@ -144,21 +168,20 @@ Compiling your contracts...
 
   8 passing (2s)
 
-truffle(develop)>       
+truffle(develop)>
 ```
-
 
 ## To deploy in Brinkeby
 
 Execute the command
-```
+
+```bash
 truffle migrate --network rinkeby --reset
 ```
 
-
 ### Deployment Terminal Output
 
-```
+```bash
 PS C:\RIBAS\GITHUB\udacity-blockchaindev-nanodegree\project_2_CryptoStar_Dapp_on_Ethereum> truffle migrate --network rinkeby --reset
 
 Compiling your contracts...
@@ -275,18 +298,22 @@ Summary
 ```
 
 ### Contract Address
+
 contract address:    0x267adBfc8D365ebFFC4EC6617807EEc33e3533F5
 
 ### Token Address
-https://rinkeby.etherscan.io/token/0x267adbfc8d365ebffc4ec6617807eec33e3533f5
+
+<https://rinkeby.etherscan.io/token/0x267adbfc8d365ebffc4ec6617807eec33e3533f5>
 
 ### Transaction Hashes
+
 transaction hash:    0x125ec7b3e85dd301b9013048c90f08904e57a5b6c2ce0ff6a71335966e7fa4e8
 
 ### Frontend screenshots
+
 ![alt text](docs/scr_01.png "Token")
 
 ### Etherscan screenshots
-https://rinkeby.etherscan.io/token/0x267adbfc8d365ebffc4ec6617807eec33e3533f5
-![alt text](docs/scr_02.png "Token")
 
+<https://rinkeby.etherscan.io/token/0x267adbfc8d365ebffc4ec6617807eec33e3533f5>
+![alt text](docs/scr_02.png "Token")
