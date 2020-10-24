@@ -7,6 +7,7 @@ Lessons and Projects of Udacity Blockchain Developer Nanodegree
 
 
 
+
 ##Projects
 
 | Project Name | Description | Folder | Course Parts |
@@ -16,5 +17,6 @@ Lessons and Projects of Udacity Blockchain Developer Nanodegree
 | 3. Dapp Supply Chain | Ethereum Dapp for Tracking Items through Supply Chain | [link](./project_3_Dapp_Supply_Chain) | PART 4-Blockchain Architecture<br>Estimated time: 21 days |
 | 4. Linkedin | Improve Your LinkedIn Profile | [link](https://www.linkedin.com/in/lucianoribas/) | PART 5-Career Services<br>Estimated time: 1 day |
 | 5. Github | Optimize Your Github Profile | [link](https://github.com/lucribas) | PART 5-Career Services<br>Estimated time: 1 day |
-| 6. FlightSurety | FlightSurety:  Flight insurance| [link](./project_6_FlightSurety) | PART 6-Dapp with autonomous smart contracts and oracles<br>Estimated time: 20 day |
-| 7. Capstone | Capstone: Real Estate Marketplace | [link](./project_7_Capstone) | PART 6-Capstone<br>Estimated time: 21 day |
+| 6. Dapp FlightSurety | FlightSurety:  Flight insurance| [link](./project_6_FlightSurety) | PART 6-Dapp with autonomous smart contracts and oracles<br>Estimated time: 20 days |
+| 7. Capstone | Capstone: Real Estate Marketplace | [link](./project_7_Capstone) | PART 6-Capstone<br>Estimated time: 21 days |
+|  |  |  | Total estimated time: 106 days |

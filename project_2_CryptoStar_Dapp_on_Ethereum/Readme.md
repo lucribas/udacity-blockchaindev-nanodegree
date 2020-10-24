@@ -1,6 +1,6 @@
-# Decentralized Star Notary Project
+# Project 2: Dapp - Decentralized Star Notary Project
 
-- [Decentralized Star Notary Project](#decentralized-star-notary-project)
+- [Project 2: Dapp - Decentralized Star Notary Project](#project-2-dapp---decentralized-star-notary-project)
 	- [Project Instructions](#project-instructions)
 		- [Task 1 - Add Smart Contract Functions](#task-1---add-smart-contract-functions)
 		- [Task 2 - Add supporting Unit Tests](#task-2---add-supporting-unit-tests)
