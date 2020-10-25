@@ -12,6 +12,7 @@
 	- [Part 4: Deploy smart contracts on a public test network (Rinkeby)](#part-4-deploy-smart-contracts-on-a-public-test-network-rinkeby)
 	- [Part 5: Modify client code to interact with smart contracts](#part-5-modify-client-code-to-interact-with-smart-contracts)
 	- [Optional: Implement Infura to store product image](#optional-implement-infura-to-store-product-image)
+- [INSTALL](#install)
 
 ## Project Details
 
@@ -76,7 +77,7 @@ CRITERIA
 | SupplyChain.sol contains required tracking functions. | Smart contract implements functions to track.<br>For example:<br>- Product ID<br>- Product UPC<br>- Origination Information<br>- Farm<br>- Misc organization info<br>- Longitude & Latitude of geo coordinates<br>- Product notes |  |
 | Ownable.sol contains required functions that establish owner and the transfer of ownership. | Ownable.sol has required functions that establish owner and the transfer of ownership. |  |
 | ConsumerRole.sol contains required functions that manage the consumer role. | ConsumerRole.sol has required functions that manage the consumer role. |  |
-| RetailerRole.sol contains required functions that manage the consumer role. | RetailerRole.sol has required functions that manage the consumer role. |  |
+| ProducerRole.sol contains required functions that manage the consumer role. | ProducerRole.sol has required functions that manage the consumer role. |  |
 | DistributorRole.sol contains required functions that manage the consumer role. | DistributorRole.sol has required functions that manage the consumer role. |  |
 | Additional roles implemented are integrated correctly. | Student has implemented additional roles correctly. |  |
 
@@ -99,7 +100,7 @@ Modify client code to interact with a smart contract
 
 | CRITERIA   | MEETS SPECIFICATIONS |  Status |
 |:-------|:--------|:--------:|
-| Client code interacts with smart contract. | Front-end is configured to:<br>- Submit a product for shipment (farmer to the distributor, distributor to retailer, etc).<br>- Receive product from shipment.<br>- Validate the authenticity of the product. | |
+| Client code interacts with smart contract. | Front-end is configured to:<br>- Submit a product for shipment (farmer to the distributor, distributor to Producer, etc).<br>- Receive product from shipment.<br>- Validate the authenticity of the product. | |
 
 ## Optional: Implement Infura to store product image
 
@@ -107,3 +108,23 @@ Optional: Implement Infura to store product image
 
 Ex: Farmer harvests coffee and upload pics w/ UPC hash
 Potentially only 2 methods needed upload() and read()
+
+
+
+
+
+# INSTALL
+npm install -g ganache-cli
+
+
+create a file called ./secret.txt with your mnemonics of your wallet, like:
+
+```txt
+exile sudden pistol crisp accident artwork desert point sort protect reveal capital
+```
+
+edit line 24 of ./truffle-config.js and replace with your Infura Key:
+
+```js
+24:   const infuraKey = "c216e74355924a518e5d0d183e67b23c";	// INFURA - PROJECT ID
+```
