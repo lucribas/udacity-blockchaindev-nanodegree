@@ -47,10 +47,10 @@ Project write-up include the following UML diagrams:
 
 | Diagram   | Details |  Status |
 |:-------:|:--------|:--------:|
-| Activity |  ![](docs/uml_activity.png) |  |
-| Sequence |  ![](docs/uml_sequence.png) |  |
-| State    |  ![](docs/uml_state.png) | |
-| Classes<br>(Data Model) |  |  |
+| Activity |  ![](docs/uml_activity.png)  | :ok_hand: |
+| Sequence |  ![](docs/uml_sequence.png)  | :ok_hand: |
+| State    |  ![](docs/uml_state.png)  | :ok_hand: |
+| Classes<br>(Data Model) | ![](docs/uml_classes.png)   | :ok_hand: |
 
 ### 1.2 Project write-up - Libraries
 
