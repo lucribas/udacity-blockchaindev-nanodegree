@@ -14,7 +14,7 @@ contract ProducerRole {
 
     Roles.Role private _Producers;
 
-    constructor () {
+    constructor () public {
         _addProducer(msg.sender);
     }
 

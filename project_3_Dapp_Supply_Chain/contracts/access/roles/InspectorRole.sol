@@ -14,7 +14,7 @@ contract InspectorRole {
 
     Roles.Role private _Inspectors;
 
-    constructor () {
+    constructor () public {
         _addInspector(msg.sender);
     }
 

@@ -14,7 +14,7 @@ contract DistributorRole {
 
     Roles.Role private _Distributors;
 
-    constructor () {
+    constructor () public {
         _addDistributor(msg.sender);
     }
 
