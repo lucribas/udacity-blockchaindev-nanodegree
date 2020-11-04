@@ -20,11 +20,20 @@
 
 const fs = require('fs');
 
-const HDWalletProvider = require('truffle-hdwallet-provider');
+const HDWalletProvider = require('@truffle/hdwallet-provider');
 const infuraKey = "c216e74355924a518e5d0d183e67b23c";	// INFURA - PROJECT ID
 const mnemonic = fs.readFileSync("./secret.txt").toString().trim();	// INFURA - PROJECT SECRET
 
 module.exports = {
+	mocha: {
+		enableTimeouts: false,
+		before_timeout: 1200000,
+		reporter: 'eth-gas-reporter',
+		reporterOptions: {
+		  currency: 'USD',
+		  gasPrice: 25, //in gwei
+		},
+	},
 	/**
 	 * Networks define how you connect to your ethereum client and let you set the
 	 * defaults web3 uses to send transactions. If you don't specify one truffle
@@ -102,3 +111,4 @@ module.exports = {
 		}
 	}
 }
+

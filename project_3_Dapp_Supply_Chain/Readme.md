@@ -87,6 +87,19 @@ CRITERIA
 |:-------|:--------|:--------:|
 | Test smart contract tests all required functions. | Project contains tests for the boiler plate functions and all tests are approved without error. | |
 
+- Close all **ganache** instances on port 9545.
+- Run **truffle** (on port 9545) with the following command:
+
+```bash
+  trufle develop
+  
+  # Compile
+  truffle(develop)> compile
+  
+  # Test
+  truffle(develop)> test
+```
+
 ## Part 4: Deploy smart contracts on a public test network (Rinkeby)
 
 | CRITERIA   | MEETS SPECIFICATIONS |  Status |

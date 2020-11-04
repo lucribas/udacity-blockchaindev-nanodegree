@@ -30,15 +30,20 @@ contract SupplyChain is
     mapping(uint256 => uint256[]) juiceGrapes;
 
     // Define enum 'State' with the following values:
-    enum GrapeState {Planted, Harvested, Audited, Processed}
+    enum GrapeState {
+		Planted,
+		Harvested,
+		Audited,
+		Processed
+	}
     GrapeState constant defaultGrapeState = GrapeState.Planted;
 
     enum JuiceState {
         Created,
         Blended,
         Produced,
-        Packed,
         Certified,
+        Packed,
         ForSale,
         Purchased
     }
@@ -91,13 +96,13 @@ contract SupplyChain is
 
     // Define a modifer that verifies the Caller
     modifier verifyCaller(address _address) {
-        require(msg.sender == _address);
+        require(msg.sender == _address, "verifyCaller: unexpected caller");
         _;
     }
 
     // Define a modifier that checks if the paid amount is sufficient to cover the price
     modifier paidEnough(uint256 _price) {
-        require(msg.value >= _price);
+        require(msg.value >= _price, "paidEnough");
         _;
     }
 
@@ -111,67 +116,67 @@ contract SupplyChain is
 
     // Define a modifier that checks if an grapeItem.state of a upc is Planted
     modifier isPlanted(uint256 _upc) {
-        require(grapeItems[_upc].itemState == GrapeState.Planted);
+        require(grapeItems[_upc].itemState == GrapeState.Planted, "not Planted");
         _;
     }
 
     // Define a modifier that checks if an grapeItem.state of a upc is Harvested
     modifier isHarvested(uint256 _upc) {
-        require(grapeItems[_upc].itemState == GrapeState.Harvested);
+        require(grapeItems[_upc].itemState == GrapeState.Harvested, "not Harvested");
         _;
     }
 
     // Define a modifier that checks if an grapeItem.state of a upc is Audited
     modifier isAudited(uint256 _upc) {
-        require(grapeItems[_upc].itemState == GrapeState.Audited);
+        require(grapeItems[_upc].itemState == GrapeState.Audited, "not Audited");
         _;
     }
 
     // Define a modifier that checks if an grapeItem.state of a upc is Processed
     modifier isProcessed(uint256 _upc) {
-        require(grapeItems[_upc].itemState == GrapeState.Processed);
+        require(grapeItems[_upc].itemState == GrapeState.Processed, "not Processed");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is Created
     modifier isCreated(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.Created);
+        require(juiceItems[_upc].itemState == JuiceState.Created, "not Created");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is Blended
     modifier isBlended(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.Blended);
+        require(juiceItems[_upc].itemState == JuiceState.Blended, "not Blended");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is Produced
     modifier isProduced(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.Produced);
+        require(juiceItems[_upc].itemState == JuiceState.Produced, "not Produced");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is Packed
     modifier isPacked(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.Packed);
+        require(juiceItems[_upc].itemState == JuiceState.Packed, "not Packed");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is Certified
     modifier isCertified(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.Certified);
+        require(juiceItems[_upc].itemState == JuiceState.Certified, "not Certified");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is ForSale
     modifier isForSale(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.ForSale);
+        require(juiceItems[_upc].itemState == JuiceState.ForSale, "not ForSale");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is Purchased
     modifier isPurchased(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.Purchased);
+        require(juiceItems[_upc].itemState == JuiceState.Purchased, "not Purchased");
         _;
     }
 
@@ -187,8 +192,8 @@ contract SupplyChain is
         selfdestruct(payable(owner()));
     }
 
-    // Define a function 'grapePlantedItem' that allows a farmer to mark an item 'Planted'
-    function grapePlantedItem(
+    // Define a function 'grapePlantItem' that allows a farmer to mark an item 'Planted'
+    function grapePlantItem(
         uint256 _upc,
         address _originFarmerID,
         string calldata _originFarmName,
@@ -206,7 +211,7 @@ contract SupplyChain is
         grapeItems[_upc].originFarmLatitude = _originFarmLatitude;
         grapeItems[_upc].originFarmLongitude = _originFarmLongitude;
         // Update state
-        grapeItems[_upc].itemState = GrapeState.Harvested;
+        grapeItems[_upc].itemState = GrapeState.Planted;
         // Increment sku
         sku_cnt = sku_cnt + 1;
         // Emit the appropriate event
@@ -228,8 +233,8 @@ contract SupplyChain is
         emit GrapeHarvested(_upc);
     }
 
-    // Define a function 'grapeAuditedItem' that allows a Inspector to mark an item 'Audited'
-    function grapeAuditedItem(uint256 _upc, string calldata _auditNotes)
+    // Define a function 'grapeAuditItem' that allows a Inspector to mark an item 'Audited'
+    function grapeAuditItem(uint256 _upc, string calldata _auditNotes)
         public
         onlyInspector
         isHarvested(_upc)
@@ -247,7 +252,7 @@ contract SupplyChain is
         public
         onlyFarmer
         isAudited(_upc)
-        verifyCaller(grapeItems[_upc].ownerID) // Call modifier to verify caller of this function
+        // verifyCaller(grapeItems[_upc].ownerID) // Call modifier to verify caller of this function
     {
         // Update the appropriate fields
         grapeItems[_upc].itemState = GrapeState.Processed;
@@ -275,8 +280,10 @@ contract SupplyChain is
     function juiceBlendItem(uint256 _juiceUpc, uint256 _grapeUpc)
         public
         onlyProducer
-		verifyCaller(grapeItems[_juiceUpc].ownerID)
+		verifyCaller(juiceItems[_juiceUpc].ownerID)
     {
+		// Take ownership of grape
+		grapeItems[_juiceUpc].ownerID = msg.sender;
 		// Blend the '_juiceUpc' juice with '_grapeUpc' grape
 		juiceGrapes[_juiceUpc].push(_grapeUpc);
 		// Update state
@@ -402,7 +409,6 @@ contract SupplyChain is
         );
     }
 
-  
     // Functions to fetch data
     function fetchGrapeItemBufferOne(uint256 _upc)
         public
