@@ -12,7 +12,7 @@ Lessons and Projects of Udacity Blockchain Developer Nanodegree **(160 hours)**
 ### Course 1: Blockchain Fundamentals
 
 | Lesson | Description | Learning Outcomes |
-|:------|:---------|:-------|:------|
+|:------|:---------|:-------|
 | ONE | Blockchain Basics | • Explain core components that make a blockchain secure and powerful. <br>• Define blockchain protocols and their key differ. |
 | TWO | Managing Blockchain Transactions | • Create and manage identity on the Bitcoin Blockchain and  establish proof-of-ownership with blockchain transactions, without the need to provide sensitive information. |
 | THREE | Bitcoin core Testnet | • Explain the benefits of utilizing the Bitcoin Core testnet.<br>• Describe the difference between the public testnet and regression testing. |
@@ -23,7 +23,7 @@ Lessons and Projects of Udacity Blockchain Developer Nanodegree **(160 hours)**
 ### Course 2: Ethereum Smart Contracts, Tokens, and Dapps
 
 | Lesson | Description | Learning Outcomes |
-|:------|:---------|:-------|:------|
+|:------|:---------|:-------|
 | ONE | Ethereum Fundamentals and Development Tools | • Describe the fundamentals of Ethereum and how it is different from Bitcoin.<br> | • Build, compile, deploy, and test smart contracts using remix, ganache, truffle, and infura. |
 | TWO | Smart Contracts with Solidity |• Learn Solidity, a Turing complete smart contract language.<br> • Learn about different token standards (ERC-721, ERC-20).<br> • Create a fungible (ERC-20) token on Ethereum using Solidity. |
 | THREE | Ethereum APP | • Develop, test and deploy a fully-functioning Dapp that allows users to create, buy and sell unique stars. |
@@ -31,7 +31,7 @@ Lessons and Projects of Udacity Blockchain Developer Nanodegree **(160 hours)**
 ### Course 3: Blockchain Architecture
 
 | Lesson | Description | Learning Outcomes |
-|:------|:---------|:-------|:------|
+|:------|:---------|:-------|
 | ONE | Planning Blockchain Solutions | • Learn the correct technology stack to layer services and provide software solutions.<br>• Design supporting visuals with Unified Modeling Language (UML). |
 | TWO | Privacy | • Implement several techniques to enhance privacy of blockchain such as merkle trees, zero-knowledge proofs. |
 | THREE | Security & Maintenance | • Identify architecture security and maintenance risks. |
@@ -40,7 +40,7 @@ Lessons and Projects of Udacity Blockchain Developer Nanodegree **(160 hours)**
 ### Course 4: Dapp with Autonomous Smart Contracts and Oracles
 
 | Lesson | Description | Learning Outcomes |
-|:------|:---------|:-------|:------|
+|:------|:---------|:-------|
 | ONE | Multiparty control and payments with smart contracts | • Build Dapp with secure, multi-sig smart contracts. |
 | TWO | ORACLES | • Utilize third-party data sources to inform autonomous smart contracts. |
 | THREE | Handing smart contract payments | • Create, and test, secure and cost-efficient smart contracts that handle, distribute, and test ETH payments to a smart contract. |
@@ -48,7 +48,7 @@ Lessons and Projects of Udacity Blockchain Developer Nanodegree **(160 hours)**
 ### Course 5: Capstone Project
 
 | Lesson | Description | Learning Outcomes |
-|:------|:---------|:-------|:------|
+|:------|:---------|:-------|
 | ONE | ZK-SNARKS | • Learn how to implement ZK-SNARKs using Zokarates framework. |
 
 ## Projects
