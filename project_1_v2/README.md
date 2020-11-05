@@ -1,19 +1,29 @@
+
+
+# Course 1 Project: Blockchain Fundamentals - Create Your Own Private Blockchain
+
+A blockchain is a shared database that features added immutability as a safe and accurate alternative to existing data storage methods. You’ll learn the basics of how the blockchain data model works by creating your own private blockchain using Node.js and Leveldb.
+
+In this project, you’ll learn the fundamentals of architecting a collection of data into a blockchain data model. You’ll configure how each block stores data, validate blocks, add new blocks to the chain, and create methods to validate the chain integrity.
+
+You’ll then create a back-end API web service, and migrate your private blockchain to the web service. In the process, you’ll learn how to post new blocks to the blockchain via a RESTful web client.
+
+You’ll then encrypt and decrypt the unique digital collectibles on a private blockchain.
+
 # Project 1: Private Blockchain Application
 
 You are starting your journey as a Blockchain Developer, this project allows you to demonstrate
 that you are familiarized with the fundamentals concepts of a Blockchain platform.
 Concepts like:
-    - Block
-    - Blockchain
-    - Wallet
-    - Blockchain Identity
-    - Proof of Existance
+- Block
+- Blockchain
+- Wallet
+- Blockchain Identity
+- Proof of Existance
 
-Are some of the most important components in the Blockchain Framework that you will need to describe and also
-why not? Implement too.
+Are some of the most important components in the Blockchain Framework that you will need to describe and also why not? Implement too.
 
-In this project you will have a boilerplate code with a REST Api already setup to expose some of the functionalities
-you will implement in your private blockchain.
+In this project you will have a boilerplate code with a REST Api already setup to expose some of the functionalities you will implement in your private blockchain.
 
 ## What problem will you solve implementing this private Blockchain application?
 

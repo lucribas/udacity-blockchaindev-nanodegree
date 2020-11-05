@@ -1,7 +1,5 @@
 
-# Project 3: Dapp - Supply Chain Decentralized Application
-- [Project 3: Dapp - Supply Chain Decentralized Application](#project-3-dapp---supply-chain-decentralized-application)
-	- [Project Details](#project-details)
+- [Course 3 Project: Blockchain Architecture - Build Ethereum Dapp for Tracking Items through Supply Chain](#course-3-project-blockchain-architecture---build-ethereum-dapp-for-tracking-items-through-supply-chain)
 	- [Part 1: Plan the project with write-ups](#part-1-plan-the-project-with-write-ups)
 		- [1.1 Project write-up - UML](#11-project-write-up---uml)
 		- [1.2 Project write-up - Libraries](#12-project-write-up---libraries)
@@ -14,9 +12,15 @@
 	- [Optional: Implement Infura to store product image](#optional-implement-infura-to-store-product-image)
 - [INSTALL](#install)
 
-## Project Details
+# Course 3 Project: Blockchain Architecture - Build Ethereum Dapp for Tracking Items through Supply Chain
 
 Create a DApp supply chain solution backed by the Ethereum platform. Architect smart contracts that manage specific user permission controls as well as contracts that track and verify a product’s authenticity.
+
+By the completion of Project 2, you’ll have learned the importance of Proof of Existence, which is used to verify whether a digital asset is authentic and can be trusted. In this project, you’ll scale up to architect a solution that verifies authenticity for a product when multiple actors are involved.
+
+You’ll build a supply chain system on Ethereum blockchain that allows users to verify the authenticity of an item as it passes through different hands. You will architect a Dapp (Decentralized Application) authenticity management system backed by the Ethereum platform. To do so, you’ll scope out the needs of the various actors in the supply chain and create smart contracts that help track product origination and verify product authenticity.
+
+You’ll then tie this all together with a simple front-end that allows users to manage the product life-cycle as the product moves through the supply chain.
 
 ## Part 1: Plan the project with write-ups
 

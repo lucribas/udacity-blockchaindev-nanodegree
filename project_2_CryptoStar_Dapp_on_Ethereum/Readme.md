@@ -1,6 +1,4 @@
-# Project 2: Dapp - Decentralized Star Notary Project
-
-- [Project 2: Dapp - Decentralized Star Notary Project](#project-2-dapp---decentralized-star-notary-project)
+- [Course 2 Project: Ethereum Smart Contracts, Tokens, and Dapps - Build CryptoStar Dapp on Ethereum](#course-2-project-ethereum-smart-contracts-tokens-and-dapps---build-cryptostar-dapp-on-ethereum)
 	- [Project Instructions](#project-instructions)
 		- [Task 1 - Add Smart Contract Functions](#task-1---add-smart-contract-functions)
 		- [Task 2 - Add supporting Unit Tests](#task-2---add-supporting-unit-tests)
@@ -23,6 +21,12 @@
 		- [Frontend screenshots](#frontend-screenshots)
 		- [Etherscan screenshots](#etherscan-screenshots)
 
+# Course 2 Project: Ethereum Smart Contracts, Tokens, and Dapps - Build CryptoStar Dapp on Ethereum
+
+With Project 2, your focus moves from Bitcoin to Ethereum
+blockchain. You’ll begin by building a decentralized app (Dapp) that allows you to create, sell, and transfer ownership of unique star token (CryptoStar) on the Ethereum blockchain using smart contracts and the non-fungible (ERC721) token standard. This service is designed to demonstrate how to claim and transfer ownership of unique digital asset ( e.g. document, deed, agreement, media, etc.) on Ethereum blockchain.
+
+You’ll build the back-end infrastructure for the CryptoStar with a pre-developed front end. This will enable you to render the service on any modern web clients.
 
 For this project, you will create DApp notary service leveraging the Ethereum platform. You write smart contract that offer securely prove the existence for any digital asset - in this case unique stars and their metadata!
 
