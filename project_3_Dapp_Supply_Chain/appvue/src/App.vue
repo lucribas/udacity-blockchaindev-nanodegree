@@ -19,8 +19,15 @@
       <!-- APP BAR -------------------------- -->
       <v-app-bar app color="primary" dark>
         <v-btn id="btn-wallet" target="_blank" text>
-          <i class="fas fa-link fa-3x"></i>
-          <span class="mr-2">Wallet</span>
+          <v-icon
+            :color="
+              localhost_connected || metamask_connected
+                ? 'light-green accent-3'
+                : 'red'
+            "
+            class="fas fa-link fa-3x"
+          ></v-icon>
+          <span class="mr-2">{{ wallet_name }}</span>
         </v-btn>
 
         <v-spacer></v-spacer>
@@ -47,8 +54,10 @@
           <v-main>
             <Viewer />
             <p>Name is {{ farmer_name }}</p>
-            <br /><br />HAHAHA {{ bla }} FFF<br /><br />
+            <br /><br />
             <button @click="changeName">Change Farmer Name</button>
+            <br />l={{ localhost_connected }} <br />m={{ metamask_connected }}
+            <br />t={{ localhost_connected || metamask_connected }}
           </v-main>
         </v-container>
       </v-main>
@@ -71,86 +80,74 @@ import { tour_steps } from "./AppTour.js";
 import Web3 from "web3";
 import supplyChainArtifact from "../../build/contracts/SupplyChain.json";
 
+var Wapp = {
+  web3: null,
+  account: null,
+  meta: null,
+  //   vm: "null",
 
-const App = {
-	web3: null,
-	account: null,
-	meta: null,
+  start: async function () {
+    const { web3 } = this;
+    try {
+      // get contract instance
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = supplyChainArtifact.networks[networkId];
+      this.meta = new web3.eth.Contract(
+        supplyChainArtifact.abi,
+        deployedNetwork.address
+      );
 
-	start: async function () {
-		const { web3 } = this;
-		try {
-			// get contract instance
-			const networkId = await web3.eth.net.getId();
-			const deployedNetwork = supplyChainArtifact.networks[networkId];
-			this.meta = new web3.eth.Contract(
-				supplyChainArtifact.abi,
-				deployedNetwork.address,
-			);
+      // get accounts
+      const accounts = await web3.eth.getAccounts();
+      this.account = accounts[0];
+    } catch (error) {
+      console.error("Could not connect to contract or chain.");
+    }
+  },
 
-			// get accounts
-			const accounts = await web3.eth.getAccounts();
-			this.account = accounts[0];
-		} catch (error) {
-			console.error("Could not connect to contract or chain.");
-		}
-	},
+  setStatus: function (message, id) {
+    const status = document.getElementById(id);
+    status.innerHTML = message;
+  },
 
-	setStatus: function (message, id) {
-		const status = document.getElementById(id);
-		status.innerHTML = message;
-	},
+  // createStar: async function () {
+  // 	const { createStar } = this.meta.methods;
+  // 	const name = document.getElementById("starName").value;
+  // 	const id = document.getElementById("starId").value;
+  // 	await createStar(name, id).send({ from: this.account });
+  // 	Wapp.setStatus("New Star Owner is " + this.account + ".", "status");
+  // },
 
-	// createStar: async function () {
-	// 	const { createStar } = this.meta.methods;
-	// 	const name = document.getElementById("starName").value;
-	// 	const id = document.getElementById("starId").value;
-	// 	await createStar(name, id).send({ from: this.account });
-	// 	App.setStatus("New Star Owner is " + this.account + ".", "status");
-	// },
-
-	// // Implement Task 4 Modify the front end of the DAPP
-	// lookUp: async function () {
-	// 	let { name } = this.meta.methods;
-	// 	let { symbol } = this.meta.methods;
-	// 	let { ownerOf } = this.meta.methods;
-	// 	let { lookUptokenIdToStarInfo } = this.meta.methods;
-	// 	let id = document.getElementById("lookid").value;
-	// 	id = parseInt(id);
-	// 	let contract = await name().call();
-	// 	let sym = await symbol().call();
-	// 	let starName = await lookUptokenIdToStarInfo(id).call();
-	// 	let ownerName = await ownerOf(id).call();
-	// 	if (starName.length == 0) {
-	// 		App.setStatus("Star not owned.", "status");
-	// 		App.setStatus("Star ID: ", "starData");
-	// 		App.setStatus("Token Name: ", "contract");
-	// 		App.setStatus("Token Symbol: ", "symbol");
-	// 	} else {
-	// 		App.setStatus("Star owned by " + ownerName, "status");
-	// 		// App.setStatus("Star owned by ", "status");
-	// 		App.setStatus("Star ID: " + id + " is named " + starName, "starData");
-	// 		App.setStatus("Token Name: " + contract, "contract");
-	// 		App.setStatus("Token Symbol: " + sym, "symbol");
-	// 	}
-	// },
+  // // Implement Task 4 Modify the front end of the DAPP
+  // lookUp: async function () {
+  // 	let { name } = this.meta.methods;
+  // 	let { symbol } = this.meta.methods;
+  // 	let { ownerOf } = this.meta.methods;
+  // 	let { lookUptokenIdToStarInfo } = this.meta.methods;
+  // 	let id = document.getElementById("lookid").value;
+  // 	id = parseInt(id);
+  // 	let contract = await name().call();
+  // 	let sym = await symbol().call();
+  // 	let starName = await lookUptokenIdToStarInfo(id).call();
+  // 	let ownerName = await ownerOf(id).call();
+  // 	if (starName.length == 0) {
+  // 		Wapp.setStatus("Star not owned.", "status");
+  // 		Wapp.setStatus("Star ID: ", "starData");
+  // 		Wapp.setStatus("Token Name: ", "contract");
+  // 		Wapp.setStatus("Token Symbol: ", "symbol");
+  // 	} else {
+  // 		Wapp.setStatus("Star owned by " + ownerName, "status");
+  // 		// Wapp.setStatus("Star owned by ", "status");
+  // 		Wapp.setStatus("Star ID: " + id + " is named " + starName, "starData");
+  // 		Wapp.setStatus("Token Name: " + contract, "contract");
+  // 		Wapp.setStatus("Token Symbol: " + sym, "symbol");
+  // 	}
+  // },
 };
 
-window.App = App;
-
-window.addEventListener("load", async function () {
-	if (window.ethereum) {
-		// use MetaMask's provider
-		App.web3 = new Web3(window.ethereum);
-		await window.ethereum.enable(); // get permission to access accounts
-	} else {
-		console.warn("No web3 detected. Falling back to http://127.0.0.1:9545. You should remove this fallback when you deploy live",);
-		// fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-		App.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9545"),);
-	}
-
-	App.start();
-});
+// class App {
+//   vm = nul;
+// }
 
 export default {
   name: "App",
@@ -169,10 +166,27 @@ export default {
     startTour() {
       this.$tours["myTour"].start();
     },
+    eth_metamask_sts(value) {
+      this.metamask_connected = value;
+      console.log("eth_metamask_sts:" + value);
+      if (value) {
+        this.wallet_name = "Metamask";
+      }
+    },
+    eth_localhost_sts(value) {
+      this.localhost_connected = value;
+      console.log("eth_localhost_sts:" + value);
+      if (value) {
+        this.wallet_name = "Localhost:9545";
+      }
+    },
   },
 
   data: () => ({
-
+    farmer_name: "none",
+    metamask_connected: false,
+    localhost_connected: false,
+    wallet_name: "wallet",
     //----------------------------
     farmer_details: {
       id: "b-farmer",
@@ -237,10 +251,31 @@ export default {
     },
     // Tour
     //----------------------------
-    steps: tour_steps()
+    steps: tour_steps(),
   }),
   mounted: function () {
-    this.$tours["myTour"].start();
+    // this.eth_metamask_sts(true);
+    // this.$tours["myTour"].start();
   },
 };
+
+window.addEventListener("load", async function () {
+  if (window.ethereum) {
+    // use MetaMask's provider
+    Wapp.web3 = new Web3(window.ethereum);
+    await window.ethereum.enable(); // get permission to access accounts
+    window.vm.$children[0].eth_metamask_sts(true);
+  } else {
+    console.warn(
+      "No web3 detected. Falling back to http://127.0.0.1:9545. You should remove this fallback when you deploy live"
+    );
+    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+    Wapp.web3 = new Web3(
+      new Web3.providers.HttpProvider("http://127.0.0.1:9545")
+    );
+    window.vm.$children[0].eth_localhost_sts(true);
+  }
+
+  Wapp.start();
+});
 </script>

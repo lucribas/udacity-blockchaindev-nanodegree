@@ -9,7 +9,12 @@ Vue.use(VueTour)
 
 Vue.config.productionTip = false
 
-new Vue({
+App.methods.eth_metamask_sts(true);
+console.log("----->" + App.data.farmer_name);
+
+var vm = new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
+
+window.vm = vm;
