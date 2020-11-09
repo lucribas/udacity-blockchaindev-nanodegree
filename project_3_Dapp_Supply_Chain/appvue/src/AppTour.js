@@ -14,7 +14,7 @@ export function tour_steps() {
 			header: {
 				title: "Configure your Wallet",
 			},
-			content: `Click here to <strong>Configure</strong> your wallet using <strong>Metamask</strong>!`,
+			content: `Click here to <strong>Configure</strong> your wallet!`,
 		},
 
 		{
