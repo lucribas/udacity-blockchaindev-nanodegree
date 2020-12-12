@@ -100,7 +100,13 @@ var Web3app = {
     try {
       // get contract instance
       const networkId = await web3.eth.net.getId();
+      const networkType = await web3.eth.net.getNetworkType();
       const deployedNetwork = supplyChainArtifact.networks[networkId];
+      if (deployedNetwork == undefined)
+        throw Error(
+          "smart contract not deployed! (networkId=" + networkId + ", networkType="+networkType+")"
+        );
+
       this.meta = new web3.eth.Contract(
         supplyChainArtifact.abi,
         deployedNetwork.address
@@ -112,11 +118,10 @@ var Web3app = {
       window.vm.$children[0].web3_connected = true;
       window.vm.$children[0].wallet_msg = "Connected";
     } catch (error) {
-      console.error("Could not connect to contract or chain.");
+      const msg = "Could not connect to contract or chain -> " + error;
+      console.error(msg);
       window.vm.$children[0].web3_error = true;
-      window.vm.$children[0].wallet_msg =
-        "Error: Could not connect to contract or chain.";
-      //   window.vm.$children[0].wallet_name = "ERROR";
+      window.vm.$children[0].wallet_msg = msg;
     }
   },
 
