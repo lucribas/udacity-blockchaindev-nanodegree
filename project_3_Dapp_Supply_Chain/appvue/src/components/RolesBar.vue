@@ -2,6 +2,21 @@
 <template>
   <div class="component">
     <v-container>
+      <v-row>
+
+        <v-btn
+          :href="'https://rinkeby.etherscan.io/address/'+this.sm_acc.sm.addr"
+          target="_blank"
+          color="indigo"
+          text
+        >
+          <span id="btn-github" class="mr-2"
+            >Contract {{ this.sm_acc.sm.addr.substring(0, 7) }}..</span
+          >
+          <i class="fas fa-file-contract fa-2x"></i>
+        </v-btn>
+
+      </v-row>
       <v-row justify="center">
         <v-dialog v-model="dialog" persistent max-width="800px">
           <template v-slot:activator="{ on, attrs }">
@@ -23,10 +38,7 @@
             </v-card-title>
             <v-card-text>
               <v-container>
-                <div
-                  v-for="(n, index) in (details)"
-                  v-bind:key="index"
-                >
+                <div v-for="(n, index) in user_acc" v-bind:key="index">
                   <v-row>
                     <v-col cols="8">
                       <v-text-field
@@ -81,7 +93,8 @@
 <script>
 export default {
   props: {
-    details: {},
+	user_acc: {},
+	sm_acc: {},
   },
   data: () => ({
     dialog: false,
@@ -97,12 +110,12 @@ export default {
       var vm = this;
       var sm = window.vm.$children[0].Web3app.meta.methods;
 
-      vm.aux_Form(this.details.fa, sm.isFarmer);
-      vm.aux_Form(this.details.in, sm.isInspector);
-      vm.aux_Form(this.details.pr, sm.isProducer);
-      vm.aux_Form(this.details.di, sm.isDistributor);
-      vm.aux_Form(this.details.co, sm.isConsumer);
-     },
+      vm.aux_Form(this.user_acc.fa, sm.isFarmer);
+      vm.aux_Form(this.user_acc.in, sm.isInspector);
+      vm.aux_Form(this.user_acc.pr, sm.isProducer);
+      vm.aux_Form(this.user_acc.di, sm.isDistributor);
+      vm.aux_Form(this.user_acc.co, sm.isConsumer);
+    },
     aux_Form(m, j) {
       var vm = this;
       var Web3app = window.vm.$children[0].Web3app;

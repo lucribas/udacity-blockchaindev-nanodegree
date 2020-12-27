@@ -56,8 +56,8 @@ describe('Programmatic usage suite', function () {
 				{ from: acc_farm_0 });
 
 			// Read the result from blockchain
-			res1 = await instance.fetchGrapeItemBufferOne.call(upc);
-			res2 = await instance.fetchGrapeItemBufferTwo.call(upc);
+			let res1 = await instance.fetchGrapeItemBufferOne.call(upc);
+			let res2 = await instance.fetchGrapeItemBufferTwo.call(upc);
 			// console.log(res1, 'result buffer 1');
 			// console.log(res2, 'result buffer 2');
 
@@ -83,11 +83,11 @@ describe('Programmatic usage suite', function () {
 			let originFarmerID = acc_farm_0;
 			let harvestNotes = "bordo wine";
 			let itemState = 1;
-			harvest = await instance.grapeHarvestItem(upc, harvestNotes, { from: acc_farm_0 });
+			let harvest = await instance.grapeHarvestItem(upc, harvestNotes, { from: acc_farm_0 });
 
 			// Read the result from blockchain
-			res1 = await instance.fetchGrapeItemBufferOne.call(upc);
-			res2 = await instance.fetchGrapeItemBufferTwo.call(upc);
+			let res1 = await instance.fetchGrapeItemBufferOne.call(upc);
+			let res2 = await instance.fetchGrapeItemBufferTwo.call(upc);
 			// console.log(res1, 'result buffer 1');
 			// console.log(res2, 'result buffer 2');
 
@@ -106,11 +106,11 @@ describe('Programmatic usage suite', function () {
 			let originFarmerID = acc_farm_0;
 			let auditNotes = "ISO9002 audit passed";
 			let itemState = 2;
-			audited = await instance.grapeAuditItem(upc, auditNotes, { from: acc_insp_0 });
+			let audited = await instance.grapeAuditItem(upc, auditNotes, { from: acc_insp_0 });
 
 			// Read the result from blockchain
-			res1 = await instance.fetchGrapeItemBufferOne.call(upc);
-			res2 = await instance.fetchGrapeItemBufferTwo.call(upc);
+			let res1 = await instance.fetchGrapeItemBufferOne.call(upc);
+			let res2 = await instance.fetchGrapeItemBufferTwo.call(upc);
 			// console.log(res1, 'result buffer 1');
 			// console.log(res2, 'result buffer 2');
 
@@ -128,11 +128,11 @@ describe('Programmatic usage suite', function () {
 			let ownerID = acc_farm_0;
 			let originFarmerID = acc_farm_0;
 			let itemState = 3;
-			processed = await instance.grapeProcessItem(upc, { from: acc_farm_0 });
+			let processed = await instance.grapeProcessItem(upc, { from: acc_farm_0 });
 
 			// Read the result from blockchain
-			res1 = await instance.fetchGrapeItemBufferOne.call(upc);
-			res2 = await instance.fetchGrapeItemBufferTwo.call(upc);
+			let res1 = await instance.fetchGrapeItemBufferOne.call(upc);
+			let res2 = await instance.fetchGrapeItemBufferTwo.call(upc);
 			// console.log(res1, 'result buffer 1');
 			// console.log(res2, 'result buffer 2');
 
@@ -149,10 +149,10 @@ describe('Programmatic usage suite', function () {
 			let productID = 1001;
 			let ownerID = acc_prod_0;
 			let itemState = 0;
-			created = await instance.juiceCreateItem(upc, productID, { from: acc_prod_0 });
+			let created = await instance.juiceCreateItem(upc, productID, { from: acc_prod_0 });
 
 			// Read the result from blockchain
-			res1 = await instance.fetchJuiceItemBufferOne.call(upc);
+			let res1 = await instance.fetchJuiceItemBufferOne.call(upc);
 			// console.log(res1, 'result buffer 1');
 
 			assert.equal(res1.upc, upc, 'Error: Invalid item UPC');
@@ -169,10 +169,10 @@ describe('Programmatic usage suite', function () {
 			let productID = 1001;
 			let ownerID = acc_prod_0;
 			let itemState = 1;
-			blended = await instance.juiceBlendItem(juiceUpc, grapeUpc, { from: acc_prod_0 });
+			let blended = await instance.juiceBlendItem(juiceUpc, grapeUpc, { from: acc_prod_0 });
 
 			// Read the result from blockchain
-			res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);
+			let res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);
 			// console.log(res1, 'result buffer 1');
 			// console.log(res1.grapes, 'grapes');
 
@@ -191,10 +191,10 @@ describe('Programmatic usage suite', function () {
 			let productPrice = 26;
 			let ownerID = acc_prod_0;
 			let itemState = 2;
-			produced = await instance.juiceProduceItem(juiceUpc, productNotes, productPrice, { from: acc_prod_0 });
+			let produced = await instance.juiceProduceItem(juiceUpc, productNotes, productPrice, { from: acc_prod_0 });
 
 			// Read the result from blockchain
-			res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);
+			let res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);
 			// console.log(res1, 'result buffer 1');
 			// console.log(res1.grapes, 'grapes');
 
@@ -212,10 +212,10 @@ describe('Programmatic usage suite', function () {
 			let certifyNotes = "ISO9002 Certified";
 			let ownerID = acc_prod_0;
 			let itemState = 3;
-			certified = await instance.juiceCertifyItem(juiceUpc, certifyNotes, { from: acc_insp_0 });
+			let certified = await instance.juiceCertifyItem(juiceUpc, certifyNotes, { from: acc_insp_0 });
 
 			// Read the result from blockchain
-			res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);
+			let res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);
 			// console.log(res1, 'result buffer 1');
 			// console.log(res1.grapes, 'grapes');
 
@@ -231,10 +231,10 @@ describe('Programmatic usage suite', function () {
 			let juiceUpc = 1;
 			let ownerID = acc_prod_0;
 			let itemState = 4;
-			packed = await instance.juicePackItem(juiceUpc, { from: acc_prod_0 });
+			let packed = await instance.juicePackItem(juiceUpc, { from: acc_prod_0 });
 
 			// Read the result from blockchain
-			res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);
+			let res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);
 			// console.log(res1, 'result buffer 1');
 			// console.log(res1.grapes, 'grapes');
 
@@ -249,10 +249,10 @@ describe('Programmatic usage suite', function () {
 			let juiceUpc = 1;
 			let ownerID = acc_prod_0;
 			let itemState = 5;
-			forsale = await instance.juiceSellItem(juiceUpc, { from: acc_dist_0 });
+			let forsale = await instance.juiceSellItem(juiceUpc, { from: acc_dist_0 });
 
 			// Read the result from blockchain
-			res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);
+			let res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);
 			// console.log(res1, 'result buffer 1');
 			// console.log(res1.grapes, 'grapes');
 
@@ -267,8 +267,8 @@ describe('Programmatic usage suite', function () {
 			let juiceUpc = 1;
 			let ownerID = acc_cons_0;
 			let itemState = 6;
-			res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);
-			purchased = await instance.juiceBuyItem(juiceUpc, { from: acc_cons_0, value: res1.productPrice });
+			let res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);
+			let purchased = await instance.juiceBuyItem(juiceUpc, { from: acc_cons_0, value: res1.productPrice });
 
 			// Read the result from blockchain
 			res1 = await instance.fetchJuiceItemBufferOne.call(juiceUpc);

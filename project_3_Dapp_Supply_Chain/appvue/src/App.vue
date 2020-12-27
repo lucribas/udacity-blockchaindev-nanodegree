@@ -3,13 +3,13 @@
     <v-app>
       <!-- NAV BAR -------------------------- -->
       <v-navigation-drawer app floating permanent>
-        <app-bar-roles :details="user_acc"></app-bar-roles>
+        <app-bar-roles :user_acc="user_acc" :sm_acc="sm_acc"></app-bar-roles>
         <div id="topDiv"></div>
         <app-bar-user :details="user_acc.fa"></app-bar-user>
         <app-bar-user :details="user_acc.in"></app-bar-user>
         <app-bar-user :details="user_acc.pr"></app-bar-user>
-        <app-bar-user :details="user_acc.fa"></app-bar-user>
-        <app-bar-user :details="user_acc.fa"></app-bar-user>
+        <app-bar-user :details="user_acc.di"></app-bar-user>
+        <app-bar-user :details="user_acc.co"></app-bar-user>
       </v-navigation-drawer>
 
       <!-- APP BAR -------------------------- -->
@@ -128,6 +128,34 @@ var Web3app = {
       vm.user_acc.pr.j = this.meta.methods.addProducer;
       vm.user_acc.di.j = this.meta.methods.addDistributor;
       vm.user_acc.co.j = this.meta.methods.addConsumer;
+
+      // print all events
+      this.meta
+        .getPastEvents("allEvents", {
+          fromBlock: 0,
+          // toBlock: "latest",
+        })
+        .then(function (events) {
+          console.log(events); // same results as the optional callback above
+        });
+
+      this.meta
+        .getPastEvents("FarmerAdded", {
+          fromBlock: 0,
+          // toBlock: "latest",
+        })
+        .then(function (events) {
+          console.log(events); // same results as the optional callback above
+        });
+
+      //   console.log(events);
+
+      //   events.get((error, eventResult) => {
+      //     if (error) console.log("Error in myEvent event handler: " + error);
+      //     else console.log("myEvent: " + JSON.stringify(eventResult.args));
+      //   });
+
+      //   end
     } catch (error) {
       const msg = "Could not connect to contract or chain -> " + error;
       console.error(msg);
@@ -241,12 +269,16 @@ export default {
     wallet_msgshow: false,
     Web3app: Web3app,
     RolesBar: RolesBar,
+    sm_acc: {
+      sm: {
+        addr: "0xd4a4265df78f092023ea5870545ca88609006fa5",
+      },
+    },
     user_acc: {
       fa: {
         l: "Farmer address",
         addr: "0x9D9e3E99127CD227CfbACb84289a5F3F96Ce9922",
         id: "b-farmer",
-        title: "Kulcheski",
         subtitle: "Farmer",
         avatar: "farmer.jpg",
         selectedItem: 0,
@@ -264,7 +296,6 @@ export default {
         l: "Inspector address",
         addr: "0xD8c5BcDdAE7896B9d4747cb753283681F262E1CE",
         id: "b-inspector",
-        title: "John Leider",
         subtitle: "Inspector",
         avatar: "inspector.jpg",
         items: [
@@ -281,7 +312,6 @@ export default {
         l: "Producer address",
         addr: "0x78DCba4FEE08726E86a3a6b970B85e684eaDC590",
         id: "b-producer",
-        title: "Organic Red Juices",
         subtitle: "Producer",
         avatar: "producer.png",
         items: [
@@ -300,7 +330,6 @@ export default {
         l: "Distributor address",
         addr: "0xC0520D16a972EEAbBc1F82F18187F672b2a7D78c",
         id: "b-distributor",
-        title: "Carrefour",
         subtitle: "Distributor",
         avatar: "distributor.png",
         items: [{ text: "For sell a Juice", icon: "fas fa-store" }],
@@ -314,7 +343,6 @@ export default {
         l: "Consumer address",
         addr: "0xD30ec28932096fC0B5De0b84e4560A533203241f",
         id: "b-consumer",
-        title: "Franceli",
         subtitle: "Consumer",
         avatar: "consumer.jpg",
         items: [{ text: "Buy a Juice", icon: "fas fa-shopping-cart" }],

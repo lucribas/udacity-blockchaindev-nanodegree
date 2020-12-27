@@ -12,7 +12,7 @@
         <v-list-item link>
           <v-list-item-content>
             <v-list-item-title :id="details.id+'-title'" class="title">{{
-              details.title
+              details.addr
             }}</v-list-item-title>
             <v-list-item-subtitle :id="details.id+'-subtitle'">{{ details.subtitle }}</v-list-item-subtitle>
           </v-list-item-content>
