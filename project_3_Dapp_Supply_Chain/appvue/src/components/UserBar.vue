@@ -49,6 +49,7 @@
 
 
 <script>
+
 export default {
   props: {
     details: {

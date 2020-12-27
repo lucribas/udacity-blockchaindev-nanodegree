@@ -61,13 +61,31 @@ Project write-up include the following UML diagrams:
 
 If libraries are used, the project write-up discusses why these libraries were adopted.
 
+| Libraries | Details |  Status |
+|:-------:|:--------|:--------:|
+| none |  none libraries are used | :ok_hand: |
+
 ### 1.3 Project write-up - IPFS
 
 If IPFS is used, the project write-up discusses how IPFS is used in this project.
 
+| IPFS | Details |  Status |
+|:-------:|:--------|:--------:|
+| none |  IPFS are not used | :ok_hand: |
+
+
 ### 1.4 General Write Up
 
 A general write up exists to items like steps and contracts address.
+
+| Item | Value | Details |  Status |
+|:-------:|:-------:|:--------|:--------:|
+| Smart Contract Address |   |  smart contract address in Rinkeby network | :ok_hand: |
+| Farmer Address |   |  address in Rinkeby network | :ok_hand: |
+| Producer Address |   |  address in Rinkeby network | :ok_hand: |
+| Inspector Address |   |  address in Rinkeby network | :ok_hand: |
+| Distributor/Retailer Address |   |  address in Rinkeby network | :ok_hand: |
+| Consumer Address |   |  address in Rinkeby network | :ok_hand: |
 
 ## Part 2: Write smart contracts
 
@@ -78,18 +96,18 @@ CRITERIA
 
 | CRITERIA   | MEETS SPECIFICATIONS |  Status |
 |:-------|:--------|:--------:|
-| SupplyChain.sol contains required tracking functions. | Smart contract implements functions to track.<br>For example:<br>- Product ID<br>- Product UPC<br>- Origination Information<br>- Farm<br>- Misc organization info<br>- Longitude & Latitude of geo coordinates<br>- Product notes |  |
-| Ownable.sol contains required functions that establish owner and the transfer of ownership. | Ownable.sol has required functions that establish owner and the transfer of ownership. |  |
-| ConsumerRole.sol contains required functions that manage the consumer role. | ConsumerRole.sol has required functions that manage the consumer role. |  |
-| ProducerRole.sol contains required functions that manage the consumer role. | ProducerRole.sol has required functions that manage the consumer role. |  |
-| DistributorRole.sol contains required functions that manage the consumer role. | DistributorRole.sol has required functions that manage the consumer role. |  |
-| Additional roles implemented are integrated correctly. | Student has implemented additional roles correctly. |  |
+| SupplyChain.sol contains required tracking functions. | Smart contract implements functions to track.<br>For example:<br>- Product ID<br>- Product UPC<br>- Origination Information<br>- Farm<br>- Misc organization info<br>- Longitude & Latitude of geo coordinates<br>- Product notes  | :ok_hand: |
+| Ownable.sol contains required functions that establish owner and the transfer of ownership. | Ownable.sol has required functions that establish owner and the transfer of ownership.  | :ok_hand: |
+| ConsumerRole.sol contains required functions that manage the consumer role. | ConsumerRole.sol has required functions that manage the consumer role.  | :ok_hand: |
+| ProducerRole.sol contains required functions that manage the consumer role. | ProducerRole.sol has required functions that manage the consumer role.  | :ok_hand: |
+| DistributorRole.sol contains required functions that manage the consumer role. | DistributorRole.sol has required functions that manage the consumer role.  | :ok_hand: |
+| Additional roles implemented are integrated correctly. | Student has implemented additional roles correctly.  | :ok_hand: |
 
 ## Part 3: Test smart contract code coverage
 
 | CRITERIA   | MEETS SPECIFICATIONS |  Status |
 |:-------|:--------|:--------:|
-| Test smart contract tests all required functions. | Project contains tests for the boiler plate functions and all tests are approved without error. | |
+| Test smart contract tests all required functions. | Project contains tests for the boiler plate functions and all tests are approved without error.  | :ok_hand: |
 
 - Close all **ganache** instances on port 9545.
 - Run **truffle** (on port 9545) with the following command:

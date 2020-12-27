@@ -3,11 +3,8 @@
     <v-app>
       <!-- NAV BAR -------------------------- -->
       <v-navigation-drawer app floating permanent>
-        <div
-          class="pa-5 font-weight-bold indigo accent-4 white--text text-center"
-        >
-          Roles
-        </div>
+        <!-- <app-bar-roles :meta="Web3app_meta"></app-bar-roles> -->
+        <app-bar-roles></app-bar-roles>
         <div id="topDiv"></div>
         <app-bar-user :details="farmer_details"></app-bar-user>
         <app-bar-user :details="inspector_details"></app-bar-user>
@@ -84,6 +81,7 @@
 
 <script>
 import UserBar from "./components/UserBar.vue";
+import RolesBar from "./components/RolesBar.vue";
 import Viewer from "./components/Viewer.vue";
 import { tour_steps } from "./AppTour.js";
 import Web3 from "web3";
@@ -104,7 +102,11 @@ var Web3app = {
       const deployedNetwork = supplyChainArtifact.networks[networkId];
       if (deployedNetwork == undefined)
         throw Error(
-          "smart contract not deployed! (networkId=" + networkId + ", networkType="+networkType+")"
+          "smart contract not deployed! (networkId=" +
+            networkId +
+            ", networkType=" +
+            networkType +
+            ")"
         );
 
       this.meta = new web3.eth.Contract(
@@ -112,6 +114,8 @@ var Web3app = {
         deployedNetwork.address
       );
 
+      //   window.vm.$children[0].Web3app_meta = this.meta;
+      window.vm.$children[0].account = this.account;
       // get accounts
       const accounts = await web3.eth.getAccounts();
       this.account = accounts[0];
@@ -124,10 +128,19 @@ var Web3app = {
       window.vm.$children[0].wallet_msg = msg;
     }
   },
-
   setStatus: function (message, id) {
     const status = document.getElementById(id);
     status.innerHTML = message;
+  },
+  addFarmer: async function (addr) {
+    const { addFarmer } = this.meta.methods;
+    await addFarmer(addr).send({ from: this.account });
+  },
+  isFarmer: async function (addr) {
+	// const { isFarmer } = this.meta.methods;
+	console.log("dafdsafsafkkkkkkkkkkkkkkkkk addr="+addr);
+	const response = await this.meta.methods.isFarmer(addr).call();
+	return response;
   },
 
   // createStar: async function () {
@@ -165,6 +178,8 @@ var Web3app = {
   // },
 };
 
+// window.vm.$children[0].Web3app = Web3app;
+
 // class App {
 //   vm = nul;
 // }
@@ -173,6 +188,7 @@ export default {
   name: "App",
   components: {
     "app-bar-user": UserBar,
+    "app-bar-roles": RolesBar,
     // popper: Popper,
 
     Viewer,
@@ -188,9 +204,17 @@ export default {
     startTour() {
       this.$tours["myTour"].start();
     },
+    modalRoles() {
+      this.$modal["Roles"].start();
+    },
     start() {
       this.wallet_name = "WALLET";
     },
+    // addFarmer(addr) {
+    // 	console.log("BLBLBLBLBLBBLA");
+    // 	const { addFarmer } = this.meta.methods;
+    // 	await addFarmer(addr).send({ from: this.account });
+    // },
     // eth_metamask_sts(value) {
     //   //   this.metamask_connected = value;
     //   //   console.log("eth_metamask_sts:" + value);
@@ -214,6 +238,7 @@ export default {
     web3_error: false,
     web3_connected: false,
     wallet_msgshow: false,
+    Web3app: Web3app,
     //----------------------------
     farmer_details: {
       id: "b-farmer",

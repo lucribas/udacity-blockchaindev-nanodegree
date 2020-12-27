@@ -24,6 +24,7 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 const infuraKey = "c216e74355924a518e5d0d183e67b23c";	// INFURA - PROJECT ID
 const mnemonic = fs.readFileSync("./secret.txt").toString().trim();	// INFURA - PROJECT SECRET
 
+
 module.exports = {
 	mocha: {
 		enableTimeouts: false,

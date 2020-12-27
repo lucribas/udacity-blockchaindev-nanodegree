@@ -23,9 +23,6 @@ npm run serve
 ```
 
 
-
-
-
 # 2. References for development
 
 
