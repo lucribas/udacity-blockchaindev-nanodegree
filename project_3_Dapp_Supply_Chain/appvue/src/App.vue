@@ -3,14 +3,13 @@
     <v-app>
       <!-- NAV BAR -------------------------- -->
       <v-navigation-drawer app floating permanent>
-        <!-- <app-bar-roles :meta="Web3app_meta"></app-bar-roles> -->
-        <app-bar-roles></app-bar-roles>
+        <app-bar-roles :details="user_acc"></app-bar-roles>
         <div id="topDiv"></div>
-        <app-bar-user :details="farmer_details"></app-bar-user>
-        <app-bar-user :details="inspector_details"></app-bar-user>
-        <app-bar-user :details="producer_details"></app-bar-user>
-        <app-bar-user :details="distributor_details"></app-bar-user>
-        <app-bar-user :details="consumer_details"></app-bar-user>
+        <app-bar-user :details="user_acc.fa"></app-bar-user>
+        <app-bar-user :details="user_acc.in"></app-bar-user>
+        <app-bar-user :details="user_acc.pr"></app-bar-user>
+        <app-bar-user :details="user_acc.fa"></app-bar-user>
+        <app-bar-user :details="user_acc.fa"></app-bar-user>
       </v-navigation-drawer>
 
       <!-- APP BAR -------------------------- -->
@@ -121,6 +120,14 @@ var Web3app = {
       this.account = accounts[0];
       window.vm.$children[0].web3_connected = true;
       window.vm.$children[0].wallet_msg = "Connected";
+
+      //   update methods pointers since children was already created
+      let vm = window.vm.$children[0];
+      vm.user_acc.fa.j = this.meta.methods.addFarmer;
+      vm.user_acc.in.j = this.meta.methods.addInspector;
+      vm.user_acc.pr.j = this.meta.methods.addProducer;
+      vm.user_acc.di.j = this.meta.methods.addDistributor;
+      vm.user_acc.co.j = this.meta.methods.addConsumer;
     } catch (error) {
       const msg = "Could not connect to contract or chain -> " + error;
       console.error(msg);
@@ -232,69 +239,91 @@ export default {
     web3_error: false,
     web3_connected: false,
     wallet_msgshow: false,
-	Web3app: Web3app,
-	RolesBar: RolesBar,
-    //----------------------------
-    farmer_details: {
-      id: "b-farmer",
-      title: "Kulcheski",
-      subtitle: "Farmer",
-      avatar: "farmer.jpg",
-      selectedItem: 0,
-      items: [
-        { text: "Plant a Grape", icon: "fas fa-seedling" },
-        { text: "Harvest a Grape", icon: "fas fa-tractor" },
-        { text: "Process a Grape", icon: "fas fa-box-open" },
-      ],
-      items_locked: [false, true, true],
-    },
-    //----------------------------
-    inspector_details: {
-      id: "b-inspector",
-      title: "John Leider",
-      subtitle: "Inspector",
-      avatar: "inspector.jpg",
-      items: [
-        { text: "Audit a Grape", icon: "fas fa-tag" },
-        { text: "Certify a Juice", icon: "fas fa-check-square" },
-      ],
-      selectedItem: 0,
-      items_locked: [true, true],
-    },
-    //----------------------------
-    producer_details: {
-      id: "b-producer",
-      title: "Organic Red Juices",
-      subtitle: "Producer",
-      avatar: "producer.png",
-      items: [
-        { text: "Create a Juice", icon: "fas fa-flask" },
-        { text: "Blend a Juice", icon: "fas fa-glass-cheers" },
-        { text: "Produce a Juice", icon: "fas fa-industry" },
-        { text: "Pack a Juice", icon: "fas fa-shipping-fast" },
-      ],
-      selectedItem: 0,
-      items_locked: [true, true, true, true],
-    },
-    //----------------------------
-    distributor_details: {
-      id: "b-distributor",
-      title: "Carrefour",
-      subtitle: "Distributor",
-      avatar: "distributor.png",
-      items: [{ text: "For sell a Juice", icon: "fas fa-store" }],
-      selectedItem: 0,
-      items_locked: [true],
-    },
-    //----------------------------
-    consumer_details: {
-      id: "b-consumer",
-      title: "Franceli",
-      subtitle: "Consumer",
-      avatar: "consumer.jpg",
-      items: [{ text: "Buy a Juice", icon: "fas fa-shopping-cart" }],
-      selectedItem: 0,
-      items_locked: [true],
+    Web3app: Web3app,
+    RolesBar: RolesBar,
+    user_acc: {
+      fa: {
+        l: "Farmer address",
+        addr: "0x9D9e3E99127CD227CfbACb84289a5F3F96Ce9922",
+        id: "b-farmer",
+        title: "Kulcheski",
+        subtitle: "Farmer",
+        avatar: "farmer.jpg",
+        selectedItem: 0,
+        items: [
+          { text: "Plant a Grape", icon: "fas fa-seedling" },
+          { text: "Harvest a Grape", icon: "fas fa-tractor" },
+          { text: "Process a Grape", icon: "fas fa-box-open" },
+        ],
+        items_locked: [false, true, true],
+        v: false,
+        vt: "",
+        vs: "color:black",
+      },
+      in: {
+        l: "Inspector address",
+        addr: "0xD8c5BcDdAE7896B9d4747cb753283681F262E1CE",
+        id: "b-inspector",
+        title: "John Leider",
+        subtitle: "Inspector",
+        avatar: "inspector.jpg",
+        items: [
+          { text: "Audit a Grape", icon: "fas fa-tag" },
+          { text: "Certify a Juice", icon: "fas fa-check-square" },
+        ],
+        selectedItem: 0,
+        items_locked: [true, true],
+        v: false,
+        vt: "",
+        vs: "color:black",
+      },
+      pr: {
+        l: "Producer address",
+        addr: "0x78DCba4FEE08726E86a3a6b970B85e684eaDC590",
+        id: "b-producer",
+        title: "Organic Red Juices",
+        subtitle: "Producer",
+        avatar: "producer.png",
+        items: [
+          { text: "Create a Juice", icon: "fas fa-flask" },
+          { text: "Blend a Juice", icon: "fas fa-glass-cheers" },
+          { text: "Produce a Juice", icon: "fas fa-industry" },
+          { text: "Pack a Juice", icon: "fas fa-shipping-fast" },
+        ],
+        selectedItem: 0,
+        items_locked: [true, true, true, true],
+        v: false,
+        vt: "",
+        vs: "color:black",
+      },
+      di: {
+        l: "Distributor address",
+        addr: "0xC0520D16a972EEAbBc1F82F18187F672b2a7D78c",
+        id: "b-distributor",
+        title: "Carrefour",
+        subtitle: "Distributor",
+        avatar: "distributor.png",
+        items: [{ text: "For sell a Juice", icon: "fas fa-store" }],
+        selectedItem: 0,
+        items_locked: [true],
+        v: false,
+        vt: "",
+        vs: "color:black",
+      },
+      co: {
+        l: "Consumer address",
+        addr: "0xD30ec28932096fC0B5De0b84e4560A533203241f",
+        id: "b-consumer",
+        title: "Franceli",
+        subtitle: "Consumer",
+        avatar: "consumer.jpg",
+        items: [{ text: "Buy a Juice", icon: "fas fa-shopping-cart" }],
+        selectedItem: 0,
+        items_locked: [true],
+        v: false,
+        vt: "",
+        vs: "color:black",
+      },
     },
     // Tour
     //----------------------------
