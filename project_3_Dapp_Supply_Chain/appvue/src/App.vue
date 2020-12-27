@@ -136,12 +136,6 @@ var Web3app = {
     const { addFarmer } = this.meta.methods;
     await addFarmer(addr).send({ from: this.account });
   },
-  isFarmer: async function (addr) {
-	// const { isFarmer } = this.meta.methods;
-	console.log("dafdsafsafkkkkkkkkkkkkkkkkk addr="+addr);
-	const response = await this.meta.methods.isFarmer(addr).call();
-	return response;
-  },
 
   // createStar: async function () {
   // 	const { createStar } = this.meta.methods;
@@ -238,7 +232,8 @@ export default {
     web3_error: false,
     web3_connected: false,
     wallet_msgshow: false,
-    Web3app: Web3app,
+	Web3app: Web3app,
+	RolesBar: RolesBar,
     //----------------------------
     farmer_details: {
       id: "b-farmer",
