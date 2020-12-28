@@ -2,28 +2,11 @@
 <template>
     <div class="component">
         <v-container>
-            <v-row>
-                <v-btn :href="'https://rinkeby.etherscan.io/address/' + this.sm_acc.sm.addr" target="_blank" color="indigo" text>
-                    <span id="btn-github" class="mr-2">Contract {{ this.sm_acc.sm.addr.substring(0, 7) }}..</span>
-                    <i class="fas fa-file-contract fa-2x"></i>
-                </v-btn>
-            </v-row>
-            <v-row style="padding: 10px">
-                <v-divider></v-divider>
-            </v-row>
             <v-row justify="center">
                 <v-dialog v-model="dialog" persistent max-width="850px">
-                    <!-- <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              dark
-              v-bind="attrs"
-              v-on="on"
-              @click="checkForm"
-            >
-              Roles
-            </v-btn>
-          </template> -->
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn color="primary" dark v-bind="attrs" v-on="on" @click="checkForm"> Workflow </v-btn>
+                    </template>
                     <v-card>
                         <v-card-title>
                             <span class="headline">Enables the specified address to each role</span>
@@ -31,7 +14,7 @@
                         <v-card-text>
                             <v-container>
                                 <div v-for="(n, index) in user_acc" v-bind:key="index">
-                                    <v-row v-if="n.role_render">
+                                    <v-row>
                                         <v-col cols="8">
                                             <v-text-field v-model="n.addr" :label="n.l" outlined required class="shrink" style="width: 700px" @change="checkForm"></v-text-field>
                                         </v-col>
@@ -72,9 +55,6 @@ export default {
         dialog: false
     }),
     methods: {
-        set_dialog(m) {
-            window.vm.$children[0].$refs.Roles.dialog = m
-        },
         aux_Add(m) {
             m.j(m.addr).send({ from: window.vm.$children[0].Web3app.account })
             var msg = 'processing.. Please click on [Check Addresses] after Metamask confirm transaction.'

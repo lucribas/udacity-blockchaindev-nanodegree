@@ -1,10 +1,10 @@
 <template>
-  <div class="component">
+  <div v-if="details.enabled" class="component">
     <v-container>
       <v-divider></v-divider>
       <v-list>
         <v-list-item>
-          <v-list-item-avatar>
+          <v-list-item-avatar size=110>
             <v-img v-bind:src="getImgUrl(details.avatar)"></v-img>
           </v-list-item-avatar>
         </v-list-item>
@@ -17,9 +17,9 @@
             <v-list-item-subtitle :id="details.id+'-subtitle'">{{ details.subtitle }}</v-list-item-subtitle>
           </v-list-item-content>
 
-          <v-list-item-action>
+          <!-- <v-list-item-action>
             <v-icon>mdi-menu-down</v-icon>
-          </v-list-item-action>
+          </v-list-item-action> -->
         </v-list-item>
       </v-list>
       <v-divider inset></v-divider>
@@ -29,6 +29,7 @@
             v-for="(item, i) in details.items"
             :key="i"
             :disabled="details.items_locked[i]"
+			@click="item.action"
           >
             <v-list-item-icon>
               <v-icon
