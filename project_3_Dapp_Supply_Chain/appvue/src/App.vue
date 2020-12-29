@@ -11,7 +11,7 @@
                         </v-btn>
                     </v-row>
                 </v-container>
-                 <v-divider></v-divider>
+                <v-divider></v-divider>
                 <app-modal-workflow ref="Workflow" :user_acc="user_acc" :sm_acc="sm_acc"></app-modal-workflow>
                 <app-bar-user :details="user_acc.owner"></app-bar-user>
                 <app-bar-user :details="user_acc.fa"></app-bar-user>
@@ -19,8 +19,8 @@
                 <app-bar-user :details="user_acc.pr"></app-bar-user>
                 <app-bar-user :details="user_acc.di"></app-bar-user>
                 <app-bar-user :details="user_acc.co"></app-bar-user>
-				<app-modal-roles ref="Roles" :user_acc="user_acc" :sm_acc="sm_acc"></app-modal-roles>
-				<app-modal-farm-plant ref="FarmPlant" :user_acc="user_acc" :sm_acc="sm_acc"></app-modal-farm-plant>
+                <app-modal-roles ref="Roles" :user_acc="user_acc" :sm_acc="sm_acc"></app-modal-roles>
+                <app-modal-farm-plant ref="FarmPlant" :user_acc="user_acc" :sm_acc="sm_acc"></app-modal-farm-plant>
             </v-navigation-drawer>
 
             <!-- APP BAR -------------------------- -->
@@ -92,58 +92,90 @@ var Web3app = {
     web3: null,
     account: null,
     contract: null,
-	vm: null, // vue instance
-	wm: null, // window children instance
+    vm: null, // vue instance
+    wm: null, // window children instance
 
     // start task
     start: async function () {
-		this.wm = window.vm.$children[0]
+        this.wm = window.vm.$children[0]
         await this.wallet_detect()
-        this.update_methods()
+		await this.account_detect()
         this.updateUserBarProps()
-        await this.read_events()
+		this.updateUserBarBalance()
+        this.start_threads()
 
+        // TODO: move to thread / monitor
+        await this.read_events()
+    },
+    start_threads: function () {
         window.ethereum.on('accountsChanged', async function (accounts) {
             // Time to reload your interface with accounts[0]!
-            console.log('accountsChanged')
+            if (!window.vm.$children[0].web3_connected) {
+                await Web3app.wallet_detect()
+            }
+            console.log('accountsChanged:')
             console.log(accounts)
-            await Web3app.wallet_detect()
-            Web3app.updateUserBarProps()
+            await Web3app.account_detect()
+			Web3app.updateUserBarProps()
+			await Web3app.updateUserBarBalance()
         })
 
         window.ethereum.on('networkChanged', async function (networkId) {
             // Time to reload your interface with the new networkId
-            console.log('networkChanged')
-            console.log(networkId)
+            if (!window.vm.$children[0].web3_connected) {
+                await Web3app.wallet_detect()
+            }
+            console.log('networkChanged: ' + networkId)
             await Web3app.wallet_detect()
+			await Web3app.account_detect()
+            Web3app.updateUserBarProps()
+			await Web3app.updateUserBarBalance()
         })
         // this.wm.ModalRoles.dialog = true;
+        this.checkWalletInterval = setInterval(() => {
+            // console.time('checkWalletInterval')
+            Web3app.updateUserBarProps()
+            Web3app.updateUserBarBalance()
+            // console.timeEnd('checkWalletInterval')
+        }, 5000)
     },
-
     // wallet detection
     wallet_detect: async function () {
         const { web3 } = this
         try {
             // get info about metamask
-            const networkId = await web3.eth.net.getId()
-            const networkType = await web3.eth.net.getNetworkType()
+            let networkType = 'rinkeby'
+            console.time('wallet_detect-getinfo')
+            let networkId = await web3.eth.net.getId()
+            // due low speed of infura.io during web3.eth.net.getNetworkType()
+            //     networkType = await web3.eth.net.getNetworkType()
+            console.timeEnd('wallet_detect-getinfo')
+
+            if (networkId != 4) throw Error('You should login into METAMASK using RINKEBY network!')
 
             // check if contract is deployed in current network
             const deployedNetwork = supplyChainArtifact.networks[networkId]
             if (deployedNetwork == undefined) throw Error('smart contract not deployed! (networkId=' + networkId + ', networkType=' + networkType + ')')
+            console.log('smart contract deployed! (networkId=' + networkId + ', networkType=' + networkType + ')')
 
             // get contract instance
+            console.time('wallet_detect-contract')
             this.contract = new web3.eth.Contract(supplyChainArtifact.abi, deployedNetwork.address)
+            console.timeEnd('wallet_detect-contract')
 
             // get account from Metamask
+            console.time('wallet_detect-accounts')
             const accounts = await web3.eth.getAccounts()
+            console.timeEnd('wallet_detect-accounts')
             this.account = accounts[0]
 
             // update Vue reactive properties
-            this.wm.account = this.account
             this.wm.web3_error = false
             this.wm.web3_connected = true
             this.wm.wallet_msg = 'Connected'
+
+            // update methods to contract instantiated
+            this.update_methods()
 
             //   end
         } catch (error) {
@@ -152,6 +184,17 @@ var Web3app = {
             this.wm.web3_error = true
             this.wm.wallet_msg = msg
         }
+    },
+    account_detect: async function () {
+        const { web3 } = this
+        // get account from Metamask
+        // console.time('wallet_detect-accounts')
+        const accounts = await web3.eth.getAccounts()
+        // console.timeEnd('wallet_detect-accounts')
+        this.account = accounts[0]
+
+        // update Vue reactive properties
+        this.wm.account = this.account
     },
     read_events: async function () {
         try {
@@ -183,15 +226,31 @@ var Web3app = {
             this.wm.wallet_msg = msg
         }
     },
-
     updateUserBarProps: function () {
         var user_acc = this.wm.user_acc
         for (const idx in user_acc) {
             const acc = user_acc[idx]
             if (this.account == acc.addr) {
                 acc.enabled = true
+                // console.log(acc.balance);
             } else {
                 acc.enabled = false
+            }
+        }
+    },
+    updateUserBarBalance: async function () {
+        const { web3 } = this
+        var user_acc = this.wm.user_acc
+        for (const idx in user_acc) {
+            const acc = user_acc[idx]
+            if (this.account == acc.addr) {
+                // console.log('waiting getBalance of ' + this.account)
+                await web3.eth.getBalance(this.account).then(function (v) {
+                    acc.balance = web3.utils.fromWei(v, 'ether')
+                    acc.balance_style = acc.balance > 0.0001 ? 'color:blue' : 'color:red'
+                    // console.log('Balance of ' + acc.addr + ' is ' + acc.balance + ' ' + acc.balance_style)
+                })
+                // console.log(acc.balance);
             }
         }
     },
@@ -201,10 +260,12 @@ var Web3app = {
         // UserBar actions
         this.wm.user_acc.owner.items[0].action = function () {
             // show ModalRoles modal dialog
-            window.vm.$children[0].$refs.Roles.checkForm();
-            window.vm.$children[0].$refs.Roles.set_dialog(true);
+            window.vm.$children[0].$refs.Roles.checkForm()
+            window.vm.$children[0].$refs.Roles.set_dialog(true)
         }
-        this.wm.user_acc.fa.items[0].action = function () { window.vm.$children[0].$refs.FarmPlant.set_FarmPlantDialog(true) } //grapePlantItem
+        this.wm.user_acc.fa.items[0].action = function () {
+            window.vm.$children[0].$refs.FarmPlant.set_FarmPlantDialog(true)
+        } //grapePlantItem
         this.wm.user_acc.fa.items[1].action = function () {} //grapeHarvestItem
         this.wm.user_acc.fa.items[2].action = function () {} //grapeProcessItem
 
@@ -231,11 +292,11 @@ var Web3app = {
     setStatus: function (message, id) {
         const status = document.getElementById(id)
         status.innerHTML = message
-    },
-    addFarmer: async function (addr) {
-        const { addFarmer } = this.contract.methods
-        await addFarmer(addr).send({ from: this.account })
     }
+    // addFarmer: async function (addr) {
+    //     const { addFarmer } = this.contract.methods
+    //     await addFarmer(addr).send({ from: this.account })
+    // }
 
     // createStar: async function () {
     // 	const { createStar } = this.contract.methods;
@@ -359,7 +420,9 @@ export default {
                 v: false,
                 vt: '',
                 vs: 'color:black',
-                role_render: false
+                role_render: false,
+                balance: '...',
+                balance_style: 'color:gray'
             },
             fa: {
                 enabled: false,
@@ -378,7 +441,9 @@ export default {
                 v: false,
                 vt: '',
                 vs: 'color:black',
-                role_render: true
+                role_render: true,
+                balance: '...',
+                balance_style: 'color:gray'
             },
             in: {
                 enabled: false,
@@ -396,7 +461,9 @@ export default {
                 v: false,
                 vt: '',
                 vs: 'color:black',
-                role_render: true
+                role_render: true,
+                balance: '...',
+                balance_style: 'color:gray'
             },
             pr: {
                 enabled: false,
@@ -416,7 +483,9 @@ export default {
                 v: false,
                 vt: '',
                 vs: 'color:black',
-                role_render: true
+                role_render: true,
+                balance: '...',
+                balance_style: 'color:gray'
             },
             di: {
                 enabled: false,
@@ -431,7 +500,9 @@ export default {
                 v: false,
                 vt: '',
                 vs: 'color:black',
-                role_render: true
+                role_render: true,
+                balance: '...',
+                balance_style: 'color:gray'
             },
             co: {
                 enabled: false,
@@ -446,7 +517,9 @@ export default {
                 v: false,
                 vt: '',
                 vs: 'color:black',
-                role_render: true
+                role_render: true,
+                balance: '...',
+                balance_style: 'color:gray'
             }
         },
         // Tour
@@ -481,11 +554,10 @@ export default {
     }
 }
 
-
 window.addEventListener('load', async function () {
-	var wm = window.vm.$children[0]
-	if (window.ethereum) {
-		wm.wallet_msgshow = true
+    var wm = window.vm.$children[0]
+    if (window.ethereum) {
+        wm.wallet_msgshow = true
         wm.wallet_msg = 'connecting..'
 
         // use MetaMask's provider
@@ -494,7 +566,7 @@ window.addEventListener('load', async function () {
         // wm.eth_metamask_sts(true);
         wm.wallet_name = 'Metamask'
     } else {
-		console.warn('No web3 detected. Falling back to http://127.0.0.1:9545. You should remove this fallback when you deploy live')
+        console.warn('No web3 detected. Falling back to http://127.0.0.1:9545. You should remove this fallback when you deploy live')
         // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
         Web3app.web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:9545'))
         // wm.eth_localhost_sts(true);

@@ -24,5 +24,9 @@ window.vm = vm;
 
 // References
 // window.vm.$children[0].Web3app  -> Web3App obj
+
 // window.vm.$children[0].$refs    -> html refs to submodules
+
 // window.vm.$children[0]. (methods and vars)
+// ex: window.vm.$children[0].user_acc
+// ex: window.vm.$children[0].methods.
