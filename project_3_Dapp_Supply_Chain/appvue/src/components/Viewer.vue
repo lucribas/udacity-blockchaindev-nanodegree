@@ -69,7 +69,7 @@
    <br /><br />
     <h1 class="display-1 font-weight-bold mb-3">2. Connect as Smart Contract Owner:</h1>
     2.1 Change the address of your Metamask wallet to <strong>Smart Contract Owner</strong>(0x1225b8112B4bfF7B3332C53d7C18c658B9d1Eb91);<br />
-    2.2 Click on <div class="boxed"><i aria-hidden="true" class="v-icon notranslate fas fa-user-tag theme--light green--text"></i>Add users to Roles</div> Button and add the users addresses as requested.<br />	
+    2.2 Click on <div class="boxed"><i aria-hidden="true" class="v-icon notranslate fas fa-user-tag theme--light green--text"></i>Add users to Roles</div> Button and add the users addresses as requested.<br />
 
     <br /><br />
     <h1 class="display-1 font-weight-bold mb-3">3. Connect as Farmer:</h1>

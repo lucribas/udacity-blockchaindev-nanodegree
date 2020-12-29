@@ -82,7 +82,7 @@ export default {
         },
         checkForm() {
             var vm = this
-            var sm = window.vm.$children[0].Web3app.meta.methods
+            var sm = window.vm.$children[0].Web3app.contract.methods
 
             vm.aux_Form(this.user_acc.fa, sm.isFarmer)
             vm.aux_Form(this.user_acc.in, sm.isInspector)

@@ -81,12 +81,12 @@ import supplyChainArtifact from '../../build/contracts/SupplyChain.json'
 var Web3app = {
     web3: null,
     account: null,
-	meta: null,
-	vm: null,
+    contract: null,
+    vm: null,
 
     // start task
     start: async function () {
-		this.vm = window.vm.$children[0];
+        this.vm = window.vm.$children[0]
         await this.wallet_detect()
         this.update_methods()
         this.updateUserBarProps()
@@ -122,7 +122,7 @@ var Web3app = {
             if (deployedNetwork == undefined) throw Error('smart contract not deployed! (networkId=' + networkId + ', networkType=' + networkType + ')')
 
             // get contract instance
-            this.meta = new web3.eth.Contract(supplyChainArtifact.abi, deployedNetwork.address)
+            this.contract = new web3.eth.Contract(supplyChainArtifact.abi, deployedNetwork.address)
 
             // get account from Metamask
             const accounts = await web3.eth.getAccounts()
@@ -130,7 +130,6 @@ var Web3app = {
 
             // update Vue reactive properties
             this.vm.account = this.account
-            this.vm.Web3app_meta = this.meta
             this.vm.web3_error = false
             this.vm.web3_connected = true
             this.vm.wallet_msg = 'Connected'
@@ -146,7 +145,7 @@ var Web3app = {
     read_events: async function () {
         try {
             // print all events
-            this.meta
+            this.contract
                 .getPastEvents('allEvents', {
                     fromBlock: 0
                     // toBlock: "latest",
@@ -155,7 +154,7 @@ var Web3app = {
                     console.log(events)
                 })
 
-            this.meta
+            this.contract
                 .getPastEvents('FarmerAdded', {
                     fromBlock: 0
                     // toBlock: "latest",
@@ -191,19 +190,32 @@ var Web3app = {
         let vm = this.vm
         // UserBar actions
         vm.user_acc.owner.items[0].action = function () {
-			// show RolesBar modal dialog
-			vm.$refs.Roles.checkForm();
-            vm.$refs.Roles.set_dialog(true);
+            // show RolesBar modal dialog
+            vm.$refs.Roles.checkForm()
+            vm.$refs.Roles.set_dialog(true)
         }
-        // vm.user_acc.owner.items[1].action = function () {};
-        // vm.user_acc.owner.items[2].action = function () {};
+        vm.user_acc.fa.items[0].action = function () {} //grapePlantItem
+        vm.user_acc.fa.items[1].action = function () {} //grapeHarvestItem
+        vm.user_acc.fa.items[2].action = function () {} //grapeProcessItem
+
+        vm.user_acc.in.items[0].action = function () {} //grapeAuditItem
+        vm.user_acc.in.items[1].action = function () {} //juiceCertifyItem
+
+        vm.user_acc.pr.items[0].action = function () {} //juiceCreateItem
+        vm.user_acc.pr.items[1].action = function () {} //juiceBlendItem
+        vm.user_acc.pr.items[2].action = function () {} //juiceProduceItem
+        vm.user_acc.pr.items[3].action = function () {} //juicePackItem
+
+        vm.user_acc.di.items[0].action = function () {} //juiceSellItem
+
+        vm.user_acc.co.items[0].action = function () {} //juiceSellItem
 
         // RolesBar actions
-        vm.user_acc.fa.j = this.meta.methods.addFarmer
-        vm.user_acc.in.j = this.meta.methods.addInspector
-        vm.user_acc.pr.j = this.meta.methods.addProducer
-        vm.user_acc.di.j = this.meta.methods.addDistributor
-        vm.user_acc.co.j = this.meta.methods.addConsumer
+        vm.user_acc.fa.j = this.contract.methods.addFarmer
+        vm.user_acc.in.j = this.contract.methods.addInspector
+        vm.user_acc.pr.j = this.contract.methods.addProducer
+        vm.user_acc.di.j = this.contract.methods.addDistributor
+        vm.user_acc.co.j = this.contract.methods.addConsumer
     },
 
     setStatus: function (message, id) {
@@ -211,12 +223,12 @@ var Web3app = {
         status.innerHTML = message
     },
     addFarmer: async function (addr) {
-        const { addFarmer } = this.meta.methods
+        const { addFarmer } = this.contract.methods
         await addFarmer(addr).send({ from: this.account })
     }
 
     // createStar: async function () {
-    // 	const { createStar } = this.meta.methods;
+    // 	const { createStar } = this.contract.methods;
     // 	const name = document.getElementById("starName").value;
     // 	const id = document.getElementById("starId").value;
     // 	await createStar(name, id).send({ from: this.account });
@@ -225,10 +237,10 @@ var Web3app = {
 
     // // Implement Task 4 Modify the front end of the DAPP
     // lookUp: async function () {
-    // 	let { name } = this.meta.methods;
-    // 	let { symbol } = this.meta.methods;
-    // 	let { ownerOf } = this.meta.methods;
-    // 	let { lookUptokenIdToStarInfo } = this.meta.methods;
+    // 	let { name } = this.contract.methods;
+    // 	let { symbol } = this.contract.methods;
+    // 	let { ownerOf } = this.contract.methods;
+    // 	let { lookUptokenIdToStarInfo } = this.contract.methods;
     // 	let id = document.getElementById("lookid").value;
     // 	id = parseInt(id);
     // 	let contract = await name().call();
@@ -288,7 +300,7 @@ export default {
         }
         // addFarmer(addr) {
         // 	console.log("BLBLBLBLBLBBLA");
-        // 	const { addFarmer } = this.meta.methods;
+        // 	const { addFarmer } = this.contract.methods;
         // 	await addFarmer(addr).send({ from: this.account });
         // },
         // eth_metamask_sts(value) {
@@ -329,9 +341,7 @@ export default {
                 addr: '0x1225b8112B4bfF7B3332C53d7C18c658B9d1Eb91',
                 id: 'b-owner',
                 selectedItem: 0,
-                items: [
-                    { text: 'Add users to Roles', icon: 'fas fa-user-tag' },
-                ],
+                items: [{ text: 'Add users to Roles', icon: 'fas fa-user-tag' }],
                 items_locked: [false, true, true],
                 v: false,
                 vt: '',
@@ -459,7 +469,7 @@ export default {
 }
 
 window.addEventListener('load', async function () {
-	var vm = window.vm.$children[0];
+    var vm = window.vm.$children[0]
     if (window.ethereum) {
         vm.wallet_msgshow = true
         vm.wallet_msg = 'connecting..'
