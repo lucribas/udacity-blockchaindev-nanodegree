@@ -3,15 +3,24 @@
         <v-app>
             <!-- NAV BAR -------------------------- -->
             <v-navigation-drawer app floating permanent>
-                <app-bar-roles ref="Roles" :user_acc="user_acc" :sm_acc="sm_acc"></app-bar-roles>
-                <app-workflow :user_acc="user_acc" :sm_acc="sm_acc"></app-workflow>
-                <div id="topDiv"></div>
+                <v-container>
+                    <v-row>
+                        <v-btn :href="'https://rinkeby.etherscan.io/address/' + this.sm_acc.sm.addr" target="_blank" color="indigo" text>
+                            <span id="btn-github" class="mr-2">Contract {{ this.sm_acc.sm.addr.substring(0, 7) }}..</span>
+                            <i class="fas fa-file-contract fa-2x"></i>
+                        </v-btn>
+                    </v-row>
+                </v-container>
+                 <v-divider></v-divider>
+                <app-modal-workflow ref="Workflow" :user_acc="user_acc" :sm_acc="sm_acc"></app-modal-workflow>
                 <app-bar-user :details="user_acc.owner"></app-bar-user>
                 <app-bar-user :details="user_acc.fa"></app-bar-user>
                 <app-bar-user :details="user_acc.in"></app-bar-user>
                 <app-bar-user :details="user_acc.pr"></app-bar-user>
                 <app-bar-user :details="user_acc.di"></app-bar-user>
                 <app-bar-user :details="user_acc.co"></app-bar-user>
+				<app-modal-roles ref="Roles" :user_acc="user_acc" :sm_acc="sm_acc"></app-modal-roles>
+				<app-modal-farm-plant ref="FarmPlant" :user_acc="user_acc" :sm_acc="sm_acc"></app-modal-farm-plant>
             </v-navigation-drawer>
 
             <!-- APP BAR -------------------------- -->
@@ -71,8 +80,9 @@
 <script>
 // import Vue from "vue";
 import UserBar from './components/UserBar.vue'
-import RolesBar from './components/RolesBar.vue'
-import Workflow from './components/Workflow.vue'
+import ModalRoles from './components/ModalRoles.vue'
+import ModalWorkflow from './components/ModalWorkflow.vue'
+import ModalFarmPlant from './components/ModalFarmPlant.vue'
 import Viewer from './components/Viewer.vue'
 import { tour_steps } from './AppTour.js'
 import Web3 from 'web3'
@@ -82,11 +92,12 @@ var Web3app = {
     web3: null,
     account: null,
     contract: null,
-    vm: null,
+	vm: null, // vue instance
+	wm: null, // window children instance
 
     // start task
     start: async function () {
-        this.vm = window.vm.$children[0]
+		this.wm = window.vm.$children[0]
         await this.wallet_detect()
         this.update_methods()
         this.updateUserBarProps()
@@ -106,7 +117,7 @@ var Web3app = {
             console.log(networkId)
             await Web3app.wallet_detect()
         })
-        // this.vm.RolesBar.dialog = true;
+        // this.wm.ModalRoles.dialog = true;
     },
 
     // wallet detection
@@ -129,17 +140,17 @@ var Web3app = {
             this.account = accounts[0]
 
             // update Vue reactive properties
-            this.vm.account = this.account
-            this.vm.web3_error = false
-            this.vm.web3_connected = true
-            this.vm.wallet_msg = 'Connected'
+            this.wm.account = this.account
+            this.wm.web3_error = false
+            this.wm.web3_connected = true
+            this.wm.wallet_msg = 'Connected'
 
             //   end
         } catch (error) {
             const msg = 'Could not connect to contract or chain -> ' + error
             console.error(msg)
-            this.vm.web3_error = true
-            this.vm.wallet_msg = msg
+            this.wm.web3_error = true
+            this.wm.wallet_msg = msg
         }
     },
     read_events: async function () {
@@ -167,14 +178,14 @@ var Web3app = {
         } catch (error) {
             const msg = 'Could not connect to contract or chain -> ' + error
             console.error(msg)
-            this.vm.web3_error = true
-            this.vm.wallet_msgshow = true
-            this.vm.wallet_msg = msg
+            this.wm.web3_error = true
+            this.wm.wallet_msgshow = true
+            this.wm.wallet_msg = msg
         }
     },
 
     updateUserBarProps: function () {
-        var user_acc = this.vm.user_acc
+        var user_acc = this.wm.user_acc
         for (const idx in user_acc) {
             const acc = user_acc[idx]
             if (this.account == acc.addr) {
@@ -187,35 +198,34 @@ var Web3app = {
 
     //   update methods pointers since children was already created
     update_methods: function () {
-        let vm = this.vm
         // UserBar actions
-        vm.user_acc.owner.items[0].action = function () {
-            // show RolesBar modal dialog
-            vm.$refs.Roles.checkForm()
-            vm.$refs.Roles.set_dialog(true)
+        this.wm.user_acc.owner.items[0].action = function () {
+            // show ModalRoles modal dialog
+            window.vm.$children[0].$refs.Roles.checkForm();
+            window.vm.$children[0].$refs.Roles.set_dialog(true);
         }
-        vm.user_acc.fa.items[0].action = function () {} //grapePlantItem
-        vm.user_acc.fa.items[1].action = function () {} //grapeHarvestItem
-        vm.user_acc.fa.items[2].action = function () {} //grapeProcessItem
+        this.wm.user_acc.fa.items[0].action = function () { window.vm.$children[0].$refs.FarmPlant.set_FarmPlantDialog(true) } //grapePlantItem
+        this.wm.user_acc.fa.items[1].action = function () {} //grapeHarvestItem
+        this.wm.user_acc.fa.items[2].action = function () {} //grapeProcessItem
 
-        vm.user_acc.in.items[0].action = function () {} //grapeAuditItem
-        vm.user_acc.in.items[1].action = function () {} //juiceCertifyItem
+        this.wm.user_acc.in.items[0].action = function () {} //grapeAuditItem
+        this.wm.user_acc.in.items[1].action = function () {} //juiceCertifyItem
 
-        vm.user_acc.pr.items[0].action = function () {} //juiceCreateItem
-        vm.user_acc.pr.items[1].action = function () {} //juiceBlendItem
-        vm.user_acc.pr.items[2].action = function () {} //juiceProduceItem
-        vm.user_acc.pr.items[3].action = function () {} //juicePackItem
+        this.wm.user_acc.pr.items[0].action = function () {} //juiceCreateItem
+        this.wm.user_acc.pr.items[1].action = function () {} //juiceBlendItem
+        this.wm.user_acc.pr.items[2].action = function () {} //juiceProduceItem
+        this.wm.user_acc.pr.items[3].action = function () {} //juicePackItem
 
-        vm.user_acc.di.items[0].action = function () {} //juiceSellItem
+        this.wm.user_acc.di.items[0].action = function () {} //juiceSellItem
 
-        vm.user_acc.co.items[0].action = function () {} //juiceSellItem
+        this.wm.user_acc.co.items[0].action = function () {} //juiceSellItem
 
         // RolesBar actions
-        vm.user_acc.fa.j = this.contract.methods.addFarmer
-        vm.user_acc.in.j = this.contract.methods.addInspector
-        vm.user_acc.pr.j = this.contract.methods.addProducer
-        vm.user_acc.di.j = this.contract.methods.addDistributor
-        vm.user_acc.co.j = this.contract.methods.addConsumer
+        this.wm.user_acc.fa.j = this.contract.methods.addFarmer
+        this.wm.user_acc.in.j = this.contract.methods.addInspector
+        this.wm.user_acc.pr.j = this.contract.methods.addProducer
+        this.wm.user_acc.di.j = this.contract.methods.addDistributor
+        this.wm.user_acc.co.j = this.contract.methods.addConsumer
     },
 
     setStatus: function (message, id) {
@@ -262,21 +272,22 @@ var Web3app = {
     // },
 }
 
-// this.vm.Web3app = Web3app;
+// this.wm.Web3app = Web3app;
 
 // class App {
 //   vm = nul;
 // }
 
 // ref="Roles"
-// this.vm.$refs.Roles.dialog = true
+// this.wm.$refs.Roles.dialog = true
 
 export default {
     name: 'App',
     components: {
         'app-bar-user': UserBar,
-        'app-bar-roles': RolesBar,
-        'app-workflow': Workflow,
+        'app-modal-roles': ModalRoles,
+        'app-modal-workflow': ModalWorkflow,
+        'app-modal-farm-plant': ModalFarmPlant,
         // popper: Popper,
 
         Viewer
@@ -312,11 +323,13 @@ export default {
         // },
     },
 
-    // reative properties
+    // reactive properties
     data: () => ({
         // components
         Web3app: Web3app,
-        RolesBar: RolesBar,
+        ModalRoles: ModalRoles,
+        ModalWorkflow: ModalWorkflow,
+        ModalFarmPlant: ModalFarmPlant,
         // labels
         farmer_name: 'none',
         // wallet status
@@ -468,23 +481,24 @@ export default {
     }
 }
 
+
 window.addEventListener('load', async function () {
-    var vm = window.vm.$children[0]
-    if (window.ethereum) {
-        vm.wallet_msgshow = true
-        vm.wallet_msg = 'connecting..'
+	var wm = window.vm.$children[0]
+	if (window.ethereum) {
+		wm.wallet_msgshow = true
+        wm.wallet_msg = 'connecting..'
 
         // use MetaMask's provider
         Web3app.web3 = new Web3(window.ethereum)
         await window.ethereum.enable() // get permission to access accounts
-        // vm.eth_metamask_sts(true);
-        vm.wallet_name = 'Metamask'
+        // wm.eth_metamask_sts(true);
+        wm.wallet_name = 'Metamask'
     } else {
-        console.warn('No web3 detected. Falling back to http://127.0.0.1:9545. You should remove this fallback when you deploy live')
+		console.warn('No web3 detected. Falling back to http://127.0.0.1:9545. You should remove this fallback when you deploy live')
         // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
         Web3app.web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:9545'))
-        // vm.eth_localhost_sts(true);
-        vm.wallet_name = 'localhost:9545'
+        // wm.eth_localhost_sts(true);
+        wm.wallet_name = 'localhost:9545'
     }
 
     Web3app.start()

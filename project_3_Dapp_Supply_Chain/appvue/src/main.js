@@ -20,3 +20,9 @@ var vm = new Vue({
 }).$mount('#app')
 
 window.vm = vm;
+
+
+// References
+// window.vm.$children[0].Web3app  -> Web3App obj
+// window.vm.$children[0].$refs    -> html refs to submodules
+// window.vm.$children[0]. (methods and vars)
