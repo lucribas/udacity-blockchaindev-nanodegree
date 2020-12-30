@@ -78,7 +78,8 @@ export default {
             var p = this.params
             contract.methods
                 .grapePlantItem(p.upc.v, account, p.originFarmName.v, p.originFarmInformation.v, p.originFarmLatitude.v, p.originFarmLongitude.v)
-                .send({ from: account })
+				.send({ from: account })
+			this.farm_plant_dialog = false
         }
     }
 }

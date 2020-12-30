@@ -26,7 +26,7 @@
             <!-- APP BAR -------------------------- -->
             <v-app-bar app color="primary" dark>
                 <v-row class="flex" justify="space-between">
-                    <v-tooltip v-model="wallet_msgshow" bottom>
+                    <v-tooltip ref="popover" v-model="wallet_msgshow" bottom>
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn id="btn-wallet" target="_blank" v-bind="attrs" v-on="on" text>
                                 <!-- WALLET NAME -->
@@ -58,6 +58,17 @@
             <!-- MAIN -------------------------- -->
 
             <v-main>
+                <v-container>
+                    <div v-for="(n, index) in evt_GrapePlanted" v-bind:key="index">
+                        <v-row>
+                            <v-col cols="12" class="ma-0 pa-0">
+                                <h2 class="title mb-2" style="color: blue">{{ n.event }}</h2>
+                                <h2 class="title mb-2" style="color: blue">{{ n.returnValues.upc }}</h2>
+                            </v-col>
+                        </v-row>
+                    </div>
+                </v-container>
+
                 <v-container fluid>
                     <Viewer />
                     <p>Name is {{ farmer_name }}</p>
@@ -94,14 +105,16 @@ var Web3app = {
     contract: null,
     vm: null, // vue instance
     wm: null, // window children instance
+    evt_GrapePlanted: {},
 
     // start task
     start: async function () {
-        this.wm = window.vm.$children[0]
+		this.wm = window.vm.$children[0]
+		this.vm = window.vm
         await this.wallet_detect()
-		await this.account_detect()
+        await this.account_detect()
         this.updateUserBarProps()
-		this.updateUserBarBalance()
+        this.updateUserBarBalance()
         this.start_threads()
 
         // TODO: move to thread / monitor
@@ -116,8 +129,8 @@ var Web3app = {
             console.log('accountsChanged:')
             console.log(accounts)
             await Web3app.account_detect()
-			Web3app.updateUserBarProps()
-			await Web3app.updateUserBarBalance()
+            Web3app.updateUserBarProps()
+            await Web3app.updateUserBarBalance()
         })
 
         window.ethereum.on('networkChanged', async function (networkId) {
@@ -127,9 +140,9 @@ var Web3app = {
             }
             console.log('networkChanged: ' + networkId)
             await Web3app.wallet_detect()
-			await Web3app.account_detect()
+            await Web3app.account_detect()
             Web3app.updateUserBarProps()
-			await Web3app.updateUserBarBalance()
+            await Web3app.updateUserBarBalance()
         })
         // this.wm.ModalRoles.dialog = true;
         this.checkWalletInterval = setInterval(() => {
@@ -172,7 +185,9 @@ var Web3app = {
             // update Vue reactive properties
             this.wm.web3_error = false
             this.wm.web3_connected = true
-            this.wm.wallet_msg = 'Connected'
+			this.wm.wallet_msg = 'Connected'
+			// deactivate popover message
+            window.vm.$children[0].$refs.popover.deactivate()
 
             // update methods to contract instantiated
             this.update_methods()
@@ -198,7 +213,7 @@ var Web3app = {
     },
     read_events: async function () {
         try {
-            // print all events
+            // print all past events
             this.contract
                 .getPastEvents('allEvents', {
                     fromBlock: 0
@@ -208,15 +223,20 @@ var Web3app = {
                     console.log(events)
                 })
 
-            this.contract
-                .getPastEvents('FarmerAdded', {
+            // register listen to past and new events
+            this.contract.events.GrapePlanted(
+                {
                     fromBlock: 0
                     // toBlock: "latest",
-                })
-                .then(function (events) {
-                    console.log(events)
-                })
-
+                },
+                function (error, event) {
+                    console.log(event)
+                    // console.log(error)
+                    // Vue.set
+					// Web3app.evt_GrapePlanted[event.id] = event
+					window.vm.$children[0].Web3app.vm.$set(Web3app.evt_GrapePlanted, event.id, event)
+                }
+            )
             //   end
         } catch (error) {
             const msg = 'Could not connect to contract or chain -> ' + error
@@ -399,6 +419,8 @@ export default {
         wallet_msgshow: false,
         web3_error: false,
         web3_connected: false,
+        // events
+        evt_GrapePlanted: Web3app.evt_GrapePlanted,
         // smart contract address
         sm_acc: {
             sm: {
