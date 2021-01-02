@@ -214,7 +214,6 @@ var Web3app = {
     contract: null,
     vm: null, // vue instance
     wm: null, // window children instance
-    evt_GrapePlanted: {},
 
     // start task
     start: async function () {
@@ -391,39 +390,42 @@ var Web3app = {
         var supply_chain = this.wm.supply_chain
         console.log('new event: ' + event.event)
         console.log(event)
-        if (event != null && event.event == 'GrapePlanted') {
-            // reactive of Web3app.evt_GrapePlanted[event.id] = event
-            Web3app.vm.$set(Web3app.evt_GrapePlanted, event.id, event)
-        }
-        if (event != null && event.returnValues.upc != null) {
-            if (supply_chain[event.returnValues.upc] == null) {
-                const n = {
-                    events: {},
-                    sts: {
-                        fa_plant: true,
-                        fa_harv: false,
-                        in_aud: false,
-                        fa_proc: false,
-                        pr_cr: false,
-                        pr_ble: false,
-                        pr_pr: false,
-                        in_cer: false,
-                        pr_pack: false,
-                        di_sell: false,
-                        co_buy: false
-                    }
-                }
-				// supply_chain[event.returnValues.upc] = n
-				Web3app.vm.$set(supply_chain, event.returnValues.upc, n)
+        if (event != null) {
+            let upc = event.returnValues.upc
+            if (event.event == 'JuiceBlended') {
+                upc = event.returnValues.juiceUpc
             }
+            if (upc != null) {
+                if (supply_chain[upc] == null) {
+                    const n = {
+                        events: {},
+                        sts: {
+                            fa_plant: true,
+                            fa_harv: false,
+                            in_aud: false,
+                            fa_proc: false,
+                            pr_cr: false,
+                            pr_ble: false,
+                            pr_pr: false,
+                            in_cer: false,
+                            pr_pack: false,
+                            di_sell: false,
+                            co_buy: false
+                        }
+                    }
+                    // supply_chain[upc] = n
+                    Web3app.vm.$set(supply_chain, upc, n)
+                }
 
-            // supply_chain[event.returnValues.upc].events[event.id] = event
-            Web3app.vm.$set(supply_chain[event.returnValues.upc].events, event.id, event)
+                // supply_chain[upc].events[event.id] = event
+                Web3app.vm.$set(supply_chain[upc].events, event.id, event)
 
-            this.processUpcStatusEvt(supply_chain[event.returnValues.upc], event)
-            this.updateUserBarDetails()
-            // console.log(supply_chain[event.returnValues.upc].sts)
-            // console.log(supply_chain)
+                this.processUpcStatusEvt(supply_chain[upc], event)
+                this.updateUserBarDetails()
+            }
+            // console.log(supply_chain[upc].sts)
+            console.log('supply_chain')
+            console.log(supply_chain)
         }
     },
     updateUserBarDetails: function () {
@@ -739,7 +741,6 @@ export default {
         web3_connected: false,
         supply_chain: {},
         // events
-        evt_GrapePlanted: Web3app.evt_GrapePlanted,
         upc_actions: {
             fa_plant: [],
             fa_harv: [],

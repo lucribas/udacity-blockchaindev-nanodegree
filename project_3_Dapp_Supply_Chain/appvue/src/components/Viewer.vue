@@ -26,7 +26,8 @@
                         <td style="text-align: left">
                             upcGrape:{{ index }}-
                             <span v-for="(evt, evt_index) in upc.events" v-bind:key="evt_index">
-                                <a :href="'https://rinkeby.etherscan.io/tx/' + evt.transactionHash" target="_blank">{{ evt.event }}</a
+								<i :class="get_icon(evt.event)" style="color: green" />
+                                <a :href="'https://rinkeby.etherscan.io/tx/' + evt.transactionHash" target="_blank">{{ evt.event.split('Grape')[1] }}</a
                                 >,
                             </span>
                         </td>
@@ -39,7 +40,8 @@
                         <td style="text-align: left">
                             upcJuice:{{ index }}-
                             <span v-for="(evt, evt_index) in upc.events" v-bind:key="evt_index">
-                                <a :href="'https://rinkeby.etherscan.io/tx/' + evt.transactionHash" target="_blank">{{ evt.event }}</a
+								<i :class="get_icon(evt.event)" style="color: green" />
+                                <a :href="'https://rinkeby.etherscan.io/tx/' + evt.transactionHash" target="_blank">{{ evt.event.split('Juice')[1] }}</a
                                 >,
                             </span>
                         </td>
@@ -63,7 +65,9 @@
                 <th style="border: 1px solid black">
                     <tr v-for="(n, index) in upc_actions_grapes" v-bind:key="index">
                         <td style="text-align: left">
-                            <span> {{ get_role(index).subtitle }} - (<i :class="get_item(index).icon" style="color: green" /> {{ get_item(index).text }}) </span>
+                            <span>
+                                {{ get_role(index).subtitle }} - (<i :class="get_item(index).icon" style="color: green" /> {{ get_item(index).text.split(' a Grape')[0] }})
+                            </span>
                             <span v-if="index == 'fa_plant'"> upcGrape: any new</span>
                             <span v-if="Object.keys(n).length > 0 && index != 'fa_plant'">
                                 upcGrape:
@@ -77,7 +81,9 @@
                 <th style="border: 1px solid black">
                     <tr v-for="(n, index) in upc_actions_juices" v-bind:key="index">
                         <td style="text-align: left">
-                            <span> {{ get_role(index).subtitle }} - (<i :class="get_item(index).icon" style="color: green" /> {{ get_item(index).text }}) </span>
+                            <span>
+                                {{ get_role(index).subtitle }} - (<i :class="get_item(index).icon" style="color: green" /> {{ get_item(index).text.split(' a Juice')[0] }})
+                            </span>
                             <span v-if="index == 'pr_cr'"> upcJuice: any new</span>
                             <span v-if="Object.keys(n).length > 0 && index != 'pr_cr'">
                                 upcJuice:
@@ -117,7 +123,7 @@ export default {
                 for (const evt_idx in s) {
                     let evt = s[evt_idx]
                     if (evt.event.includes('Grape')) {
-						if (ret[upc]==null) ret[upc]={events:{}}
+                        if (ret[upc] == null) ret[upc] = { events: {} }
                         ret[upc].events[evt.id] = evt
                     }
                 }
@@ -131,7 +137,7 @@ export default {
                 for (const evt_idx in s) {
                     let evt = s[evt_idx]
                     if (evt.event.includes('Juice')) {
-						if (ret[upc]==null) ret[upc]={events:{}}
+                        if (ret[upc] == null) ret[upc] = { events: {} }
                         ret[upc].events[evt.id] = evt
                     }
                 }
@@ -166,6 +172,23 @@ export default {
                 }
             }
             // console.log('dxsb')
+            return res
+        },
+        get_icon: function (evtId) {
+            const res =
+                {
+                    GrapePlanted: this.user_acc.fa.items[0].icon,
+                    GrapeHarvested: this.user_acc.fa.items[1].icon,
+                    GrapeProcessed: this.user_acc.fa.items[2].icon,
+                    GrapeAudited: this.user_acc.in.items[0].icon,
+                    JuiceCertified: this.user_acc.in.items[1].icon,
+					JuiceCreated: this.user_acc.pr.items[0].icon,
+					JuiceBlended: this.user_acc.pr.items[1].icon,
+                    JuiceProduced: this.user_acc.pr.items[2].icon,
+                    JuicePacked: this.user_acc.pr.items[3].icon,
+                    JuiceForSale: this.user_acc.di.items[0].icon,
+                    JuicePurchased: this.user_acc.co.items[0].icon,
+                }[evtId] ?? ''
             return res
         }
     }
