@@ -56,32 +56,24 @@
                     :user_acc="user_acc"
                     :sm_acc="sm_acc"
                     :sub="user_acc.in"
-                    :item="user_acc.in.items[2]"
+                    :item="user_acc.in.items[1]"
                     :grapeUpc="upc_actions.in_cer"
                     :params="InCert_params"
                 />
                 <!-- PRODUCER -->
-                <app-modal-pr-cre
-                    ref="PrCre"
-                    :user_acc="user_acc"
-                    :sm_acc="sm_acc"
-                    :sub="user_acc.pr"
-                    :item="user_acc.pr.items[0]"
-                    :grapeUpc="upc_actions.pr_cr"
-                    :params="PrCre_params"
-                />
+                <app-modal-pr-cre ref="PrCre" :user_acc="user_acc" :sm_acc="sm_acc" :sub="user_acc.pr" :item="user_acc.pr.items[0]" :params="PrCre_params" />
                 <app-modal-pr-ble
                     ref="PrBle"
                     :user_acc="user_acc"
                     :sm_acc="sm_acc"
                     :sub="user_acc.pr"
                     :item="user_acc.pr.items[1]"
-					:grapeUpc="upc_actions.pr_cr"
                     :juiceUpc="upc_actions.pr_ble"
+                    :grapeUpc="upc_actions.pr_cr"
                     :params="PrBle_params"
                 />
 
-<!-- parei aqui: - blend with Grape : select Juice -> extend ModalGeneric para suportar select no juiceUpc
+                <!-- parei aqui: - blend with Grape : select Juice -> extend ModalGeneric para suportar select no juiceUpc
 precisa adicionar qndo pedir o select, pode ser qndo for {} -->
 
                 <app-modal-pr-pro
@@ -426,7 +418,7 @@ var Web3app = {
             fa_harv: false,
             in_aud: false,
             fa_proc: false,
-            pr_cr: false,
+            pr_cr: true,
             pr_ble: false,
             pr_pr: false,
             in_cer: false,
@@ -445,9 +437,12 @@ var Web3app = {
                 // consolidates sts.s ORed
                 sts[s] ||= u.sts[s]
                 // maps sts.s -> all upc
-                if (u.sts[s]) upc_actions[s].push(idx)
-            }
+				if (u.sts[s]) upc_actions[s].push(idx)
+                // if (s == 'pr_ble') upc_actions[s].push(idx)
+			}
         }
+		console.log('upc_actions')
+		console.log(upc_actions)
         var ua = this.wm.user_acc
         ua.fa.items_unlocked = [sts.fa_plant, sts.fa_harv, sts.fa_proc]
         ua.in.items_unlocked = [sts.in_aud, sts.in_cer]
@@ -466,7 +461,7 @@ var Web3app = {
 
     processUpcStatusEvt: function (m, e) {
         switch (e.event) {
-			// Grape workflow ----------------
+            // Grape workflow ----------------
             case 'GrapePlanted':
                 m.sts.fa_plant = false
                 m.sts.fa_harv = true
@@ -481,10 +476,10 @@ var Web3app = {
                 break
             case 'GrapeProcessed':
                 m.sts.fa_proc = false
-                m.sts.pr_cr = true
+                m.sts.pr_cr = true // hold grape values to JuiceBlend
                 break
-			// Juice workflow -------------------
-			case 'JuiceCreated':
+            // Juice workflow -------------------
+            case 'JuiceCreated':
                 m.sts.pr_ble = true
                 m.sts.pr_pr = true
                 break
@@ -856,7 +851,7 @@ export default {
         // ModalForm options
         FarmHarvest_params: {
             t1: { t: 'Grape' },
-            grapeUpc: { l: 'grapeUpc - Universal Product Code (unique number for each Grape planted)', v: 1 },
+            grapeUpc: { l: 'grapeUpc - Universal Product Code (unique number for each Grape planted)', v: 1},
             t2: { t: 'Harvest' },
             harvestNotes: { l: 'Harvest Notes (text)', v: 'details here important harvest notes' }
         },
@@ -870,44 +865,42 @@ export default {
             t2: { t: 'Audit' },
             auditNotes: { l: 'Audit Notes (text)', v: 'details here important audit notes' }
         },
-        InCert_params:  {
+        InCert_params: {
             t1: { t: 'Grape' },
             grapeUpc: { l: 'grapeUpc - Select the upc of Grape', v: 1 },
             t2: { t: 'Certify' },
             auditNotes: { l: 'Certify Notes (text)', v: 'details here important certify notes' }
         },
-
         PrCre_params: {
-            t1: { t: 'Use Grape' },
-            grapeUpc: { l: 'grapeUpc - Select the upc of principal Grape of Juice', v: 1 },
-            t2: { t: 'Create Juice' },
-            juiceUpc: { l: 'juiceUpc - Universal Product Code (unique number for each Juice produced)', v: 1 },
+            t1: { t: 'Create Juice' },
+            juiceUpc: { l: 'juiceUpc - Universal Product Code (unique number for each Juice Produced)', v: 1},
+            productID: { l: 'productID - ID of product', v: 1 }
         },
         PrBle_params: {
             t1: { t: 'Juice' },
-			juiceUpc: { l: 'juiceUpc - Select the upc of Juice', v: 1 },
+            juiceUpc: { l: 'juiceUpc - Select the upc of Juice', v: 1 },
             t2: { t: 'Blend with Grape' },
-            grapeUpc: { l: 'grapeUpc - Select the upc of Grape to Blend the Juice', v: 1 },
+            grapeUpc: { l: 'grapeUpc - Select the upc of Grape to Blend the Juice', v: 1 }
         },
         PrPack_params: {
             t1: { t: 'Juice' },
-			juiceUpc: { l: 'juiceUpc - Select the upc of Juice', v: 1 },
+            juiceUpc: { l: 'juiceUpc - Select the upc of Juice', v: 1 }
         },
-        PrPro_params:  {
+        PrPro_params: {
             t1: { t: 'Juice' },
-			juiceUpc: { l: 'juiceUpc - Select the upc of Juice', v: 1 },
+            juiceUpc: { l: 'juiceUpc - Select the upc of Juice', v: 1 },
             t2: { t: 'Juice Product info' },
             productNotes: { l: 'Juice product notes (text)', v: 'details here important product notes' },
-            productPrice: { l: 'Price (in ETH)', v: 0.01 },
+            productPrice: { l: 'Price (in ETH)', v: 0.01 }
         },
 
         DiSell_params: {
             t1: { t: 'Juice' },
-			juiceUpc: { l: 'juiceUpc - Select the upc of Juice', v: 1 },
+            juiceUpc: { l: 'juiceUpc - Select the upc of Juice', v: 1 }
         },
         CoBuy_params: {
             t1: { t: 'Juice' },
-			juiceUpc: { l: 'juiceUpc - Select the upc of Juice', v: 1 },
+            juiceUpc: { l: 'juiceUpc - Select the upc of Juice', v: 1 }
         },
         // Tour
         //----------------------------
@@ -961,5 +954,6 @@ window.addEventListener('load', async function () {
     }
 
     Web3app.start()
+    console.log('b')
 })
 </script>

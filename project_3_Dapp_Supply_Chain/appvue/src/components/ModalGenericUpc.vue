@@ -16,14 +16,18 @@
                                         <h2 class="title mb-2" style="color: blue">{{ n.t }}</h2>
                                     </v-col>
                                     <!-- text field into Form -->
-                                    <v-col v-if="n.l && index != 'grapeUpc'" cols="11" class="ma-0 pa-0">
+                                    <v-col v-if="n.l && !(['grapeUpc', 'juiceUpc'].includes(index) && ![7].includes(item.id))" cols="11" class="ma-0 pa-0">
                                         <v-text-field v-model="n.v" :label="n.l" outlined required class="shrink" @change="checkForm"></v-text-field>
                                     </v-col>
-                                    <v-col v-if="n.l && index == 'grapeUpc'" cols="11" class="ma-0 pa-0">
+                                    <!-- select field into Form -->
+                                    <v-col v-if="n.l && ['grapeUpc'].includes(index) && ![7].includes(item.id)" cols="11" class="ma-0 pa-0">
                                         <v-select v-model="n.v" :items="grapeUpc" :label="n.l" required outlined @change="checkForm"></v-select>
                                     </v-col>
+                                    <v-col v-if="n.l && ['juiceUpc'].includes(index) && ![7].includes(item.id)" cols="11" class="ma-0 pa-0">
+                                        <v-select v-model="n.v" :items="juiceUpc" :label="n.l" required outlined @change="checkForm"></v-select>
+                                    </v-col>
                                     <!-- checkForm result message - only for grapeUpc field -->
-                                    <v-col v-if="index == 'grapeUpc'">
+                                    <v-col v-if="['grapeUpc', 'juiceUpc'].includes(index)">
                                         <span class="mr-2" :style="msg_vs">{{ msg_vt }}</span>
                                     </v-col>
                                 </v-row>
@@ -86,27 +90,73 @@ export default {
             // var account = window.vm.$children[0].Web3app.account
             // console.log(contract)
             // console.log("generic:")
-			// console.log(this.params)
-			console.log(this.grapeUpc)
+            // console.log(this.params)
             var p = this.params
             var vm = this
-            contract.methods
-                .fetchGrapeItemBufferOne(p.grapeUpc.v * 1)
-                .call()
-                .then(function (res1) {
-                    let v = vm.params.grapeUpc.v * 1
-                    if (res1.grapeUpc == 0 && v != 0) {
-                        vm.msg_vt = 'grapeUpc:' + res1.grapeUpc + ' not exists. Please choose a valid upc!'
-                        vm.msg_vs = 'color:red'
-                        vm.valid = false
-                        console.log(vm.msg_vt)
-                        console.log(res1)
-                    } else {
-                        vm.msg_vt = ''
-                        vm.msg_vs = 'color:blue'
-                        vm.valid = true
-                    }
-                })
+            if ([1, 2, 3, 4, 5, 6].includes(this.item.id)) {
+				// check if grapeUpc exists
+				console.log('p.grapeUpc.v')
+				console.log(p.grapeUpc.v)
+                contract.methods
+                    .fetchGrapeItemBufferOne(p.grapeUpc.v * 1)
+                    .call()
+                    .then(function (res1) {
+						let v = vm.params.grapeUpc.v * 1
+                        if (res1.upc == 0 && v != 0) {
+							vm.msg_vt = 'grapeUpc:' + res1.upc + ' not exists. Please choose a valid upc!'
+                            vm.msg_vs = 'color:red'
+                            vm.valid = false
+                            console.log(vm.msg_vt)
+                            console.log(res1)
+                        } else {
+							vm.msg_vt = ''
+                            vm.msg_vs = 'color:blue'
+                            vm.valid = true
+                        }
+                    })
+            } else if ([7].includes(this.item.id)) {
+				// check if juiceUpc not exists
+				console.log('p.juiceUpc.v')
+				console.log(p.juiceUpc.v)
+                contract.methods
+                    .fetchJuiceItemBufferOne(p.juiceUpc.v * 1)
+                    .call()
+                    .then(function (res1) {
+                        let v = vm.params.juiceUpc.v * 1
+                        if (res1.upc == 0 && v != 0) {
+                            vm.msg_vt = ''
+                            vm.msg_vs = 'color:blue'
+                            vm.valid = true
+                        } else {
+                            vm.msg_vt = 'juiceUpc:' + res1.upc + ' already exists. Please choose a new juiceUpc!'
+                            vm.msg_vs = 'color:red'
+                            vm.valid = false
+                            console.log(vm.msg_vt)
+                            console.log(res1)
+                        }
+                    })
+            } else {
+                // check if juiceUpc exists
+				console.log('p.juiceUpc.v')
+				console.log(p.juiceUpc.v)
+                contract.methods
+                    .fetchJuiceItemBufferOne(p.juiceUpc.v * 1)
+                    .call()
+                    .then(function (res1) {
+                        let v = vm.params.juiceUpc.v * 1
+                        if (res1.upc == 0 && v != 0) {
+                            vm.msg_vt = 'juiceUpc:' + res1.upc + ' not exists. Please choose a valid upc!'
+                            vm.msg_vs = 'color:red'
+                            vm.valid = false
+                            console.log(vm.msg_vt)
+                            console.log(res1)
+                        } else {
+                            vm.msg_vt = ''
+                            vm.msg_vs = 'color:blue'
+                            vm.valid = true
+                        }
+                    })
+			}
 
             // fetchGrapeItemBufferOne
         },
@@ -119,28 +169,27 @@ export default {
             console.log(p)
             if (this.valid) {
                 switch (this.item.id) {
-
-					// Owner -------------
+                    // Owner -------------
                     case 1:
-						// addFarmer
-						// addInspector
-						// addProducer
-						// addDistributor
-						// addConsumer
-					break
-
-					// Farmer -------------
-                    case 2:
-						// grapePlantItem
-						break
-                    case 3:
-						contract.methods.grapeHarvestItem(p.grapeUpc.v, p.harvestNotes.v).send({ from: account })
+                        // addFarmer
+                        // addInspector
+                        // addProducer
+                        // addDistributor
+                        // addConsumer
                         break
-					case 4:
-                        contract.methods.grapeProcessItem(p.grapeUpc.v).send({ from: account })
-						break
 
-					// Inspector -------------
+                    // Farmer -------------
+                    case 2:
+                        // grapePlantItem
+                        break
+                    case 3:
+                        contract.methods.grapeHarvestItem(p.grapeUpc.v, p.harvestNotes.v).send({ from: account })
+                        break
+                    case 4:
+                        contract.methods.grapeProcessItem(p.grapeUpc.v).send({ from: account })
+                        break
+
+                    // Inspector -------------
                     case 5:
                         contract.methods.grapeAuditItem(p.grapeUpc.v, p.auditNotes.v).send({ from: account })
                         break
@@ -148,28 +197,28 @@ export default {
                         contract.methods.juiceCertifyItem(p.grapeUpc.v, p.certifyNotes.v).send({ from: account })
                         break
 
-					// Producer -------------
+                    // Producer -------------
                     case 7:
-                        contract.methods.juiceCreateItem(p.grapeUpc.v, p.juiceUpc.v).send({ from: account })
-						break
+                        contract.methods.juiceCreateItem(p.juiceUpc.v, p.productID.v).send({ from: account })
+                        break
                     case 8:
                         contract.methods.juiceBlendItem(p.juiceUpc.v, p.grapeUpc.v).send({ from: account })
                         break
-					case 9:
-						contract.methods.juiceProduceItem(p.juiceUpc.v, p.productNotes.v, p.productPrice.v).send({ from: account })
+                    case 9:
+                        contract.methods.juiceProduceItem(p.juiceUpc.v, p.productNotes.v, p.productPrice.v).send({ from: account })
                         break
                     case 10:
-						contract.methods.juicePackItem(p.juiceUpc.v).send({ from: account })
+                        contract.methods.juicePackItem(p.juiceUpc.v).send({ from: account })
                         break
 
-					// Distributor -------------
+                    // Distributor -------------
                     case 11:
-						contract.methods.juiceSellItem(p.juiceUpc.v).send({ from: account })
+                        contract.methods.juiceSellItem(p.juiceUpc.v).send({ from: account })
                         break
 
-					// Consumer -------------
+                    // Consumer -------------
                     case 12:
-						contract.methods.juiceBuyItem(p.juiceUpc.v).send({ from: account })
+                        contract.methods.juiceBuyItem(p.juiceUpc.v).send({ from: account })
                         break
                 }
             }
@@ -179,6 +228,7 @@ export default {
             //     console.log(error)
             // })
             this.dialog = false
+            console.log('aa')
         }
     }
 }
