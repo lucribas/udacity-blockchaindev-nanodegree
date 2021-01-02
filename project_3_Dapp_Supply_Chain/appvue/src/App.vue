@@ -22,7 +22,16 @@
                 <app-modal-roles ref="Roles" :user_acc="user_acc" :sm_acc="sm_acc" />
 
                 <!-- FARM -->
-                <app-modal-farm-plant ref="FarmPlant" :user_acc="user_acc" :sm_acc="sm_acc" :sub="user_acc.fa" :item="user_acc.fa.items[0]" />
+                <!-- <app-modal-farm-plant ref="FarmPlant" :user_acc="user_acc" :sm_acc="sm_acc" :sub="user_acc.fa" :item="user_acc.fa.items[0]" /> -->
+                <app-modal-farm-plant
+                    ref="FarmPlant"
+                    :user_acc="user_acc"
+                    :sm_acc="sm_acc"
+                    :sub="user_acc.fa"
+                    :item="user_acc.fa.items[0]"
+                    :grapeUpc="upc_actions.fa_plant"
+                    :params="FarmPlant_params"
+                />
                 <app-modal-farm-harvest
                     ref="FarmHarvest"
                     :user_acc="user_acc"
@@ -57,7 +66,7 @@
                     :sm_acc="sm_acc"
                     :sub="user_acc.in"
                     :item="user_acc.in.items[1]"
-                    :grapeUpc="upc_actions.in_cer"
+                    :juiceUpc="upc_actions.in_cer"
                     :params="InCert_params"
                 />
                 <!-- PRODUCER -->
@@ -152,7 +161,7 @@ precisa adicionar qndo pedir o select, pode ser qndo for {} -->
 
             <v-main>
                 <br /><br />
-                <app-viewer ref="Viewer" v-bind:details="evt_GrapePlanted" />
+                <app-viewer ref="Viewer" :user_acc="user_acc" v-bind:details="supply_chain" :upc_actions="upc_actions" />
                 <br /><br /><br />
                 <app-walkthrough ref="Walkthrough" v-bind:user_acc="user_acc" />
 
@@ -179,9 +188,9 @@ precisa adicionar qndo pedir o select, pode ser qndo for {} -->
 import UserBar from './components/UserBar.vue'
 import ModalRoles from './components/ModalRoles.vue'
 import ModalWorkflow from './components/ModalWorkflow.vue'
-import ModalFarmPlant from './components/ModalFarmPlant.vue'
 
 // import ModalGenericUpc from './components/ModalGenericUpc.vue'
+import ModalFarmPlant from './components/ModalGenericUpc.vue'
 import ModalCoBuy from './components/ModalGenericUpc.vue'
 import ModalDiSell from './components/ModalGenericUpc.vue'
 import ModalFarmHarvest from './components/ModalGenericUpc.vue'
@@ -206,8 +215,6 @@ var Web3app = {
     vm: null, // vue instance
     wm: null, // window children instance
     evt_GrapePlanted: {},
-    upc_actions: {},
-    supply_chain: {},
 
     // start task
     start: async function () {
@@ -381,6 +388,7 @@ var Web3app = {
         }
     },
     processEvent: function (event) {
+        var supply_chain = this.wm.supply_chain
         console.log('new event: ' + event.event)
         console.log(event)
         if (event != null && event.event == 'GrapePlanted') {
@@ -388,8 +396,8 @@ var Web3app = {
             Web3app.vm.$set(Web3app.evt_GrapePlanted, event.id, event)
         }
         if (event != null && event.returnValues.upc != null) {
-            if (this.supply_chain[event.returnValues.upc] == null)
-                this.supply_chain[event.returnValues.upc] = {
+            if (supply_chain[event.returnValues.upc] == null) {
+                const n = {
                     events: {},
                     sts: {
                         fa_plant: true,
@@ -405,11 +413,17 @@ var Web3app = {
                         co_buy: false
                     }
                 }
-            this.supply_chain[event.returnValues.upc].events[event.id] = event
-            this.processUpcStatusEvt(this.supply_chain[event.returnValues.upc], event)
+				// supply_chain[event.returnValues.upc] = n
+				Web3app.vm.$set(supply_chain, event.returnValues.upc, n)
+            }
+
+            // supply_chain[event.returnValues.upc].events[event.id] = event
+            Web3app.vm.$set(supply_chain[event.returnValues.upc].events, event.id, event)
+
+            this.processUpcStatusEvt(supply_chain[event.returnValues.upc], event)
             this.updateUserBarDetails()
-            // console.log(this.supply_chain[event.returnValues.upc].sts)
-            // console.log(this.supply_chain)
+            // console.log(supply_chain[event.returnValues.upc].sts)
+            // console.log(supply_chain)
         }
     },
     updateUserBarDetails: function () {
@@ -427,22 +441,29 @@ var Web3app = {
             co_buy: false
         }
         var upc_actions = this.wm.upc_actions
+        var supply_chain = this.wm.supply_chain
+        // clear upc_actions
         for (const s in sts) {
             upc_actions[s] = []
         }
         // process all upc and OR status
-        for (const idx in this.supply_chain) {
-            let u = this.supply_chain[idx]
+        for (const idx in supply_chain) {
+            let u = supply_chain[idx]
             for (const s in sts) {
                 // consolidates sts.s ORed
                 sts[s] ||= u.sts[s]
                 // maps sts.s -> all upc
-				if (u.sts[s]) upc_actions[s].push(idx)
+                if (u.sts[s] && s != 'fa_plant') upc_actions[s].push(idx)
+                // if (s == 'pr_cr') {
+                //     console.log('Grape to blend:')
+                //     console.log(upc_actions.pr_cr)
+                // }
+                // if (u.sts[s] && s != 'fa_plant' && s != 'pr_cr') upc_actions[s].push(idx)
                 // if (s == 'pr_ble') upc_actions[s].push(idx)
-			}
+            }
         }
-		console.log('upc_actions')
-		console.log(upc_actions)
+        console.log('upc_actions')
+        console.log(upc_actions)
         var ua = this.wm.user_acc
         ua.fa.items_unlocked = [sts.fa_plant, sts.fa_harv, sts.fa_proc]
         ua.in.items_unlocked = [sts.in_aud, sts.in_cer]
@@ -716,9 +737,23 @@ export default {
         wallet_msgshow: false,
         web3_error: false,
         web3_connected: false,
+        supply_chain: {},
         // events
         evt_GrapePlanted: Web3app.evt_GrapePlanted,
-        upc_actions: Web3app.upc_actions,
+        upc_actions: {
+            fa_plant: [],
+            fa_harv: [],
+            in_aud: [],
+            fa_proc: [],
+            pr_cr: [],
+            pr_ble: [],
+            pr_pr: [],
+            in_cer: [],
+            pr_pack: [],
+            di_sell: [],
+            co_buy: []
+        },
+
         // smart contract address
         sm_acc: {
             sm: {
@@ -755,9 +790,9 @@ export default {
                 priv: '8f8b0f9ae0d98f029eae72095b419e5f0cb1b8ee7e668740686c46afd7df592e',
                 id: 'b-farmer',
                 items: [
-                    { id: 2, text: 'Plant a Grape', icon: 'fas fa-seedling' },
-                    { id: 3, text: 'Harvest a Grape', icon: 'fas fa-tractor' },
-                    { id: 4, text: 'Process a Grape', icon: 'fas fa-box-open' }
+                    { id: 2, k: 'fa_plant', text: 'Plant a Grape', icon: 'fas fa-seedling' },
+                    { id: 3, k: 'fa_harv', text: 'Harvest a Grape', icon: 'fas fa-tractor' },
+                    { id: 4, k: 'fa_proc', text: 'Process a Grape', icon: 'fas fa-box-open' }
                 ],
                 items_unlocked: [true, false, false],
                 v: false,
@@ -777,8 +812,8 @@ export default {
                 priv: '8eec02c941cdccb9337b9cea9fa47d1e06edb4d7a3bd45b3655009b02be57dc9',
                 id: 'b-inspector',
                 items: [
-                    { id: 5, text: 'Audit a Grape', icon: 'fas fa-tag' },
-                    { id: 6, text: 'Certify a Juice', icon: 'fas fa-check-square' }
+                    { id: 5, k: 'in_aud', text: 'Audit a Grape', icon: 'fas fa-tag' },
+                    { id: 6, k: 'in_cer', text: 'Certify a Juice', icon: 'fas fa-check-square' }
                 ],
                 items_unlocked: [false, false],
                 v: false,
@@ -798,10 +833,10 @@ export default {
                 priv: 'b84a51835ac9dd83f12e99f71c0307887711454fbe4dc6d620bc577f37cb8a37',
                 id: 'b-producer',
                 items: [
-                    { id: 7, text: 'Create a Juice', icon: 'fas fa-flask' },
-                    { id: 8, text: 'Blend a Juice', icon: 'fas fa-glass-cheers' },
-                    { id: 9, text: 'Produce a Juice', icon: 'fas fa-industry' },
-                    { id: 10, text: 'Pack a Juice', icon: 'fas fa-shipping-fast' }
+                    { id: 7, k: 'pr_cr', text: 'Create a Juice', icon: 'fas fa-flask' },
+                    { id: 8, k: 'pr_ble', text: 'Blend a Juice', icon: 'fas fa-glass-cheers' },
+                    { id: 9, k: 'pr_pr', text: 'Produce a Juice', icon: 'fas fa-industry' },
+                    { id: 10, k: 'pr_pack', text: 'Pack a Juice', icon: 'fas fa-shipping-fast' }
                 ],
                 items_unlocked: [false, false, false, false],
                 v: false,
@@ -820,7 +855,7 @@ export default {
                 addr_txt: '',
                 priv: 'a746f3cd6f66c9be6a0774990c35b34ef5080e83d0af90fe604399f2381c0957',
                 id: 'b-distributor',
-                items: [{ id: 11, text: 'For sell a Juice', icon: 'fas fa-store' }],
+                items: [{ id: 11, k: 'di_sell', text: 'For sell a Juice', icon: 'fas fa-store' }],
                 items_unlocked: [false],
                 v: false,
                 vt: '',
@@ -838,7 +873,7 @@ export default {
                 addr_txt: '',
                 priv: '6fecd14712f0aa2a3e2a89deb3195b122c9d51e138ed73a0d80cd950d56431e7',
                 id: 'b-consumer',
-                items: [{ id: 12, text: 'Buy a Juice', icon: 'fas fa-shopping-cart' }],
+                items: [{ id: 12, k: 'co_buy', text: 'Buy a Juice', icon: 'fas fa-shopping-cart' }],
                 items_unlocked: [false],
                 v: false,
                 vt: '',
@@ -849,9 +884,18 @@ export default {
             }
         },
         // ModalForm options
+        FarmPlant_params: {
+            t1: { t: 'Grape' },
+            grapeUpc: { l: 'grapeUpc - Universal Product Code (unique number for each Grape planted)', v: 1 },
+            t2: { t: 'Farm' },
+            originFarmName: { l: 'Farm Name (text)', v: 'Miolo Winery' },
+            originFarmInformation: { l: 'Farm Information (text)', v: 'RS-444, 21, Bento Gonçalves - RS' },
+            originFarmLatitude: { l: 'Farm Latitude', v: -29.17963727858983 },
+            originFarmLongitude: { l: 'Farm Latitude', v: -51.58366857790086 }
+        },
         FarmHarvest_params: {
             t1: { t: 'Grape' },
-            grapeUpc: { l: 'grapeUpc - Universal Product Code (unique number for each Grape planted)', v: 1},
+            grapeUpc: { l: 'grapeUpc - Universal Product Code (unique number for each Grape planted)', v: 1 },
             t2: { t: 'Harvest' },
             harvestNotes: { l: 'Harvest Notes (text)', v: 'details here important harvest notes' }
         },
@@ -866,14 +910,14 @@ export default {
             auditNotes: { l: 'Audit Notes (text)', v: 'details here important audit notes' }
         },
         InCert_params: {
-            t1: { t: 'Grape' },
-            grapeUpc: { l: 'grapeUpc - Select the upc of Grape', v: 1 },
+            t1: { t: 'Juice' },
+            juiceUpc: { l: 'juiceUpc - Select the upc of Juice', v: 1 },
             t2: { t: 'Certify' },
-            auditNotes: { l: 'Certify Notes (text)', v: 'details here important certify notes' }
+            certifyNotes: { l: 'Certify Notes (text)', v: 'details here important certify notes' }
         },
         PrCre_params: {
             t1: { t: 'Create Juice' },
-            juiceUpc: { l: 'juiceUpc - Universal Product Code (unique number for each Juice Produced)', v: 1},
+            juiceUpc: { l: 'juiceUpc - Universal Product Code (unique number for each Juice Produced)', v: 1 },
             productID: { l: 'productID - ID of product', v: 1 }
         },
         PrBle_params: {
@@ -954,6 +998,6 @@ window.addEventListener('load', async function () {
     }
 
     Web3app.start()
-    console.log('b')
+    console.log('dfb')
 })
 </script>

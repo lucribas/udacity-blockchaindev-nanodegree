@@ -16,11 +16,15 @@
                                         <h2 class="title mb-2" style="color: blue">{{ n.t }}</h2>
                                     </v-col>
                                     <!-- text field into Form -->
-                                    <v-col v-if="n.l && !(['grapeUpc', 'juiceUpc'].includes(index) && ![7].includes(item.id))" cols="11" class="ma-0 pa-0">
+                                    <v-col
+                                        v-if="n.l && !((['grapeUpc'].includes(index) && ![2].includes(item.id)) || (['juiceUpc'].includes(index) && ![7].includes(item.id)))"
+                                        cols="11"
+                                        class="ma-0 pa-0"
+                                    >
                                         <v-text-field v-model="n.v" :label="n.l" outlined required class="shrink" @change="checkForm"></v-text-field>
                                     </v-col>
                                     <!-- select field into Form -->
-                                    <v-col v-if="n.l && ['grapeUpc'].includes(index) && ![7].includes(item.id)" cols="11" class="ma-0 pa-0">
+                                    <v-col v-if="n.l && ['grapeUpc'].includes(index) && ![2].includes(item.id)" cols="11" class="ma-0 pa-0">
                                         <v-select v-model="n.v" :items="grapeUpc" :label="n.l" required outlined @change="checkForm"></v-select>
                                     </v-col>
                                     <v-col v-if="n.l && ['juiceUpc'].includes(index) && ![7].includes(item.id)" cols="11" class="ma-0 pa-0">
@@ -63,7 +67,6 @@
 // TODO:
 // - validate upc: show error if already exists
 // - use map to lat long
-
 export default {
     props: {
         user_acc: {},
@@ -78,7 +81,8 @@ export default {
         dialog: false,
         valid: false,
         msg_vt: '',
-        msg_vs: 'color:blue'
+        msg_vs: 'color:blue',
+        co_price: ''
     }),
     methods: {
         set_dialog(m) {
@@ -93,31 +97,52 @@ export default {
             // console.log(this.params)
             var p = this.params
             var vm = this
-            if ([1, 2, 3, 4, 5, 6].includes(this.item.id)) {
-				// check if grapeUpc exists
-				console.log('p.grapeUpc.v')
-				console.log(p.grapeUpc.v)
+            if ([3, 4, 5].includes(this.item.id)) {
+                // Selects grapeUpc: check if grapeUpc exists
+                console.log('p.grapeUpc.v')
+                console.log(p.grapeUpc.v)
                 contract.methods
                     .fetchGrapeItemBufferOne(p.grapeUpc.v * 1)
                     .call()
                     .then(function (res1) {
-						let v = vm.params.grapeUpc.v * 1
+                        let v = vm.params.grapeUpc.v * 1
                         if (res1.upc == 0 && v != 0) {
-							vm.msg_vt = 'grapeUpc:' + res1.upc + ' not exists. Please choose a valid upc!'
+                            vm.msg_vt = 'grapeUpc:' + res1.upc + ' not exists. Please choose a valid upc!'
                             vm.msg_vs = 'color:red'
                             vm.valid = false
                             console.log(vm.msg_vt)
                             console.log(res1)
                         } else {
-							vm.msg_vt = ''
+                            vm.msg_vt = ''
                             vm.msg_vs = 'color:blue'
                             vm.valid = true
                         }
                     })
+            } else if ([2].includes(this.item.id)) {
+                // Selects grapeUpc: check if grapeUpc exists
+                console.log('p.grapeUpc.v')
+                console.log(p.grapeUpc.v)
+                contract.methods
+                    .fetchGrapeItemBufferOne(p.grapeUpc.v * 1)
+                    .call()
+                    .then(function (res1) {
+                        let v = vm.params.grapeUpc.v * 1
+                        if (res1.upc == 0 && v != 0) {
+                            vm.msg_vt = ''
+                            vm.msg_vs = 'color:blue'
+                            vm.valid = true
+                        } else {
+                            vm.msg_vt = 'grapeUpc:' + res1.upc + ' already exists. Please choose a new grapeUpc!'
+                            vm.msg_vs = 'color:red'
+                            vm.valid = false
+                            console.log(vm.msg_vt)
+                            console.log(res1)
+                        }
+                    })
             } else if ([7].includes(this.item.id)) {
-				// check if juiceUpc not exists
-				console.log('p.juiceUpc.v')
-				console.log(p.juiceUpc.v)
+                // New juiceUpc: check if juiceUpc not exists
+                console.log('p.juiceUpc.v')
+                console.log(p.juiceUpc.v)
                 contract.methods
                     .fetchJuiceItemBufferOne(p.juiceUpc.v * 1)
                     .call()
@@ -136,9 +161,10 @@ export default {
                         }
                     })
             } else {
-                // check if juiceUpc exists
-				console.log('p.juiceUpc.v')
-				console.log(p.juiceUpc.v)
+                // Selects juiceUpc: check if juiceUpc exists
+                console.log('p.juiceUpc.v')
+                console.log(p.juiceUpc.v)
+                let idem_id = this.item.id
                 contract.methods
                     .fetchJuiceItemBufferOne(p.juiceUpc.v * 1)
                     .call()
@@ -150,13 +176,18 @@ export default {
                             vm.valid = false
                             console.log(vm.msg_vt)
                             console.log(res1)
+                        } else if ([12].includes(idem_id) && v != 0) {
+                            vm.co_price = window.vm.$children[0].Web3app.web3.utils.fromWei(res1.productPrice, 'ether')
+                            vm.msg_vt = 'price is ' + vm.co_price + 'ETH'
+                            vm.msg_vs = 'color:blue'
+                            vm.valid = true
                         } else {
                             vm.msg_vt = ''
                             vm.msg_vs = 'color:blue'
                             vm.valid = true
                         }
                     })
-			}
+            }
 
             // fetchGrapeItemBufferOne
         },
@@ -164,6 +195,7 @@ export default {
             // grapePlantItem
             var contract = window.vm.$children[0].Web3app.contract
             var account = window.vm.$children[0].Web3app.account
+            var price = ''
             // console.log(contract)
             var p = this.params
             console.log(p)
@@ -181,6 +213,10 @@ export default {
                     // Farmer -------------
                     case 2:
                         // grapePlantItem
+                        contract.methods
+                            .grapePlantItem(p.grapeUpc.v, account, p.originFarmName.v, p.originFarmInformation.v, p.originFarmLatitude.v, p.originFarmLongitude.v)
+                            .send({ from: account })
+
                         break
                     case 3:
                         contract.methods.grapeHarvestItem(p.grapeUpc.v, p.harvestNotes.v).send({ from: account })
@@ -194,7 +230,7 @@ export default {
                         contract.methods.grapeAuditItem(p.grapeUpc.v, p.auditNotes.v).send({ from: account })
                         break
                     case 6:
-                        contract.methods.juiceCertifyItem(p.grapeUpc.v, p.certifyNotes.v).send({ from: account })
+                        contract.methods.juiceCertifyItem(p.juiceUpc.v, p.certifyNotes.v).send({ from: account })
                         break
 
                     // Producer -------------
@@ -205,7 +241,9 @@ export default {
                         contract.methods.juiceBlendItem(p.juiceUpc.v, p.grapeUpc.v).send({ from: account })
                         break
                     case 9:
-                        contract.methods.juiceProduceItem(p.juiceUpc.v, p.productNotes.v, p.productPrice.v).send({ from: account })
+						price = window.vm.$children[0].Web3app.web3.utils.toWei(p.productPrice.v.toString(), 'ether')
+						console.log('price:'+price)
+                        contract.methods.juiceProduceItem(p.juiceUpc.v, p.productNotes.v, price).send({ from: account })
                         break
                     case 10:
                         contract.methods.juicePackItem(p.juiceUpc.v).send({ from: account })
@@ -218,7 +256,8 @@ export default {
 
                     // Consumer -------------
                     case 12:
-                        contract.methods.juiceBuyItem(p.juiceUpc.v).send({ from: account })
+                        price = window.vm.$children[0].Web3app.web3.utils.toWei(this.co_price, 'ether')
+                        contract.methods.juiceBuyItem(p.juiceUpc.v).send({ value: price, from: account })
                         break
                 }
             }
@@ -228,7 +267,8 @@ export default {
             //     console.log(error)
             // })
             this.dialog = false
-            console.log('aa')
+            // you edit only html part then you need modify one line of code to force the recompile
+            console.log('abba')
         }
     }
 }

@@ -80,19 +80,19 @@ contract SupplyChain is
     }
 
     // Define events of Grapes
-    event GrapePlanted(uint256 upc);
-    event GrapeHarvested(uint256 upc);
-    event GrapeAudited(uint256 upc);
-    event GrapeProcessed(uint256 upc);
+    event GrapePlanted(uint256 grapeUpc);
+    event GrapeHarvested(uint256 grapeUpc);
+    event GrapeAudited(uint256 grapeUpc);
+    event GrapeProcessed(uint256 grapeUpc);
 
     // Define events of Juices
-    event JuiceCreated(uint256 upc);
+    event JuiceCreated(uint256 juiceUpc);
     event JuiceBlended(uint256 juiceUpc, uint256 grapeUpc);
-    event JuiceProduced(uint256 upc);
-    event JuicePacked(uint256 upc);
-    event JuiceCertified(uint256 upc);
-    event JuiceForSale(uint256 upc);
-    event JuicePurchased(uint256 upc);
+    event JuiceProduced(uint256 juiceUpc);
+    event JuicePacked(uint256 juiceUpc);
+    event JuiceCertified(uint256 juiceUpc);
+    event JuiceForSale(uint256 juiceUpc);
+    event JuicePurchased(uint256 juiceUpc);
 
     // Define a modifer that verifies the Caller
     modifier verifyCaller(address _address) {
@@ -107,76 +107,76 @@ contract SupplyChain is
     }
 
     // Define a modifier that checks the price and refunds the remaining balance
-    modifier checkValue(uint256 _upc) {
+    modifier checkValue(uint256 _juiceUpc) {
         _;
-        uint256 _price = juiceItems[_upc].productPrice;
+        uint256 _price = juiceItems[_juiceUpc].productPrice;
         uint256 amountToReturn = msg.value - _price;
-        payable(juiceItems[_upc].consumerID).transfer(amountToReturn);
+        payable(juiceItems[_juiceUpc].consumerID).transfer(amountToReturn);
     }
 
     // Define a modifier that checks if an grapeItem.state of a upc is Planted
-    modifier isPlanted(uint256 _upc) {
-        require(grapeItems[_upc].itemState == GrapeState.Planted, "not Planted");
+    modifier isPlanted(uint256 _grapeUpc) {
+        require(grapeItems[_grapeUpc].itemState == GrapeState.Planted, "not Planted");
         _;
     }
 
     // Define a modifier that checks if an grapeItem.state of a upc is Harvested
-    modifier isHarvested(uint256 _upc) {
-        require(grapeItems[_upc].itemState == GrapeState.Harvested, "not Harvested");
+    modifier isHarvested(uint256 _grapeUpc) {
+        require(grapeItems[_grapeUpc].itemState == GrapeState.Harvested, "not Harvested");
         _;
     }
 
     // Define a modifier that checks if an grapeItem.state of a upc is Audited
-    modifier isAudited(uint256 _upc) {
-        require(grapeItems[_upc].itemState == GrapeState.Audited, "not Audited");
+    modifier isAudited(uint256 _grapeUpc) {
+        require(grapeItems[_grapeUpc].itemState == GrapeState.Audited, "not Audited");
         _;
     }
 
     // Define a modifier that checks if an grapeItem.state of a upc is Processed
-    modifier isProcessed(uint256 _upc) {
-        require(grapeItems[_upc].itemState == GrapeState.Processed, "not Processed");
+    modifier isProcessed(uint256 _grapeUpc) {
+        require(grapeItems[_grapeUpc].itemState == GrapeState.Processed, "not Processed");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is Created
-    modifier isCreated(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.Created, "not Created");
+    modifier isCreated(uint256 _juiceUpc) {
+        require(juiceItems[_juiceUpc].itemState == JuiceState.Created, "not Created");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is Blended
-    modifier isBlended(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.Blended, "not Blended");
+    modifier isBlended(uint256 _juiceUpc) {
+        require(juiceItems[_juiceUpc].itemState == JuiceState.Blended, "not Blended");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is Produced
-    modifier isProduced(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.Produced, "not Produced");
+    modifier isProduced(uint256 _juiceUpc) {
+        require(juiceItems[_juiceUpc].itemState == JuiceState.Produced, "not Produced");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is Packed
-    modifier isPacked(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.Packed, "not Packed");
+    modifier isPacked(uint256 _juiceUpc) {
+        require(juiceItems[_juiceUpc].itemState == JuiceState.Packed, "not Packed");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is Certified
-    modifier isCertified(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.Certified, "not Certified");
+    modifier isCertified(uint256 _juiceUpc) {
+        require(juiceItems[_juiceUpc].itemState == JuiceState.Certified, "not Certified");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is ForSale
-    modifier isForSale(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.ForSale, "not ForSale");
+    modifier isForSale(uint256 _juiceUpc) {
+        require(juiceItems[_juiceUpc].itemState == JuiceState.ForSale, "not ForSale");
         _;
     }
 
     // Define a modifier that checks if an juiceItem.state of a upc is Purchased
-    modifier isPurchased(uint256 _upc) {
-        require(juiceItems[_upc].itemState == JuiceState.Purchased, "not Purchased");
+    modifier isPurchased(uint256 _juiceUpc) {
+        require(juiceItems[_juiceUpc].itemState == JuiceState.Purchased, "not Purchased");
         _;
     }
 
@@ -194,7 +194,7 @@ contract SupplyChain is
 
     // Define a function 'grapePlantItem' that allows a farmer to mark an item 'Planted'
     function grapePlantItem(
-        uint256 _upc,
+        uint256 _grapeUpc,
         address _originFarmerID,
         string calldata _originFarmName,
         string calldata _originFarmInformation,
@@ -202,79 +202,79 @@ contract SupplyChain is
         string calldata _originFarmLongitude
     ) public onlyFarmer {
         // Add the new item as part of Harvest
-        grapeItems[_upc].sku = sku_cnt;
-        grapeItems[_upc].upc = _upc;
-        grapeItems[_upc].ownerID = msg.sender;
-        grapeItems[_upc].originFarmerID = _originFarmerID;
-        grapeItems[_upc].originFarmName = _originFarmName;
-        grapeItems[_upc].originFarmInformation = _originFarmInformation;
-        grapeItems[_upc].originFarmLatitude = _originFarmLatitude;
-        grapeItems[_upc].originFarmLongitude = _originFarmLongitude;
+        grapeItems[_grapeUpc].sku = sku_cnt;
+        grapeItems[_grapeUpc].upc = _grapeUpc;
+        grapeItems[_grapeUpc].ownerID = msg.sender;
+        grapeItems[_grapeUpc].originFarmerID = _originFarmerID;
+        grapeItems[_grapeUpc].originFarmName = _originFarmName;
+        grapeItems[_grapeUpc].originFarmInformation = _originFarmInformation;
+        grapeItems[_grapeUpc].originFarmLatitude = _originFarmLatitude;
+        grapeItems[_grapeUpc].originFarmLongitude = _originFarmLongitude;
         // Update state
-        grapeItems[_upc].itemState = GrapeState.Planted;
+        grapeItems[_grapeUpc].itemState = GrapeState.Planted;
         // Increment sku
         sku_cnt = sku_cnt + 1;
         // Emit the appropriate event
-        emit GrapePlanted(_upc);
+        emit GrapePlanted(_grapeUpc);
     }
 
     // Define a function 'grapeHarvestItem' that allows a farmer to mark an item 'Harvested'
-    function grapeHarvestItem(uint256 _upc, string calldata _harvestNotes)
+    function grapeHarvestItem(uint256 _grapeUpc, string calldata _harvestNotes)
         public
         onlyFarmer
-        isPlanted(_upc)
+        isPlanted(_grapeUpc)
     {
         // Add the new item as part of Harvest
-        grapeItems[_upc].ownerID = msg.sender;
-        grapeItems[_upc].harvestNotes = _harvestNotes;
+        grapeItems[_grapeUpc].ownerID = msg.sender;
+        grapeItems[_grapeUpc].harvestNotes = _harvestNotes;
         // Update state
-        grapeItems[_upc].itemState = GrapeState.Harvested;
+        grapeItems[_grapeUpc].itemState = GrapeState.Harvested;
         // Emit the appropriate event
-        emit GrapeHarvested(_upc);
+        emit GrapeHarvested(_grapeUpc);
     }
 
     // Define a function 'grapeAuditItem' that allows a Inspector to mark an item 'Audited'
-    function grapeAuditItem(uint256 _upc, string calldata _auditNotes)
+    function grapeAuditItem(uint256 _grapeUpc, string calldata _auditNotes)
         public
         onlyInspector
-        isHarvested(_upc)
+        isHarvested(_grapeUpc)
     {
         // Add the new item as part of Harvest
-        grapeItems[_upc].auditNotes = _auditNotes;
+        grapeItems[_grapeUpc].auditNotes = _auditNotes;
         // Update state
-        grapeItems[_upc].itemState = GrapeState.Audited;
+        grapeItems[_grapeUpc].itemState = GrapeState.Audited;
         // Emit the appropriate event
-        emit GrapeAudited(_upc);
+        emit GrapeAudited(_grapeUpc);
     }
 
     // Define a function 'grapeProcessItem' that allows a farmer to mark an item 'Processed'
-    function grapeProcessItem(uint256 _upc)
+    function grapeProcessItem(uint256 _grapeUpc)
         public
         onlyFarmer
-        isAudited(_upc)
-        // verifyCaller(grapeItems[_upc].ownerID) // Call modifier to verify caller of this function
+        isAudited(_grapeUpc)
+        // verifyCaller(grapeItems[_grapeUpc].ownerID) // Call modifier to verify caller of this function
     {
         // Update the appropriate fields
-        grapeItems[_upc].itemState = GrapeState.Processed;
+        grapeItems[_grapeUpc].itemState = GrapeState.Processed;
         // Emit the appropriate event
-        emit GrapeProcessed(_upc);
+        emit GrapeProcessed(_grapeUpc);
     }
 
     function juiceCreateItem(
-        uint256 _upc,
+        uint256 _grapeUpc,
         uint256 _productID
     ) public onlyProducer {
         // Add the new item as part of Harvest
-        juiceItems[_upc].sku = sku_cnt;
-        juiceItems[_upc].upc = _upc;
-        juiceItems[_upc].productID = _productID;
-        juiceItems[_upc].ownerID = msg.sender;
+        juiceItems[_grapeUpc].sku = sku_cnt;
+        juiceItems[_grapeUpc].upc = _grapeUpc;
+        juiceItems[_grapeUpc].productID = _productID;
+        juiceItems[_grapeUpc].ownerID = msg.sender;
 		// Update state
-        juiceItems[_upc].itemState = JuiceState.Created;
+        juiceItems[_grapeUpc].itemState = JuiceState.Created;
         // Increment sku
         sku_cnt = sku_cnt + 1;
         // Emit the appropriate event
-        emit JuiceCreated(_upc);
+        emit JuiceCreated(_grapeUpc);
     }
 
     function juiceBlendItem(uint256 _juiceUpc, uint256 _grapeUpc)
@@ -292,78 +292,78 @@ contract SupplyChain is
         emit JuiceBlended(_juiceUpc, _grapeUpc);
     }
 
-	function juiceProduceItem(uint256 _upc, string calldata _productNotes, uint256 _productPrice)
+	function juiceProduceItem(uint256 _juiceUpc, string calldata _productNotes, uint256 _productPrice)
         public
         onlyProducer
-		verifyCaller(grapeItems[_upc].ownerID)
-		isBlended(_upc)
+		verifyCaller(juiceItems[_juiceUpc].ownerID)
+		isBlended(_juiceUpc)
     {
-        juiceItems[_upc].producerID = msg.sender;
-        juiceItems[_upc].productNotes = _productNotes;
-        juiceItems[_upc].productPrice = _productPrice;
+        juiceItems[_juiceUpc].producerID = msg.sender;
+        juiceItems[_juiceUpc].productNotes = _productNotes;
+        juiceItems[_juiceUpc].productPrice = _productPrice;
 		// Update state
-        juiceItems[_upc].itemState = JuiceState.Produced;
+        juiceItems[_juiceUpc].itemState = JuiceState.Produced;
         // Emit the appropriate event
-        emit JuiceProduced(_upc);
+        emit JuiceProduced(_juiceUpc);
     }
 
-	function juiceCertifyItem(uint256 _upc, string calldata _certifyNotes)
+	function juiceCertifyItem(uint256 _juiceUpc, string calldata _certifyNotes)
         public
         onlyInspector
-		isProduced(_upc)
+		isProduced(_juiceUpc)
     {
-		juiceItems[_upc].certifyNotes = _certifyNotes;
+		juiceItems[_juiceUpc].certifyNotes = _certifyNotes;
 		// Update state
-        juiceItems[_upc].itemState = JuiceState.Certified;
+        juiceItems[_juiceUpc].itemState = JuiceState.Certified;
         // Emit the appropriate event
-        emit JuiceCertified(_upc);
+        emit JuiceCertified(_juiceUpc);
     }
 
-	function juicePackItem(uint256 _upc)
+	function juicePackItem(uint256 _juiceUpc)
         public
         onlyProducer
-		verifyCaller(grapeItems[_upc].ownerID)
-		isCertified(_upc)
+		verifyCaller(grapeItems[_juiceUpc].ownerID)
+		isCertified(_juiceUpc)
     {
 		// Update state
-        juiceItems[_upc].itemState = JuiceState.Packed;
+        juiceItems[_juiceUpc].itemState = JuiceState.Packed;
         // Emit the appropriate event
-        emit JuicePacked(_upc);
+        emit JuicePacked(_juiceUpc);
     }
 
-	function juiceSellItem(uint256 _upc)
+	function juiceSellItem(uint256 _juiceUpc)
         public
         onlyDistributor
-		isPacked(_upc)
+		isPacked(_juiceUpc)
     {
-        juiceItems[_upc].distributorID = msg.sender;
+        juiceItems[_juiceUpc].distributorID = msg.sender;
 		// Update state
-        juiceItems[_upc].itemState = JuiceState.ForSale;
+        juiceItems[_juiceUpc].itemState = JuiceState.ForSale;
         // Emit the appropriate event
-        emit JuiceForSale(_upc);
+        emit JuiceForSale(_juiceUpc);
     }
 
-	function juiceBuyItem(uint256 _upc)
+	function juiceBuyItem(uint256 _juiceUpc)
         public
 		payable
         onlyConsumer
-		isForSale(_upc)
-		paidEnough(juiceItems[_upc].productPrice)
-		checkValue(_upc)
+		isForSale(_juiceUpc)
+		paidEnough(juiceItems[_juiceUpc].productPrice)
+		checkValue(_juiceUpc)
     {
-		juiceItems[_upc].ownerID = msg.sender;
-        juiceItems[_upc].consumerID = msg.sender;
+		juiceItems[_juiceUpc].ownerID = msg.sender;
+        juiceItems[_juiceUpc].consumerID = msg.sender;
 		// Update state
-        juiceItems[_upc].itemState = JuiceState.Purchased;
+        juiceItems[_juiceUpc].itemState = JuiceState.Purchased;
         // Transfer money to producer
-        uint256 price = juiceItems[_upc].productPrice;
-        payable(juiceItems[_upc].producerID).transfer(price);
+        uint256 price = juiceItems[_juiceUpc].productPrice;
+        payable(juiceItems[_juiceUpc].producerID).transfer(price);
         // Emit the appropriate event
-	    emit JuicePurchased(_upc);
+	    emit JuicePurchased(_juiceUpc);
     }
 
     // Functions to fetch data
-    function fetchJuiceItemBufferOne(uint256 _upc)
+    function fetchJuiceItemBufferOne(uint256 _juiceUpc)
         external
         view
         returns (
@@ -381,18 +381,18 @@ contract SupplyChain is
 			uint256 itemState
         )
     {
-			sku			= juiceItems[_upc].sku;
-			upc			= juiceItems[_upc].upc;
-			ownerID		= juiceItems[_upc].ownerID;
-			productID		= juiceItems[_upc].productID;
-			productNotes	= juiceItems[_upc].productNotes;
-			productPrice	= juiceItems[_upc].productPrice;
-			producerID		= juiceItems[_upc].producerID;
-			distributorID	= juiceItems[_upc].distributorID;
-			consumerID		= juiceItems[_upc].consumerID;
-			certifyNotes	= juiceItems[_upc].certifyNotes;
-			grapes			= juiceGrapes[_upc];
-			itemState		= uint256(juiceItems[_upc].itemState);
+			sku			= juiceItems[_juiceUpc].sku;
+			upc			= juiceItems[_juiceUpc].upc;
+			ownerID		= juiceItems[_juiceUpc].ownerID;
+			productID		= juiceItems[_juiceUpc].productID;
+			productNotes	= juiceItems[_juiceUpc].productNotes;
+			productPrice	= juiceItems[_juiceUpc].productPrice;
+			producerID		= juiceItems[_juiceUpc].producerID;
+			distributorID	= juiceItems[_juiceUpc].distributorID;
+			consumerID		= juiceItems[_juiceUpc].consumerID;
+			certifyNotes	= juiceItems[_juiceUpc].certifyNotes;
+			grapes			= juiceGrapes[_juiceUpc];
+			itemState		= uint256(juiceItems[_juiceUpc].itemState);
         return (
 			sku,
 			upc,
@@ -410,7 +410,7 @@ contract SupplyChain is
     }
 
     // Functions to fetch data
-    function fetchGrapeItemBufferOne(uint256 _upc)
+    function fetchGrapeItemBufferOne(uint256 _grapeUpc)
         public
         view
         returns (
@@ -424,14 +424,14 @@ contract SupplyChain is
 			string memory originFarmLongitude
         )
     {
-			sku			= grapeItems[_upc].sku;
-			upc			= grapeItems[_upc].upc;
-			ownerID			= grapeItems[_upc].ownerID;
-			originFarmerID	= grapeItems[_upc].originFarmerID;
-			originFarmName	= grapeItems[_upc].originFarmName;
-			originFarmInformation	= grapeItems[_upc].originFarmInformation;
-			originFarmLatitude		= grapeItems[_upc].originFarmLatitude;
-			originFarmLongitude		= grapeItems[_upc].originFarmLongitude;
+			sku			= grapeItems[_grapeUpc].sku;
+			upc			= grapeItems[_grapeUpc].upc;
+			ownerID			= grapeItems[_grapeUpc].ownerID;
+			originFarmerID	= grapeItems[_grapeUpc].originFarmerID;
+			originFarmName	= grapeItems[_grapeUpc].originFarmName;
+			originFarmInformation	= grapeItems[_grapeUpc].originFarmInformation;
+			originFarmLatitude		= grapeItems[_grapeUpc].originFarmLatitude;
+			originFarmLongitude		= grapeItems[_grapeUpc].originFarmLongitude;
         return (
 			sku,
 			upc,
@@ -446,7 +446,7 @@ contract SupplyChain is
 
 
     // Functions to fetch data
-    function fetchGrapeItemBufferTwo(uint256 _upc)
+    function fetchGrapeItemBufferTwo(uint256 _grapeUpc)
         public
         view
         returns (
@@ -455,9 +455,9 @@ contract SupplyChain is
 			uint256 itemState
         )
     {
-			harvestNotes	= grapeItems[_upc].harvestNotes;
-			auditNotes		= grapeItems[_upc].auditNotes;
-			itemState 		= uint256(grapeItems[_upc].itemState);
+			harvestNotes	= grapeItems[_grapeUpc].harvestNotes;
+			auditNotes		= grapeItems[_grapeUpc].auditNotes;
+			itemState 		= uint256(grapeItems[_grapeUpc].itemState);
         return (
 			harvestNotes,
 			auditNotes,
