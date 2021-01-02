@@ -158,5 +158,5 @@ Potentially only 2 methods needed upload() and read()
 # INSTALL
 
 Follow the instructions:
-1. Smart Contract build, test and deployment: [contract link](../contracts/).
-2. Front End build and run the server: [appVue link](../appvue/).
+1. Smart Contract build, test and deployment: [contract link](./contracts/).
+2. Front End build and run the server: [appVue link](./appvue/).
