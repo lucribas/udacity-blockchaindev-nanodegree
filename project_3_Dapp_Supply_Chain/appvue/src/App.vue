@@ -758,7 +758,7 @@ export default {
         // smart contract address
         sm_acc: {
             sm: {
-                addr: '0xd4a4265df78f092023ea5870545ca88609006fa5'
+                addr: '0x82EE57820D2e9d4b1b2eCe739FEEc0acA61e3213'
             }
         },
         // user account addresses
@@ -768,9 +768,9 @@ export default {
                 subtitle: 'Smart Contract Owner',
                 avatar: 'owner.svg',
                 l: 'Smart Contract Owner address',
-                addr: '0x1225b8112B4bfF7B3332C53d7C18c658B9d1Eb91',
+                addr: '0x6b0790A0E8186D0AFd09BCBD64D83778ab318650',
                 addr_txt: '',
-                priv: 'ff70fd4493db7815277915cae5c9eab3ab92dfe1d1a397f56a034cae825aa792',
+                priv: '8f59b444e449433903757d2b55f1522733f7ff0d978760f4f084d8048fa9d1cc',
                 id: 'b-owner',
                 items: [{ id: 1, text: 'Add users to Roles', icon: 'fas fa-user-tag' }],
                 items_unlocked: [true],

@@ -1,21 +1,36 @@
 - [Smart Contract - step by step](#smart-contract---step-by-step)
+	- [Versions](#versions)
 	- [Steps to Install the Environment](#steps-to-install-the-environment)
 		- [Node.js](#nodejs)
 		- [Truffle and other packets](#truffle-and-other-packets)
 	- [To compile and run tests](#to-compile-and-run-tests)
-	- [Frontend](#frontend)
-	- [Versions](#versions)
-	- [Results](#results)
-		- [Unit Tests Terminal Output](#unit-tests-terminal-output)
+- [Deployment](#deployment)
+	- [Ganache](#ganache)
+	- [Get some funds](#get-some-funds)
 	- [To deploy in Brinkeby](#to-deploy-in-brinkeby)
 		- [Deployment Terminal Output](#deployment-terminal-output)
 		- [Contract Address](#contract-address)
-		- [Token Address](#token-address)
 		- [Transaction Hashes](#transaction-hashes)
-		- [Frontend screenshots](#frontend-screenshots)
 		- [Etherscan screenshots](#etherscan-screenshots)
+- [Frontend](#frontend)
+		- [Frontend screenshots](#frontend-screenshots)
 
 # Smart Contract - step by step
+
+## Versions
+
+Run `truffle version` command:
+
+| Package   | Version |
+|:-------:|:-------------|
+|Truffle| v5.1.58 (core: 5.1.58) |
+|Solidity| 0.6.12 (solc-js) |
+|Node| v14.15.1 |
+|Web3.js| v1.2.9 |
+
+As configured in truffle-config.js the smart contracts was compiled successfully using:
+
+- solc: 0.6.12
 
 ## Steps to Install the Environment
 
@@ -71,65 +86,32 @@ test
 ![](docs/test_output.png)
 
 
-## Frontend
 
-For running the Front End of the DAPP, open another terminal window and go inside the project directory, and run:
+# Deployment
 
+## Ganache
 ```bash
-cd appvue
+npm install -g ganache-cli
 ```
 
-Then follow the instruction in [link](../appvue/)
+create a file called ./secret.txt with your mnemonics of your wallet, like:
 
-## Versions
-
-Run `truffle version` command:
-
-| Package   | Version |
-|:-------:|:-------------|
-|Truffle| v5.1.58 (core: 5.1.58) |
-|Solidity| 0.6.12 (solc-js) |
-|Node| v14.15.1 |
-|Web3.js| v1.2.9 |
-
-As configured in truffle-config.js the smart contracts was compiled successfully using:
-
-- solc: 0.6.12
-
-## Results
-
-### Unit Tests Terminal Output
-
-```bash
-truffle develop
-
-Compiling your contracts...
-===========================
-> Everything is up to date, there is nothing to compile.
-
-
-
-      √ can the Farmer plant a Grape (460047 gas)
-      √ can the Farmer harvest a Grape (271603 gas)
-      √ can the Inspector audit a Grape (121943 gas)
-      √ can the Farm process a Grape (83263 gas)
-      √ can the Producer create a Juice (144102 gas)
-      √ can the Producer blend a Juice (206483 gas)
-      √ can the Producer produce a Juice (187807 gas)
-      √ can the Inspector certify a Juice (147415 gas)
-      √ can the Producer pack a Juice (84184 gas)
-      √ can the Distributor sell a Juice (83211 gas)
-      √ can the Consumer buy a Juice (121986 gas)
-
-  11 passing (23s)
-
-truffle(develop)>
+```txt
+skin impose this task range body amused apple spin jazz inhale bench
 ```
+
+edit line 24 of ./truffle-config.js and replace with your Infura Key:
+
+```js
+24:   const infuraKey = "c216e74355924a518e5d0d183e67b23c";	// INFURA - PROJECT ID
+```
+
+## Get some funds
+Fist send some funds to your account. Use Ganache to get the addess of the first account from your secrets.txt mnemonic.
+Go to https://faucet.rinkeby.io/ and send a tweet as instructions. Copy-past your tweet url and have fun!
+
 
 ## To deploy in Brinkeby
-
-Fist send some funds to your account. Use Ganache to get the addess of the first account from your secrets.txt mnemonic.
-
 
 Then, execute the command:
 
@@ -140,7 +122,7 @@ truffle migrate --network rinkeby --reset
 ### Deployment Terminal Output
 
 ```bash
-PS D:\GITHUB_M2\udacity-blockchaindev-nanodegree\project_3_Dapp_Supply_Chain> truffle migrate --network rinkeby --reset                                                                                            
+PS D:\GITHUB_M2\udacity-blockchaindev-nanodegree\project_3_Dapp_Supply_Chain> truffle migrate --network rinkeby --reset
 
 Compiling your contracts...
 ===========================
@@ -167,12 +149,12 @@ Migrations dry-run (simulation)
 1_initial_migration.js
 ======================
 
-   Deploying 'Migrations'
+   Replacing 'Migrations'
    ----------------------
-   > block number:        7788338
-   > block timestamp:     1609005216
-   > account:             0x1225b8112B4bfF7B3332C53d7C18c658B9d1Eb91
-   > balance:             0.490716305
+   > block number:        7826129
+   > block timestamp:     1609619370
+   > account:             0x6b0790A0E8186D0AFd09BCBD64D83778ab318650
+   > balance:             1.027869274
    > gas used:            205035 (0x320eb)
    > gas price:           21 gwei
    > value sent:          0 ETH
@@ -185,25 +167,25 @@ Migrations dry-run (simulation)
 2_deploy_contracts.js
 =====================
 
-   Deploying 'SupplyChain'
+   Replacing 'SupplyChain'
    -----------------------
-   > block number:        7788340
-   > block timestamp:     1609005248
-   > account:             0x1225b8112B4bfF7B3332C53d7C18c658B9d1Eb91
-   > balance:             0.413703509
-   > gas used:            3639916 (0x378a6c)
+   > block number:        7826131
+   > block timestamp:     1609619402
+   > account:             0x6b0790A0E8186D0AFd09BCBD64D83778ab318650
+   > balance:             0.95085673
+   > gas used:            3639904 (0x378a60)
    > gas price:           21 gwei
    > value sent:          0 ETH
-   > total cost:          0.076438236 ETH
+   > total cost:          0.076437984 ETH
 
    -------------------------------------
-   > Total cost:         0.076438236 ETH
+   > Total cost:         0.076437984 ETH
 
 
 Summary
 =======
 > Total deployments:   2
-> Final cost:          0.080743971 ETH
+> Final cost:          0.080743719 ETH
 
 
 
@@ -219,15 +201,15 @@ Starting migrations...
 1_initial_migration.js
 ======================
 
-   Deploying 'Migrations'
+   Replacing 'Migrations'
    ----------------------
-   > transaction hash:    0x30594b283676f07fff9dc17e8da7e1b6a682a00eac2b1a3a456ac72773abb1b1
-   > Blocks: 2            Seconds: 20
-   > contract address:    0x7DB630e043dD49FD349840555099cca485490688
-   > block number:        7788342
-   > block timestamp:     1609005286
-   > account:             0x1225b8112B4bfF7B3332C53d7C18c658B9d1Eb91
-   > balance:             0.490401305
+   > transaction hash:    0xe73d1dc36379d2e8691122b12d6b8e49356c2e3a92b65a04b17d576f7522666d
+   > Blocks: 1            Seconds: 9
+   > contract address:    0xD2Ce97573b2C0d367E6b942E4A2BF3B60ee20785
+   > block number:        7826132
+   > block timestamp:     1609619430
+   > account:             0x6b0790A0E8186D0AFd09BCBD64D83778ab318650
+   > balance:             1.027554274
    > gas used:            220035 (0x35b83)
    > gas price:           21 gwei
    > value sent:          0 ETH
@@ -243,51 +225,65 @@ Starting migrations...
 2_deploy_contracts.js
 =====================
 
-   Deploying 'SupplyChain'
+   Replacing 'SupplyChain'
    -----------------------
-   > transaction hash:    0xfe2bbc1d62ba9148f589d3dbb8bb06817c2d0a316f0cd629ef88f0bb41b29f38
-   > Blocks: 1            Seconds: 12
-   > contract address:    0xD4A4265DF78F092023ea5870545ca88609006FA5
-   > block number:        7788344
-   > block timestamp:     1609005317
-   > account:             0x1225b8112B4bfF7B3332C53d7C18c658B9d1Eb91
-   > balance:             0.410868509
-   > gas used:            3744916 (0x392494)
+   > transaction hash:    0x1d1610918c0f5b5af92c8131048acaae360dbba09ff8c3d8c89b8e4e3d744d7e
+   > Blocks: 0            Seconds: 8
+   > contract address:    0x82EE57820D2e9d4b1b2eCe739FEEc0acA61e3213
+   > block number:        7826134
+   > block timestamp:     1609619460
+   > account:             0x6b0790A0E8186D0AFd09BCBD64D83778ab318650
+   > balance:             0.94802173
+   > gas used:            3744904 (0x392488)
    > gas price:           21 gwei
    > value sent:          0 ETH
-   > total cost:          0.078643236 ETH
+   > total cost:          0.078642984 ETH
 
 
    > Saving migration to chain.
    > Saving artifacts
    -------------------------------------
-   > Total cost:         0.078643236 ETH
+   > Total cost:         0.078642984 ETH
 
 
 Summary
 =======
 > Total deployments:   2
-> Final cost:          0.083263971 ETH
+> Final cost:          0.083263719 ETH
+
+
+
 
 ```
 
 ### Contract Address
 
-contract address:    0xD4A4265DF78F092023ea5870545ca88609006FA5
+contract address:    0x82EE57820D2e9d4b1b2eCe739FEEc0acA61e3213
 
-### Token Address
-
-<https://rinkeby.etherscan.io/address/0xD4A4265DF78F092023ea5870545ca88609006FA5>
+<https://rinkeby.etherscan.io/address/0x82EE57820D2e9d4b1b2eCe739FEEc0acA61e3213>
 
 ### Transaction Hashes
 
-transaction hash:   <https://rinkeby.etherscan.io/tx/0xfe2bbc1d62ba9148f589d3dbb8bb06817c2d0a316f0cd629ef88f0bb41b29f38>
+deployment transaction hash:   <https://rinkeby.etherscan.io/tx/0x1d1610918c0f5b5af92c8131048acaae360dbba09ff8c3d8c89b8e4e3d744d7e>
+
+
+
+### Etherscan screenshots
+
+<https://rinkeby.etherscan.io/address/0x82EE57820D2e9d4b1b2eCe739FEEc0acA61e3213>
+![alt text](docs/sm_deployed.png "Token")
+
+
+# Frontend
+
+For running the Front End of the DAPP, open another terminal window and go inside the project directory, and run:
+
+```bash
+cd appvue
+```
+
+Then follow the instruction in [link](../appvue/)
 
 ### Frontend screenshots
 
 ![alt text](docs/frontend_1.png "Token")
-
-### Etherscan screenshots
-
-<https://rinkeby.etherscan.io/address/0xD4A4265DF78F092023ea5870545ca88609006FA5>
-![alt text](docs/sm_deployed.png "Token")

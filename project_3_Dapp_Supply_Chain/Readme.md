@@ -122,11 +122,18 @@ CRITERIA
   truffle(develop)> test
 ```
 
+Please check the detailed setup instructions in the [link](../appvue/).
+
+![](contracts/docs/test_output.png)
+
 ## Part 4: Deploy smart contracts on a public test network (Rinkeby)
 
 | CRITERIA   | MEETS SPECIFICATIONS |  Status |
 |:-------|:--------|:--------:|
-| Deploy smart contract on a public test network. | a) Smart contract is deployed on on the Ethereum RINKEBY test network.<br>b) Project submission includes transaction ID and contract address.<br>c) Project submission includes a document (.md, .txt) that includes:<br>- Transaction ID<br>- Contract address | |
+| Deploy smart contract on a public test network. | a) Smart contract is deployed on on the Ethereum RINKEBY test network.<br>b) Project submission includes transaction ID and contract address.<br>c) Project submission includes a document (.md, .txt) that includes:<br>- Transaction ID<br>- Contract address | :ok_hand: |
+
+![](contracts/docs/migrate_output.png)
+
 
 
 ## Part 5: Modify client code to interact with smart contracts
@@ -135,7 +142,7 @@ Modify client code to interact with a smart contract
 
 | CRITERIA   | MEETS SPECIFICATIONS |  Status |
 |:-------|:--------|:--------:|
-| Client code interacts with smart contract. | Front-end is configured to:<br>- Submit a product for shipment (farmer to the distributor, distributor to Producer, etc).<br>- Receive product from shipment.<br>- Validate the authenticity of the product. | |
+| Client code interacts with smart contract. | Front-end is configured to:<br>- Submit a product for shipment (farmer to the distributor, distributor to Producer, etc).<br>- Receive product from shipment.<br>- Validate the authenticity of the product. | :ok_hand: |
 
 ## Optional: Implement Infura to store product image
 
@@ -149,17 +156,7 @@ Potentially only 2 methods needed upload() and read()
 
 
 # INSTALL
-npm install -g ganache-cli
 
-
-create a file called ./secret.txt with your mnemonics of your wallet, like:
-
-```txt
-exile sudden pistol crisp accident artwork desert point sort protect reveal capital
-```
-
-edit line 24 of ./truffle-config.js and replace with your Infura Key:
-
-```js
-24:   const infuraKey = "c216e74355924a518e5d0d183e67b23c";	// INFURA - PROJECT ID
-```
+Follow the instructions:
+1. Smart Contract build, test and deployment: [contract link](../contracts/).
+2. Front End build and run the server: [appVue link](../appvue/).
