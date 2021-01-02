@@ -392,9 +392,11 @@ var Web3app = {
         console.log(event)
         if (event != null) {
             let upc = event.returnValues.upc
-            if (event.event == 'JuiceBlended') {
+            if (event.event.includes('Juice')) {
                 upc = event.returnValues.juiceUpc
-            }
+            } {
+                upc = event.returnValues.grapeUpc
+			}
             if (upc != null) {
                 if (supply_chain[upc] == null) {
                     const n = {
