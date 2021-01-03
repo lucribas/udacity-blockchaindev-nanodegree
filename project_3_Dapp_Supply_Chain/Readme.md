@@ -148,8 +148,7 @@ Modify client code to interact with a smart contract
 
 ### Frontend Video Walkthrough
 
-[![Walkthrough of Supply Chain Dapp](https://img.youtube.com/vi/hZH8tmHNeaI/0.jpg)](https://www.youtube.com/watch?v=hZH8tmHNeaI)
-
+[![Walkthrough of Supply Chain Dapp](https://img.youtube.com/vi/l4dS7XAedws/0.jpg)](https://www.youtube.com/watch?v=l4dS7XAedws)
 
 ### Frontend screenshots
 
