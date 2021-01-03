@@ -9,10 +9,12 @@
 	- [Part 3: Test smart contract code coverage](#part-3-test-smart-contract-code-coverage)
 	- [Part 4: Deploy smart contracts on a public test network (Rinkeby)](#part-4-deploy-smart-contracts-on-a-public-test-network-rinkeby)
 	- [Part 5: Modify client code to interact with smart contracts](#part-5-modify-client-code-to-interact-with-smart-contracts)
-		- [Frontend Video Walkthrough](#frontend-video-walkthrough)
-		- [Frontend screenshots](#frontend-screenshots)
+- [Frontend](#frontend)
+	- [Frontend Online - Vue](#frontend-online---vue)
+	- [Frontend Video Walkthrough](#frontend-video-walkthrough)
+	- [Frontend screenshots](#frontend-screenshots)
 	- [Optional: Implement Infura to store product image](#optional-implement-infura-to-store-product-image)
-- [INSTALL](#install)
+- [INSTALL STEPS](#install-steps)
 
 # Course 3 Project: Blockchain Architecture - Build Ethereum Dapp for Tracking Items through Supply Chain
 
@@ -146,13 +148,21 @@ Modify client code to interact with a smart contract
 |:-------|:--------|:--------:|
 | Client code interacts with smart contract. | Front-end is configured to:<br>- Submit a product for shipment (farmer to the distributor, distributor to Producer, etc).<br>- Receive product from shipment.<br>- Validate the authenticity of the product. | :ok_hand: |
 
-### Frontend Video Walkthrough
+# Frontend
+
+## Frontend Online - Vue
+
+Following there is a online version of Fronted deployed in GitHub pages:
+[https://lucribas.github.io/prj3_Dapp_Supply_Chain/index.html](https://lucribas.github.io/prj3_Dapp_Supply_Chain/index.html).
+
+## Frontend Video Walkthrough
 
 [![Walkthrough of Supply Chain Dapp](https://img.youtube.com/vi/l4dS7XAedws/0.jpg)](https://www.youtube.com/watch?v=l4dS7XAedws)
 
-### Frontend screenshots
+## Frontend screenshots
 
 ![alt text](./contracts/docs/frontend_1.png "Token")
+
 
 
 ## Optional: Implement Infura to store product image
@@ -163,11 +173,8 @@ Ex: Farmer harvests coffee and upload pics w/ UPC hash
 Potentially only 2 methods needed upload() and read()
 
 
-
-
-
-# INSTALL
+# INSTALL STEPS
 
 Follow the instructions:
 1. Smart Contract build, test and deployment: [contract link](./contracts/).
-2. Front End build and run the server: [appVue link](./appvue/).
+2. Front End build and run in localhost server: [appVue link](./appvue/).
