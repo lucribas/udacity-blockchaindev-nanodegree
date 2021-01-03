@@ -13,6 +13,7 @@
 		- [Transaction Hashes](#transaction-hashes)
 		- [Etherscan screenshots](#etherscan-screenshots)
 - [Frontend](#frontend)
+		- [Frontend Video Walkthrough](#frontend-video-walkthrough)
 		- [Frontend screenshots](#frontend-screenshots)
 
 # Smart Contract - step by step
@@ -283,6 +284,11 @@ cd appvue
 ```
 
 Then follow the instruction in [link](../appvue/)
+
+### Frontend Video Walkthrough
+
+[![Walkthrough of Supply Chain Dapp](https://img.youtube.com/vi/hZH8tmHNeaI/0.jpg)](https://www.youtube.com/watch?v=hZH8tmHNeaI)
+
 
 ### Frontend screenshots
 

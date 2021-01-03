@@ -393,8 +393,8 @@ var Web3app = {
         if (event != null) {
             let upc = event.returnValues.upc
             if (event.event.includes('Juice')) {
-                upc = event.returnValues.juiceUpc
-            } {
+				upc = event.returnValues.juiceUpc
+			} else {
                 upc = event.returnValues.grapeUpc
 			}
             if (upc != null) {
@@ -424,7 +424,10 @@ var Web3app = {
 
                 this.processUpcStatusEvt(supply_chain[upc], event)
                 this.updateUserBarDetails()
-            }
+            } else  {
+				console.error('upc is null on '+event.event+' is juice:'+event.event.includes('Juice'))
+				console.log(event.returnValues.juiceUpc)
+			}
             // console.log(supply_chain[upc].sts)
             console.log('supply_chain')
             console.log(supply_chain)
@@ -458,10 +461,10 @@ var Web3app = {
                 sts[s] ||= u.sts[s]
                 // maps sts.s -> all upc
                 if (u.sts[s] && s != 'fa_plant') upc_actions[s].push(idx)
-                // if (s == 'pr_cr') {
-                //     console.log('Grape to blend:')
-                //     console.log(upc_actions.pr_cr)
-                // }
+                if (s == 'pr_cr') {
+                    console.log('Grape to blend:')
+                    console.log(upc_actions.pr_cr)
+                }
                 // if (u.sts[s] && s != 'fa_plant' && s != 'pr_cr') upc_actions[s].push(idx)
                 // if (s == 'pr_ble') upc_actions[s].push(idx)
             }

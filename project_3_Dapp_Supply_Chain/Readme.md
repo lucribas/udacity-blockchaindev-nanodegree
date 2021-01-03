@@ -9,6 +9,8 @@
 	- [Part 3: Test smart contract code coverage](#part-3-test-smart-contract-code-coverage)
 	- [Part 4: Deploy smart contracts on a public test network (Rinkeby)](#part-4-deploy-smart-contracts-on-a-public-test-network-rinkeby)
 	- [Part 5: Modify client code to interact with smart contracts](#part-5-modify-client-code-to-interact-with-smart-contracts)
+		- [Frontend Video Walkthrough](#frontend-video-walkthrough)
+		- [Frontend screenshots](#frontend-screenshots)
 	- [Optional: Implement Infura to store product image](#optional-implement-infura-to-store-product-image)
 - [INSTALL](#install)
 
@@ -143,6 +145,16 @@ Modify client code to interact with a smart contract
 | CRITERIA   | MEETS SPECIFICATIONS |  Status |
 |:-------|:--------|:--------:|
 | Client code interacts with smart contract. | Front-end is configured to:<br>- Submit a product for shipment (farmer to the distributor, distributor to Producer, etc).<br>- Receive product from shipment.<br>- Validate the authenticity of the product. | :ok_hand: |
+
+### Frontend Video Walkthrough
+
+[![Walkthrough of Supply Chain Dapp](https://img.youtube.com/vi/hZH8tmHNeaI/0.jpg)](https://www.youtube.com/watch?v=hZH8tmHNeaI)
+
+
+### Frontend screenshots
+
+![alt text](./contracts/docs/frontend_1.png "Token")
+
 
 ## Optional: Implement Infura to store product image
 

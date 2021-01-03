@@ -230,6 +230,8 @@ export default {
                         contract.methods.grapeAuditItem(p.grapeUpc.v, p.auditNotes.v).send({ from: account })
                         break
                     case 6:
+						// console.log(p.juiceUpc.v)
+						// console.log(p.certifyNotes.v)
                         contract.methods.juiceCertifyItem(p.juiceUpc.v, p.certifyNotes.v).send({ from: account })
                         break
 
