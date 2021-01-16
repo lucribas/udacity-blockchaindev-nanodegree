@@ -13,6 +13,7 @@
     <div class="component">
         <h2 class="display-2 font-weight-bold mb-3">Walkthrough:</h2>
         <h1 class="display-1 font-weight-bold mb-1">1. Setup Metamask wallet:</h1>
+        SupplyChain is a sample Dapp running on the Ethereum Rinkeby Testnet. Make sure your Metamask network is set to 'Rinkeby'. Click <a href="https://faucet.rinkeby.io/" target="_blank">here</a> to acquire Ether from the Rinkeby faucet.
         Select the <strong>Rinkeby</strong> test network.<br />
         Please <strong>import</strong> the following private keys to your Metamask wallet:<br />
         <br />
