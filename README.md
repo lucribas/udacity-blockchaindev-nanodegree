@@ -1,10 +1,12 @@
 
-# udacity-blockchaindev-nanodegree-nd1309
+# Blockchain Developer Nanodegree (nd1309)
 
 Lessons and Projects of Udacity Blockchain Developer Nanodegree **(160 hours)**
-<https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309>
+- Udacity program: [Blockchain Developer Nanodegree nd1309](https://www.udacity.com/course/blockchain-developer-nanodegree--nd1309)
+- Blockchain Developer Syllabus: [syllabus-nd1309-default-en-us.pdf](https://s3-us-west-2.amazonaws.com/udacity-printer/production/syllabus/syllabus-nd1309-default-en-us.pdf)
 
 ![](resources/blockchainhiringmanager.png)
+
 
 ## Lessons
 
@@ -53,13 +55,20 @@ Lessons and Projects of Udacity Blockchain Developer Nanodegree **(160 hours)**
 
 ## Projects
 
-| Project Name | Description | Folder | Course Parts |
-|:------|:---------|:-------|:------|
-| 1. Private Block Chain | Create Your Own Private Blockchain:<br> - Building your own Private Blockchain utilizing Node.js. | [link](./project_1_v2) | PART 1 - Welcome to the Blockchain Revolution<br>PART 2 - Blockchain Fundamentals<br>Estimated time: 21 days |
-| 2. Priv_BlockChain | Build CryptoStar Dapp on Ethereum | [link](./project_2_CryptoStar_Dapp_on_Ethereum) | PART 3 -Ethereum Smart Contracts, Tokens and Dapps<br>Estimated time: 21 days |
-| 3. Dapp Supply Chain | Ethereum Dapp for Tracking Items through Supply Chain | [link](./project_3_Dapp_Supply_Chain) | PART 4-Blockchain Architecture<br>Estimated time: 21 days |
+| Project Name | Description | Folder | Course Parts | Screenshot |
+|:------|:---------|:-------|:------|:------|
+| 1. Private Block Chain | Create Your Own Private Blockchain:<br> - Building your own Private Blockchain utilizing Node.js. | [link](./project_1_v2) | PART 1 - Welcome to the Blockchain Revolution<br>PART 2 - Blockchain Fundamentals<br>Estimated time: 21 days | ![](https://s3.amazonaws.com/video.udacity-data.com/topher/2019/April/5ca362b9_retrieve-stars/retrieve-stars.png) |
+| 2. Priv_BlockChain | Build CryptoStar Dapp on Ethereum | [link](./project_2_CryptoStar_Dapp_on_Ethereum) | PART 3 -Ethereum Smart Contracts, Tokens and Dapps<br>Estimated time: 21 days | ![](https://github.com/lucribas/udacity-blockchaindev-nanodegree/raw/master/project_2_CryptoStar_Dapp_on_Ethereum/docs/scr_02.png) |
+| 3. Dapp Supply Chain | Ethereum Dapp for Tracking Items through Supply Chain | [link](https://github.com/lucribas/udacity-blockchaindev-nanodegree/tree/master/project_3_Dapp_Supply_Chain) | PART 4-Blockchain Architecture<br>Estimated time: 21 days | ![](https://github.com/lucribas/udacity-blockchaindev-nanodegree/raw/master/project_3_Dapp_Supply_Chain/contracts/docs/frontend_1.png) |
 | 4. Linkedin | Improve Your LinkedIn Profile | [link](https://www.linkedin.com/in/lucianoribas/) | PART 5-Career Services<br>Estimated time: 1 day |
 | 5. Github | Optimize Your Github Profile | [link](https://github.com/lucribas) | PART 5-Career Services<br>Estimated time: 1 day |
-| 6. Dapp FlightSurety | FlightSurety:  Flight insurance| [link](./project_6_FlightSurety) | PART 6-Dapp with autonomous smart contracts and oracles<br>Estimated time: 20 days |
-| 7. Capstone | Capstone: Real Estate Marketplace | [link](./project_7_Capstone) | PART 6-Capstone<br>Estimated time: 21 days |
+| 6. Dapp FlightSurety | FlightSurety:  Flight insurance| [link](https://github.com/lucribas/FlightSurety) | PART 6-Dapp with autonomous smart contracts and oracles<br>Estimated time: 20 days | ![](https://github.com/lucribas/FlightSurety/raw/master/docs/w8.png) |
+| 7. Capstone | Capstone: Real Estate Marketplace | [link](https://github.com/lucribas/Blockchain-Capstone) | PART 6-Capstone<br>Estimated time: 21 days | ![](https://github.com/lucribas/Blockchain-Capstone/raw/master/docs/o1.png) |
 |  |  |  | Total estimated time: **106 days** |
+
+
+## Certificate
+
+![](resources/lus_blockdev.png)
+https://confirm.udacity.com/GUHEZMDD
+
