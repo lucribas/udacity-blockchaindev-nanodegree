@@ -1,3 +1,6 @@
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=lucribas/udacity-blockchaindev-nanodegree&type=Date)](https://star-history.com/#lucribas/udacity-blockchaindev-nanodegree&Date)
 
 # Blockchain Developer Nanodegree (nd1309)
 
